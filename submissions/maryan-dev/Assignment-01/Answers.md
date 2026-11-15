@@ -1,9 +1,5 @@
 # Assignment 1 – NLP Foundations
 
-**Student:** Maryan Mohamed Adam  
-**Course:** NLP Foundations  
-**Assignment:** 01
-
 ## 1. Natural Language Processing and Its Relationship to AI and ML
 
 **Natural Language Processing (NLP)** is an area of computer science and artificial intelligence that focuses on enabling computers to process human language. It includes working with written text and spoken language. NLP systems can perform tasks such as translating languages, classifying messages, finding information, recognizing names and places, answering questions, and generating text.
@@ -190,4 +186,5 @@ A system trained mainly on formal Somali may not recognize every dialect form or
 7. Badel, A. M., Tai, W., Xu, X., & Siraad, A. M. (2026). Somstem: A Hybrid Stemmer for the Somali Language. *2026 8th International Conference on Natural Language Processing (ICNLP)*, 271–275. IEEE. https://doi.org/10.1109/ICNLP69856.2026.11527795
 
 8. Gedi, A. A., Mohamed, S. A., Yusuf, Y. A., Mohamed, M. A., Hassan, F. M., & Assoweh, H. A. (2026). Morphologically-informed Somali Lemmatization Corpus built with a Web-based Crowdsourcing Platform. *Proceedings of the 7th Workshop on African Natural Language Processing (AfricaNLP 2026)*, 179–189. https://aclanthology.org/2026.africanlp-main.17/
+
 
