@@ -20,20 +20,20 @@ Consider a small example dataset containing Somali customer reviews. The purpose
 
 | Review ID | Review text | Sentiment label |
 |---|---|---|
-| 1 | Adeegyadu waa fiican. | Positive |
-| 2 | Adeegyadu waa xun. | Negative |
-| 3 | Waxaan ku faraxsanahay adeegga. | Positive |
+| 1 | Adeegyadu way fiican yihiin. | Positive |
+| 2 | Adeegyadu way xun yihiin maanta. | Negative |
+| 3 | Waxaan ku faraxsanahay adeegaaga. | Positive |
 
 The main terms apply to this dataset as follows:
 
 - **Corpus:** A collection of text documents gathered for language analysis. In this example, the corpus consists of all three customer reviews.
 - **Document:** One individual text item within a corpus. Each review in the table is one document.
-- **Token:** A unit created when text is divided into smaller pieces. Tokens are often words or subwords. For example, the review “Adeegyadu waa fiican” can be split into the word tokens `Adeegyadu`, `waa`, and `fiican`.
-- **Vocabulary:** The set of distinct tokens found in a corpus after the chosen text-processing steps. In this small example, the vocabulary may include `adeegyadu`, `waa`, `fiican`, `xun`, `waxaan`, `ku`, `faraxsanahay`, and `adeegga`. The vocabulary size is the number of unique tokens.
+- **Token:** A unit created when text is divided into smaller pieces. Tokens are often words or subwords. For example, the review “Adeegyadu way fiican yihiin” can be split into the word tokens `Adeegyadu`, `way`, `fiican`, and `yihiin`.
+- **Vocabulary:** The set of distinct tokens found in a corpus after the chosen text-processing steps. In this small example, after lowercasing and removing punctuation, the vocabulary is `adeegyadu`, `way`, `fiican`, `yihiin`, `xun`, `maanta`, `waxaan`, `ku`, `faraxsanahay`, and `adeegaaga`. The vocabulary size is the number of unique tokens, which is 10 here.
 - **Feature:** A measurable input used by a machine-learning model. With a bag-of-words representation, each vocabulary term can become a feature. For example, the presence or count of the word `xun` can be one feature.
 - **Label:** The expected answer that a supervised model is trained to predict. In this dataset, the label is the sentiment category, either `Positive` or `Negative`.
 
-The review text provides the input, while the sentiment column provides the target label. A model can learn from the labeled examples and then predict the sentiment of a new review.
+The review text provides the input, while the sentiment column provides the target label. A model can learn from the labeled examples and then predict the sentiment of a new review
 
 ## 3. Four Common NLP Tasks
 
@@ -48,7 +48,7 @@ NLP is used for different tasks depending on what information a system receives 
 
 **Text classification** assigns one or more predefined categories to a complete text. Examples include spam detection and sentiment analysis.
 
-**Sequence labeling** assigns a label to each token in a sequence. Part-of-speech tagging and named-entity recognition are common examples. For instance, a system may identify a person's name, a location, or an organization in a sentence
+**Sequence labeling** assigns a label to each token in a sequence. Part-of-speech tagging and named-entity recognition are common examples. For instance, a system may identify a person's name, a location, or an organization in a sentence.
 
 **Search and similarity** helps users find documents related to a query. A search system compares the query with documents and returns the most relevant results. Similarity can be based on shared words or on representations that capture meaning.
 
@@ -77,18 +77,18 @@ Most traditional machine-learning algorithms work with numbers rather than raw w
 
 One simple method is **Bag of Words (BoW)**. First, the text is divided into tokens and a vocabulary is created. Then each document is represented by counting how often each vocabulary word appears. The word order is not preserved.
 
-For example, suppose the vocabulary is:
+For example, using the first six vocabulary words from the review dataset, suppose the vocabulary is:
 
-`[adeeg, fiican, xun]`
+`[adeegyadu, way, fiican, yihiin, xun, maanta]`
 
-The two short documents can be represented as:
+Reviews 1 and 2 can be represented as:
 
 | Document | BoW vector |
 |---|---|
-| “adeeg fiican” | `[1, 1, 0]` |
-| “adeeg xun” | `[1, 0, 1]` |
+| “adeegyadu way fiican yihiin” | `[1, 1, 1, 1, 0, 0]` |
+| “adeegyadu way xun yihiin maanta” | `[1, 1, 0, 1, 1, 1]` |
 
-The first number represents the count of `adeeg`, the second represents `fiican`, and the third represents `xun`.
+Each position in the vector is the count of the vocabulary word at the same position: the first number is the count of `adeegyadu`, the second is `way`, the third is `fiican`, the fourth is `yihiin`, the fifth is `xun`, and the sixth is `maanta`.
 
 **Main limitation of Bag of Words:** It ignores word order and much of the context or meaning of a sentence. For example, “the service is good” and “the service is not good” may have very similar word-count representations even though their meanings are different. BoW can also create large, sparse vectors when a corpus contains many unique words. As a result, it may not represent meaning and relationships between words very well.
 
@@ -114,7 +114,7 @@ This matters because an unsuitable stopword list may remove meaningful words or 
 
 ### 6.3 Stemming and lemmatization difficulties
 
-Somali has rich word formation and uses inflectional and derivational forms. A word can appear in different forms depending on grammatical information or how it is formed. This can make it difficult for a system to recognize that related forms belong to the same root or lemma.
+Somali has rich word formation and uses inflectional and derivational forms. A word can appear in different forms depending on grammatical information or how it is formed. This can make it difficult for a system to recognize that related forms belong to the same root or lemma. In the review dataset above, for example, `adeegyadu` and `adeegaaga` both come from the same root `adeeg` (service), but without stemming or lemmatization they are counted as two different tokens.
 
 **Stemming** attempts to reduce a word to a stem, often by applying rules that remove or change word endings. **Lemmatization** attempts to identify a word's dictionary or base form using linguistic information. These processes are not identical, and simply deleting a few final letters can produce an incorrect result.
 
@@ -129,7 +129,7 @@ These studies demonstrate both the difficulty of Somali morphology and the progr
 
 ### 6.4 Spelling variation and non-standard writing
 
-People may write Somali words differently in online messages, social media, and formal publications. Informal writing can include shortened words, typing errors, inconsistent spelling, or different ways of representing the same expression.
+People may write Somali words differently in online messages, social media, and formal publications. Informal writing can include shortened words, typing errors, inconsistent spelling, or different ways of representing the same expression. For example, `maanta` (today) may also be typed as `manta`.
 
 This affects NLP because a computer may treat two spelling variants as separate tokens even when people understand them as the same word. The vocabulary becomes larger, useful examples are divided across variants, and search or classification systems may miss relevant text.
 
@@ -186,5 +186,3 @@ A system trained mainly on formal Somali may not recognize every dialect form or
 7. Badel, A. M., Tai, W., Xu, X., & Siraad, A. M. (2026). Somstem: A Hybrid Stemmer for the Somali Language. *2026 8th International Conference on Natural Language Processing (ICNLP)*, 271–275. IEEE. https://doi.org/10.1109/ICNLP69856.2026.11527795
 
 8. Gedi, A. A., Mohamed, S. A., Yusuf, Y. A., Mohamed, M. A., Hassan, F. M., & Assoweh, H. A. (2026). Morphologically-informed Somali Lemmatization Corpus built with a Web-based Crowdsourcing Platform. *Proceedings of the 7th Workshop on African Natural Language Processing (AfricaNLP 2026)*, 179–189. https://aclanthology.org/2026.africanlp-main.17/
-
----
