@@ -16,7 +16,7 @@ NLP is part of **Artificial Intelligence (AI)** because it helps computers perfo
 
 ## 2. Core Terms Used with Text Data
 
-Consider a small example dataset containing Somali customer reviews. The purpose is to classify each review as positive or negative
+Consider a small example dataset containing Somali customer reviews. The purpose is to classify each review as positive or negative.
 
 | Review ID | Review text | Sentiment label |
 |---|---|---|
@@ -27,7 +27,7 @@ Consider a small example dataset containing Somali customer reviews. The purpose
 The main terms apply to this dataset as follows:
 
 - **Corpus:** A collection of text documents gathered for language analysis. In this example, the corpus consists of all three customer reviews.
-- **Document:** One individual text item within a corpus Each review in the table is one document.
+- **Document:** One individual text item within a corpus. Each review in the table is one document.
 - **Token:** A unit created when text is divided into smaller pieces. Tokens are often words or subwords. For example, the review “Adeegyadu waa fiican” can be split into the word tokens `Adeegyadu`, `waa`, and `fiican`.
 - **Vocabulary:** The set of distinct tokens found in a corpus after the chosen text-processing steps. In this small example, the vocabulary may include `adeegyadu`, `waa`, `fiican`, `xun`, `waxaan`, `ku`, `faraxsanahay`, and `adeegga`. The vocabulary size is the number of unique tokens.
 - **Feature:** A measurable input used by a machine-learning model. With a bag-of-words representation, each vocabulary term can become a feature. For example, the presence or count of the word `xun` can be one feature.
@@ -187,4 +187,4 @@ A system trained mainly on formal Somali may not recognize every dialect form or
 
 8. Gedi, A. A., Mohamed, S. A., Yusuf, Y. A., Mohamed, M. A., Hassan, F. M., & Assoweh, H. A. (2026). Morphologically-informed Somali Lemmatization Corpus built with a Web-based Crowdsourcing Platform. *Proceedings of the 7th Workshop on African Natural Language Processing (AfricaNLP 2026)*, 179–189. https://aclanthology.org/2026.africanlp-main.17/
 
-
+---
