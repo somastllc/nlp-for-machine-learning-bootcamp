@@ -48,7 +48,7 @@ NLP is used for different tasks depending on what information a system receives 
 
 **Text classification** assigns one or more predefined categories to a complete text. Examples include spam detection and sentiment analysis.
 
-**Sequence labeling** assigns a label to each token in a sequence. Part-of-speech tagging and named-entity recognition are common examples. For instance, a system may identify a person's name, a location, or an organization in a sentence.
+**Sequence labeling** assigns a label to each token in a sequence. Part-of-speech tagging and named-entity recognition are common examples. For instance, a system may identify a person's name, a location, or an organization in a sentence
 
 **Search and similarity** helps users find documents related to a query. A search system compares the query with documents and returns the most relevant results. Similarity can be based on shared words or on representations that capture meaning.
 
