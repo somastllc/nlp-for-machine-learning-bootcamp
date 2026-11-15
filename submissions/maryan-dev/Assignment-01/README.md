@@ -1,7 +1,7 @@
 # NLP for Machine Learning Bootcamp
 
 **Submitted by:** Maryan Mohamed Adam  
-**GitHub Username:** [MARYAN-DEV](https://github.com/maryan-dev)
+**GitHub Username:** [Maryan-dev](https://github.com/maryan-dev)
 
 ---
 
