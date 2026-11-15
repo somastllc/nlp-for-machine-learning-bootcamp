@@ -5,4 +5,4 @@
 
 ---
 
-© 2026 Maryan Mohamed Adam. All rights reserved.
+© 2026 Maryan Mohamed Adam. All rights reserved

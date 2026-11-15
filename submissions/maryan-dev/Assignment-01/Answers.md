@@ -16,7 +16,7 @@ NLP is part of **Artificial Intelligence (AI)** because it helps computers perfo
 
 ## 2. Core Terms Used with Text Data
 
-Consider a small example dataset containing Somali customer reviews. The purpose is to classify each review as positive or negative.
+Consider a small example dataset containing Somali customer reviews. The purpose is to classify each review as positive or negative
 
 | Review ID | Review text | Sentiment label |
 |---|---|---|
