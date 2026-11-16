@@ -1,7 +1,7 @@
 # Assignment 1 – NLP Foundations
 
-**Student:** [Your name]  
-**GitHub username:** [Your GitHub username]
+**Student:** [cabdilaahi]  
+**GitHub username:** [cabdilaahim043-rgb]
 
 ## 1. Natural Language Processing, Artificial Intelligence, and Machine Learning
 
