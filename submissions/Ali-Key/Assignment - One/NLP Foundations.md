@@ -58,7 +58,7 @@ Imagine a cargo company that receives customer messages through WhatsApp.
 
 A customer writes:
 
-> "Xaggee ayay maraysaa alaabtaydu?"
+> "Alaabtaydu xaggee ayay maraysaa?"
 
 Meaning: "Where is my package?"
 
@@ -84,7 +84,7 @@ Consider a small dataset containing messages sent by customers to a Somali cargo
 |---|---|---|
 | D1 | alaabtaydu way timid | Delivery |
 | D2 | Waxaan rabaa inaan alaab diro | Shipping |
-| D3 | Xagee marayaa baakadaydu? | Tracking |
+| D3 | Baakadaydu xaggee ayay maraysaa? | Tracking |
 | D4 | Qiimaha raristu waa imisa? | Price |
 
 The dataset contains four customer messages. Each message has a different purpose.
@@ -94,8 +94,8 @@ The dataset contains four customer messages. Each message has a different purpos
 | Term | Definition | Example from the dataset |
 |---|---|---|
 | **Corpus** | A collection of text documents gathered for research or NLP development. | All four customer messages together. |
-| **Document** | One individual piece of text within a corpus. | D1: "alaabtaydu way timid." |
-| **Token** | A word or another unit produced when text is divided into smaller parts. | "alaabtaydu", "way", and "timid" are three word tokens. |
+| **Document** | One individual piece of text within a corpus. | D1: "alaabtaadu way timid." |
+| **Token** | A word or another unit produced when text is divided into smaller parts. | "alaabtaadu", "way", and "timid" are three word tokens. |
 | **Vocabulary** | The collection of unique tokens found in a corpus after tokenisation. | The distinct words appearing across the four messages. |
 | **Feature** | A measurable property of text that a Machine Learning model uses to identify patterns or make predictions. | Word frequency, message length, or the presence of a particular word. |
 | **Label** | The category or correct answer assigned to a document during supervised learning. | Delivery, Shipping, Tracking, or Price. |
@@ -172,7 +172,7 @@ Search and similarity help users find documents related to their questions or in
 
 A customer searches:
 
-> "Sidee loo ogaadaa halka alaabtaydu marayso?"
+> "Sideen ku ogaan karaa halka ay alaabtaydu marayso?"
 
 The system searches cargo-related documents and retrieves information about shipment tracking.
 
@@ -196,7 +196,7 @@ A customer asks:
 
 A chatbot might respond:
 
-> "alaabtaadu waxay ku jirtaa safarka, waxaana la filayaa inay dhowaan timaaddo."
+> "Alaabtaadu weli way soo socotaa, waxaana la filayaa inay dhowaan timaaddo."
 
 | Component | Explanation |
 |---|---|
@@ -254,9 +254,9 @@ Suppose a cargo company collects 500 customer messages without assigning categor
 
 | Possible group | Example messages |
 |---|---|
-| Group 1 | alaabtaydu way timid; Alaabtii waa la keenay. |
-| Group 2 | Qiimaha raristu waa imisa?; Immisa ayaa laga qaadaa halkii kiilo? |
-| Group 3 | Xagee marayaa alaabtaydu?; Goorma ayay imaanaysaa? |
+| Group 1 | alaabtaadu way timid; Alaabtii waa la keenay. |
+| Group 2 | Qiimaha raristu waa imisa?; Kiiladii imisa ayaa lagu raraa? |
+| Group 3 | Alaabtaydu xaggee ayay maraysaa?; Goorma ayay imaanaysaa? |
 
 The algorithm discovers the groups. A researcher can inspect them afterwards and give them meaningful names.
 
@@ -366,7 +366,7 @@ For example, a customer might write:
 
 
 - "Xaggee maraysaa alaabtaydu?"
-- "laabtaydu heerkee ayay maraysaa?"
+- "Alaabtaydu heerkee ayay maraysaa?"
 
 Both messages are intended to ask about the location of a package, although their written forms differ.
 
