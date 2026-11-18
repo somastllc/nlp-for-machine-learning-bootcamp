@@ -2,7 +2,7 @@
 
 ## Goal
 
-Learn how to prepare raw, messy text for an NLP system without removing useful meaning: lowercasing, tokenization, punctuation handling, stopwords, stemming, lemmatization and regular expressions. The companion script is `code/text-preprocessing-nltk.py`.
+Learn how to prepare raw, messy text for an NLP system without removing useful meaning: lowercasing, tokenization, punctuation handling, stopwords, stemming, lemmatization and regular expressions. The companion script is `code/preprocessing.py`.
 
 ## 1. What is text preprocessing?
 
@@ -364,7 +364,7 @@ There is no single best preprocessing pipeline for every NLP application. A usef
 
 ## 10. Practical: the teaching script
 
-The code for this lesson lives in `code/text-preprocessing-nltk.py`, our teaching script. Run `python code/download-nltk-data.py` once, then `python code/text-preprocessing-nltk.py` from the repository root.
+The code for this lesson lives in `code/preprocessing.py`, our teaching script. Run `python code/download-nltk-data.py` once, then `python code/preprocessing.py` from the repository root.
 
 The script follows this lesson in eleven numbered steps: lowercasing, whitespace normalization, regex cleaning, tokenization, stopwords and negation, the full pipeline, comparing stemmers, lemmatization with a part-of-speech hint, sentence splitting, POS tagging, and named entity recognition. Each step has a short comment explaining what to look for and prints its result under a heading, so students see every concept in the output. It is a teaching demonstration of an English pipeline, not a production cleaner.
 
