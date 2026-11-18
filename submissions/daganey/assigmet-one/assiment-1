@@ -1,0 +1,476 @@
+# Assignment 1 – NLP Foundations
+
+**Course:** Natural Language Processing (NLP)  
+**Assignment:** 01 – NLP Foundations  
+**Language:** English
+
+---
+
+## Introduction
+
+Natural Language Processing (NLP) is an important field of modern computing that allows computers to process, analyze, understand, and generate human language. It combines ideas from computer science, linguistics, Artificial Intelligence, and statistics.
+
+NLP is used in many everyday technologies, including search engines, virtual assistants, machine translation, spam detection, and chatbots.
+
+This assignment explores the fundamental concepts of NLP, explains common NLP tasks and machine learning approaches, and examines the challenges of developing NLP systems for low-resource languages, particularly Somali.
+
+---
+
+## 1. Definition of Natural Language Processing (NLP)
+
+Natural Language Processing (NLP) is a branch of Artificial Intelligence (AI) that enables computers to understand, interpret, analyze, and generate human language in written or spoken form.
+
+Its main purpose is to make communication between humans and computers more natural and effective.
+
+NLP is closely connected to two important fields:
+
+**Artificial Intelligence (AI):** AI is the broader field of creating computer systems that perform tasks normally associated with human intelligence, such as reasoning, problem-solving, decision-making, and understanding language.
+
+**Machine Learning (ML):** Machine Learning is a part of AI that allows computers to learn patterns from data and improve their performance without requiring every rule to be programmed manually.
+
+### Relationship between NLP, AI, and ML
+
+- AI provides the overall goal of making computers perform intelligent tasks.
+- NLP focuses on processing and understanding human language.
+- Machine Learning provides techniques that allow NLP systems to learn from examples and language data.
+
+### Real-life example: Email spam detection
+
+Consider an email service that automatically identifies unwanted messages.
+
+1. AI provides the intelligent system that decides whether an email is useful or unwanted.
+2. NLP processes the email's language and identifies relevant words and phrases.
+3. Machine Learning learns from previously classified emails to recognize patterns associated with spam.
+4. The system uses these patterns to classify newly received emails as either spam or legitimate messages.
+
+This example demonstrates how NLP, AI, and Machine Learning work together to solve a real-world problem.
+
+---
+
+## 2. Fundamental Terms Used in NLP
+
+Understanding the basic terminology of NLP is important because these concepts describe how language data is collected, organized, and prepared for machine learning.
+
+The following terms can be explained using an example dataset containing movie reviews.
+
+| Term | Definition | Example |
+|---|---|---|
+| Corpus | A large collection of text documents used for linguistic analysis or NLP research. | A collection of 1,000 movie reviews. |
+| Document | A single unit of text within a corpus. | One movie review. |
+| Token | A unit of text produced by splitting text into smaller parts, usually words or punctuation marks. | "The movie was excellent" contains four word tokens. |
+| Vocabulary | The collection of unique tokens found in a corpus. | The, movie, was, excellent, boring. |
+| Feature | A measurable or numerical property extracted from text and used by a machine learning model. | The number of times the word "excellent" appears. |
+| Label | The target category assigned to a document during supervised learning. | Positive or negative. |
+
+### Example Dataset
+
+Suppose we have the following movie reviews:
+
+| Document | Review | Label |
+|---|---|---|
+| D1 | The movie was excellent | Positive |
+| D2 | The movie was boring | Negative |
+| D3 | Excellent acting and story | Positive |
+
+From this dataset:
+
+- **Corpus:** All three movie reviews together.
+- **Documents:** D1, D2, and D3.
+- **Tokens:** Words such as "movie", "excellent", and "boring".
+- **Vocabulary:** The unique words appearing across the three reviews.
+- **Features:** Word counts, such as how many times "excellent" appears in each review.
+- **Labels:** Positive and negative, which indicate the sentiment of each review.
+
+These concepts help NLP researchers organize text and convert it into a format suitable for computational analysis.
+
+---
+
+## 3. Four Common NLP Tasks
+
+NLP includes several tasks that allow computers to perform different operations on human language. Four important examples are text classification, sequence labeling, search and similarity, and text generation.
+
+### 3.1 Text Classification
+
+Text classification is an NLP task that assigns a predefined category or label to an entire text document.
+
+It is commonly used in spam detection, sentiment analysis, topic identification, and news categorization.
+
+- **Input:** A text document or sentence.
+- **Output:** A category or label.
+
+**Example:**
+
+Input: "I really enjoyed this movie."
+
+Output: Positive sentiment.
+
+### 3.2 Sequence Labeling
+
+Sequence labeling is an NLP task in which a system assigns a label to each token or word in a sequence.
+
+It is useful for identifying names, locations, organizations, and grammatical categories.
+
+One common example is Named Entity Recognition (NER).
+
+- **Input:** A sentence containing several words.
+- **Output:** A sequence of labels corresponding to the words.
+
+**Example:**
+
+Input: "Ahmed lives in Nairobi."
+
+| Word | Label |
+|---|---|
+| Ahmed | Person |
+| lives | Other |
+| in | Other |
+| Nairobi | Location |
+
+### 3.3 Search and Similarity
+
+Search and similarity involve finding documents that are relevant to a user's query or determining how similar two pieces of text are.
+
+Search engines use NLP techniques to retrieve useful information from large collections of documents.
+
+- **Input:** A search query and a collection of documents.
+- **Output:** A ranked list of relevant documents.
+
+**Example:**
+
+Input: "Causes of climate change."
+
+Output: A list of articles and documents discussing climate change.
+
+Similarity systems can also compare two sentences and estimate whether they express similar meanings.
+
+### 3.4 Text Generation
+
+Text generation is an NLP task in which computers produce new human-readable text based on an input, instruction, or previously learned language patterns.
+
+It is used in chatbots, automatic summarization, translation, and writing assistance.
+
+- **Input:** A prompt, question, or previous text.
+- **Output:** Newly generated text.
+
+**Example:**
+
+Input: "Explain the importance of education."
+
+Output: A computer-generated paragraph explaining why education is important.
+
+### Summary of the Four NLP Tasks
+
+| NLP Task | Input | Output |
+|---|---|---|
+| Text classification | Text document | Category or label |
+| Sequence labeling | Sentence or token sequence | Label for each token |
+| Search and similarity | Query and documents | Ranked relevant documents or similarity score |
+| Text generation | Prompt or input text | Newly generated text |
+
+---
+
+## 4. Supervised and Unsupervised Learning in NLP
+
+Machine Learning approaches are important in NLP because they allow computers to discover patterns and perform language-related tasks.
+
+Two common learning approaches are supervised learning and unsupervised learning.
+
+### 4.1 Supervised Learning
+
+Supervised learning is a machine learning approach in which a model is trained using labeled data. Each training example contains an input and its correct output.
+
+The model studies the relationship between the input and the corresponding labels. It then uses what it has learned to predict labels for new, unseen data.
+
+**Example: Sentiment Analysis**
+
+Suppose we want to build a system that identifies whether a movie review expresses a positive or negative opinion.
+
+| Training Text | Label |
+|---|---|
+| The movie was wonderful | Positive |
+| The movie was terrible | Negative |
+| I enjoyed the story | Positive |
+| I disliked the acting | Negative |
+
+The model learns from these examples and can classify new reviews.
+
+**Why are target labels necessary?**
+
+Target labels are necessary because they provide the correct answers during training. They help the model understand which category should be associated with particular language patterns.
+
+### 4.2 Unsupervised Learning
+
+Unsupervised learning is a machine learning approach in which a model works with data that does not have predefined labels.
+
+Instead of learning from correct answers, the model identifies patterns, similarities, relationships, or groups within the available data.
+
+**Example: Customer Review Clustering**
+
+Imagine collecting 1,000 customer reviews without assigning positive or negative labels.
+
+An unsupervised learning algorithm can group similar reviews based on their language.
+
+For example:
+
+- Group 1: Reviews discussing product quality.
+- Group 2: Reviews discussing delivery services.
+- Group 3: Reviews discussing customer support.
+
+**Why are target labels unnecessary?**
+
+Target labels are unnecessary because the purpose is to discover hidden structures or patterns within the data rather than predict predefined categories.
+
+### Comparison
+
+| Feature | Supervised Learning | Unsupervised Learning |
+|---|---|---|
+| Training data | Labeled data | Unlabeled data |
+| Target labels | Required | Not required |
+| Main purpose | Predict known categories or values | Discover hidden patterns |
+| Example | Sentiment classification | Document clustering |
+| Evaluation | Often compared with known correct answers | Often evaluated using clustering quality and human interpretation |
+
+**Conclusion:** Supervised learning is appropriate when the desired output is already known, while unsupervised learning is useful when researchers want to discover patterns without providing predefined answers.
+
+---
+
+## 5. Why Must Text Be Converted into Numerical Representations?
+
+Most Machine Learning algorithms cannot directly process ordinary human-readable text because computers perform mathematical operations on numerical data.
+
+Therefore, text must first be converted into numerical representations that algorithms can understand and analyze.
+
+This process is known as text representation or text vectorization.
+
+Numerical representations allow machine learning systems to:
+
+- Identify patterns in language.
+- Calculate similarities between documents.
+- Count word occurrences.
+- Perform classification.
+- Train mathematical models using text data.
+
+### Bag of Words (BoW)
+
+Bag of Words is a basic text representation technique that converts documents into numerical vectors based on the frequency of words.
+
+It creates a vocabulary from the available documents and represents each document by counting how many times each vocabulary word appears.
+
+**Example**
+
+Consider these two sentences:
+
+- Document 1: "I love learning NLP."
+- Document 2: "I love learning Python."
+
+First, create a vocabulary:
+
+`[I, love, learning, NLP, Python]`
+
+Then represent each sentence using word counts.
+
+| Document | I | love | learning | NLP | Python |
+|---|---:|---:|---:|---:|---:|
+| Document 1 | 1 | 1 | 1 | 1 | 0 |
+| Document 2 | 1 | 1 | 1 | 0 | 1 |
+
+The resulting numerical vectors are:
+
+- Document 1: `[1, 1, 1, 1, 0]`
+- Document 2: `[1, 1, 1, 0, 1]`
+
+The computer can now process these vectors using mathematical and machine learning operations.
+
+### Main Limitation of Bag of Words
+
+The main limitation of Bag of Words is that it ignores word order and much of the meaning of language.
+
+For example:
+
+- "The teacher helps the student."
+- "The student helps the teacher."
+
+These sentences contain the same words but communicate different meanings. Bag of Words may represent them identically.
+
+It also produces large, sparse vectors when the vocabulary is very large.
+
+Despite these limitations, Bag of Words remains a useful introductory technique for understanding how computers represent text.
+
+---
+
+## 6. Challenges of NLP for Low-Resource Languages Such as Somali
+
+Low-resource languages are languages that have limited digital text collections, linguistic tools, annotated datasets, and computational resources available for developing NLP systems.
+
+Somali is an important example of a language that faces several resource-related challenges in computational linguistics.
+
+Although Somali is widely spoken in the Horn of Africa, developing accurate NLP applications for it remains difficult.
+
+The following are four major challenges.
+
+### 6.1 Limited Availability of Datasets
+
+One major challenge is the shortage of large, high-quality Somali text datasets.
+
+Many advanced NLP models are trained using large collections of text. However, Somali has fewer publicly available and carefully annotated datasets compared with languages such as English.
+
+**Effect on NLP Systems:**
+
+- Machine learning models have fewer examples from which to learn.
+- Models may struggle to recognize Somali expressions accurately.
+- Training and evaluating NLP systems becomes more difficult.
+- The performance of applications such as translation and sentiment analysis may be limited.
+
+For example, a sentiment analysis model trained using a very small Somali dataset may fail to recognize different expressions of happiness, dissatisfaction, or sarcasm.
+
+Badel et al. (2023) highlighted the shortage of dedicated Somali information retrieval resources and developed a corpus to address this problem.
+
+### 6.2 Spelling Variation and Inconsistent Writing
+
+Another challenge is variation in how Somali speakers write words, particularly in informal digital communication.
+
+Social media users may use different spellings, abbreviations, or informal expressions when writing the same word or communicating the same meaning.
+
+**Effect on NLP Systems:**
+
+- A computer may interpret different spellings as separate words.
+- Search systems may fail to retrieve relevant documents.
+- Classification models may not recognize familiar words written in unfamiliar ways.
+- The vocabulary becomes unnecessarily large.
+
+For example, if users write the same expression using different spelling conventions, a system that has only learned one form may not recognize the alternatives.
+
+This makes text normalization and the development of consistent linguistic resources important.
+
+### 6.3 Morphological Complexity and Different Word Forms
+
+Somali has rich morphology, meaning that words can take different forms through grammatical changes and the addition of affixes.
+
+A single root word may produce several related forms.
+
+**Effect on NLP Systems:**
+
+- A model may treat related word forms as unrelated vocabulary items.
+- Search systems may miss documents containing different forms of a query word.
+- Text classification becomes more difficult when the model has not encountered certain forms during training.
+- Stemming and lemmatization become more challenging.
+
+For example, lemmatization can help identify the underlying root of different word forms, allowing an NLP system to recognize their relationship.
+
+Mohamed and Mohamed (2023) investigated a lexicon-based and rule-based lemmatization approach specifically for Somali.
+
+### 6.4 Code-Switching and Mixed-Language Text
+
+Code-switching occurs when speakers use two or more languages within the same conversation or text.
+
+For example, a Somali social media user might combine Somali and English in one sentence.
+
+**Effect on NLP Systems:**
+
+- The model may struggle to identify which language individual words belong to.
+- Language-specific grammar and vocabulary may become mixed.
+- Translation systems may produce inaccurate results.
+- Sentiment analysis may fail to understand the intended meaning.
+
+This challenge is particularly important when developing NLP applications for social media, where informal and multilingual communication is common.
+
+### Summary of Somali NLP Challenges
+
+| Challenge | Description | Effect on NLP |
+|---|---|---|
+| Limited datasets | Few large, annotated Somali text collections | Reduces training and evaluation opportunities |
+| Spelling variation | Inconsistent spelling and informal writing | Makes word recognition and search difficult |
+| Morphological complexity | Words have different grammatical forms | Creates difficulties in word analysis and matching |
+| Code-switching | Somali mixed with other languages | Makes language identification and interpretation harder |
+
+**Conclusion:** Developing effective Somali NLP systems requires more high-quality datasets, better language-processing tools, consistent text resources, and research that considers the linguistic characteristics of Somali.
+
+---
+
+## 7. Case Study: Applying NLP to Somali Sentiment Analysis
+
+### Research Paper
+
+**Title:** Exploring Somali Sentiment Analysis: A Resource-Light Approach for Small-scale Text Classification.
+
+**Authors:** Kadar Bahar and Nehad T. A. Ramaha (2023).
+
+**Publication:** International Conference on Applied Engineering and Natural Sciences, Volume 1, Issue 1, pages 620–628.
+
+### 7.1 Research Objective
+
+The researchers investigated how Natural Language Processing could be used to identify people's opinions and feelings from Somali-language text.
+
+Sentiment analysis is particularly useful for understanding whether written opinions express positive or negative feelings.
+
+The researchers selected Somali because it is an under-resourced language with limited NLP tools and datasets.
+
+### 7.2 Task
+
+The main task was Somali sentiment analysis.
+
+The system aimed to classify written Somali opinions according to their sentiment.
+
+For example:
+
+- Positive: A sentence expressing satisfaction or happiness.
+- Negative: A sentence expressing dissatisfaction or disappointment.
+
+This study covers the NLP task of **text classification**, discussed in Question 3.
+
+### 7.3 Data
+
+The researchers created a sentiment-annotated Somali dataset using crowdsourcing.
+
+Crowdsourcing involves collecting contributions or annotations from multiple people.
+
+The dataset provided examples that could be used to train and evaluate a sentiment classification model.
+
+### 7.4 Method
+
+The researchers proposed a resource-light approach combining:
+
+1. **Lexicon-based methods:** Using words associated with particular sentiments to identify opinions.
+2. **Feature engineering:** Extracting useful characteristics from text for machine learning.
+3. **Text preprocessing:** Preparing text for analysis using techniques such as tokenization and normalization.
+4. **Sentiment classification:** Using the prepared text data to identify the sentiment expressed in the text.
+
+### 7.5 Findings
+
+The researchers reported that their approach achieved competitive performance compared with existing sentiment analysis techniques for under-resourced languages.
+
+Their findings demonstrated that developing sentiment analysis systems for Somali is possible even when only a relatively small dataset is available.
+
+The research also highlighted the importance of creating language-specific datasets and NLP techniques for languages that receive less computational research attention.
+
+### 7.6 Importance of the Research
+
+This research contributes to the development of Somali NLP resources and demonstrates how computational techniques can help analyze public opinions expressed in Somali.
+
+It also provides an example of how NLP can address practical problems in languages with limited digital resources.
+
+**Reference:** Bahar, K., & Ramaha, N. T. (2023). *Exploring Somali Sentiment Analysis: A Resource-Light Approach for Small-scale Text Classification*. International Conference on Applied Engineering and Natural Sciences, 1(1), 620–628.
+
+https://doi.org/10.59287/icaens.1069
+
+---
+
+## Conclusion
+
+Natural Language Processing is an important area of Artificial Intelligence that enables computers to work with human language.
+
+This assignment has examined the fundamental concepts of NLP, including corpora, documents, tokens, vocabulary, features, and labels. It has also discussed four common NLP tasks and explained the differences between supervised and unsupervised learning.
+
+Furthermore, it has demonstrated why text must be converted into numerical representations before most machine learning algorithms can process it.
+
+An important finding from this research is that low-resource languages such as Somali face difficulties related to limited datasets, spelling variation, morphological complexity, and code-switching.
+
+The Somali sentiment analysis case study demonstrates that useful NLP applications can be developed even when language resources are limited.
+
+Overall, improving NLP for Somali and other African languages requires continued research, better datasets, linguistic resources, and the development of language-specific computational tools.
+
+---
+
+
+
+**End of Assignment 1 – NLP Foundations**
