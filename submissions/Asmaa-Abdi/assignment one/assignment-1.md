@@ -18,9 +18,11 @@ human language.
 2. ML models analyse historical user data such us location. ml predicts the correct
 location based on past pattern.
 3. AI executes the speech recognition, location services and reminders app.
-2.Corpus, Document, Token, Vocabulary, Feature, and Label
-ID	Raw Text Document 	Label
-Report 1	“Revenue increased by 10% in January”.	Positive
+
+   
+2..Corpus, Document, Token, Vocabulary, Feature, and Label
+ID	            Raw Text Document 	                                  Label
+Report 1	“Revenue increased by 10% in January”.	                Positive
 Report 2	“February saw a slight decline of 5% in expenditure.”	Negative
 Report 3	“march revenue increased steadily due to new sales.”	Positive
 
@@ -83,11 +85,14 @@ Input: A query text paired with a target text, or a query paired with a large co
 Output: A numerical similarity score (typically between 0 and 1, like a cosine similarity metric) or a ranked list of relevant documents matching the query.
 
 NLP Tasks 
-Task	Core Focus	Input	Output
-Text Classification	Categorizing whole texts	A document or sentence	A category label / class
-Sequence Labeling	Tagging individual tokens	A sequence of words	Token-level label mapping
-Search & Similarity	Matching meaning / ranking	A query and text corpus	Similarity scores or ranked documents
-Text Generation	Creating new language	A prompt or instructions	A generated text response
+Task	             Core Focus	                   Input	                   Output
+Text Classification	Categorizing whole texts	A document or sentence	    A category label / class
+Sequence Labeling	Tagging individual tokens	A sequence of words	        Token-level label mapping
+Search & Similarity	Matching meaning / ranking	A query and text corpus	    Similarity scores or ranked documents
+Text Generation	   Creating new language	  A prompt or instructions  	A generated text response
+
+
+
 4. Supervised vs. Unsupervised Learning in NLP
 Supervised learning is the model is trained with labeled data where each input has a corresponding output. e.g., text paired with a target category or sentiment.
 Why it needs target labels: Supervised learning requires labels because it relies on explicit supervision to guide optimization. 
@@ -106,8 +111,8 @@ Sentence 2: “I prefer watching movies, not reading.”
 
 Below is the Binary Term Frequency vector representation
 	         books	enjoy	prefer	reading	movies	really	not	watching
-sentence 1	1	      1	    0	     1	      0	      1	     0	   0
-sentence 2	0	      0	    1	     1	      1       0	     1	   1
+sentence 1	  1	      1	    0	     1	      0	      1	     0	   0
+sentence 2	  0	      0	    1	     1	      1       0	     1	   1
 the text has now been connverted in numerical vector 
 
 example: sentence 1 = [1,1,0,1,0,1,0,0]
