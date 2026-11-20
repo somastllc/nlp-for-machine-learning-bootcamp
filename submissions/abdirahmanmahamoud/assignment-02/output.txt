@@ -1,0 +1,53 @@
+PS E:\coders\nlp-for-machine-learning-bootcamp\submissions\abdirahmanmahamoud\assignment-02> python .\preprocessing.py
+Before: I LOVE Python
+After:  i love python
+Before: 'I   love    NLP'
+After:  'I love NLP'
+Before: 'Win $500 NOW!!!'
+After lowercasing:  'win $500 now!!!'
+After cleaning:  'win      now   '
+Text: I love Python!
+split: ['I', 'love', 'Python!']
+word tokenize:  ['I', 'love', 'Python', '!']
+Text: I can't recommend this.
+word tokenize: ['I', 'ca', "n't", 'recommend', 'this', '.']
+Tokens: ['this', 'movie', 'is', 'not', 'good']
+Without stopwords: ['movie', 'good']
+Keeping 'not': ['movie', 'not', 'good']
+Original: Not every free offer is spam; meet me at 8 tonight!
+Lowercased: not every free offer is spam; meet me at 8 tonight!
+Regex cleaned: not every free offer is spam  meet me at   tonight 
+Tokens: ['not', 'every', 'free', 'offer', 'is', 'spam', 'meet', 'me', 'at', 'tonight']
+Stopwords removed: ['every', 'free', 'offer', 'spam', 'meet', 'tonight']
+Lemmatized: ['every', 'free', 'offer', 'spam', 'meet', 'tonight']
+Same, keeping 'not': ['not', 'every', 'free', 'offer', 'spam', 'meet', 'tonight']
+running -> Porter: run | Lancaster: run | Snowball: run | Regexp: runn
+studies -> Porter: studi | Lancaster: study | Snowball: studi | Regexp: studie
+fairly -> Porter: fairli | Lancaster: fair | Snowball: fair | Regexp: fairly
+generously -> Porter: gener | Lancaster: gen | Snowball: generous | Regexp: generously
+happiness -> Porter: happi | Lancaster: happy | Snowball: happi | Regexp: happines
+eating -> Porter: eat | Lancaster: eat | Snowball: eat | Regexp: eat
+running (default): running
+running (pos='v'): run
+better  (default): better
+better  (pos='a'): good
+studies (default): study
+studies (pos='v'): study
+['Amina works at the United Nations in Nairobi.', 'She sent the report on Monday.']
+[('Amina', 'NNP'), ('works', 'VBZ'), ('at', 'IN'), ('the', 'DT'), ('United', 'NNP'), ('Nations', 'NNPS'), ('in', 'IN'), ('Nairobi', 'NNP'), ('.', '.'), ('She', 'PRP'), ('sent', 'VBD'), ('the', 'DT'), ('report', 'NN'), ('on', 'IN'), ('Monday', 'NNP'), ('.', '.')]
+(S
+  (GPE Amina/NNP)
+  works/VBZ
+  at/IN
+  the/DT
+  (ORGANIZATION United/NNP Nations/NNPS)
+  in/IN
+  (GPE Nairobi/NNP)
+  ./.
+  She/PRP
+  sent/VBD
+  the/DT
+  report/NN
+  on/IN
+  Monday/NNP
+  ./.)
