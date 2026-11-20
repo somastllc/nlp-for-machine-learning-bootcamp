@@ -1,0 +1,201 @@
+============================================================
+1. LOWERCASE
+============================================================
+Before:
+URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+After:
+urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+
+A spam detector could lose capitalization information such as
+URGENT and WON, which may be useful as a spam signal.
+
+============================================================
+2. WHITESPACE NORMALIZATION
+============================================================
+Before:
+'   The   delivery   was   fast,   and the  packaging   was   great.   '
+After:
+'The delivery was fast, and the packaging was great.'
+
+============================================================
+3. REGEX CLEANING
+============================================================
+Lowercased T1:
+urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+
+After [^a-z\s]:
+urgent    you have won a        gift card  call            now 
+
+Characters and information deleted:
+£, numbers, comma, full stop, exclamation marks, and other
+characters that are not lowercase letters or whitespace.
+
+Replacement instead of deletion:
+urgent! you have won a MONEY gift card. call PHONE_NUMBER now!
+
+============================================================
+4. TOKENIZATION
+============================================================
+T2 with split():
+['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞']
+Token count: 14
+
+T2 with word_tokenize():
+['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+Token count: 16
+
+T4 with word_tokenize():
+['The', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+Token count: 11
+Vocabulary size: 10
+
+============================================================
+5. STOPWORDS AND NEGATION
+============================================================
+After NLTK stopword removal:
+["n't", 'think', 'jacket', 'worth', 'price', '.', 'happy', '😞']
+
+After stopword removal while keeping negation:
+["n't", 'think', 'jacket', 'worth', 'price', '.', 'Not', 'happy', '😞']
+
+============================================================
+6. STEMMING
+============================================================
+Word           Porter         Lancaster      Snowball       
+------------------------------------------------------------
+connection     connect        connect        connect        
+connected      connect        connect        connect        
+connecting     connect        connect        connect        
+organization   organ          org            organ          
+organized      organ          org            organ          
+university     univers        univers        univers        
+universal      univers        univers        univers        
+flies          fli            fli            fli            
+wolves         wolv           wolv           wolv           
+better         better         bet            better         
+ran            ran            ran            ran            
+
+Example of different words merged into the same stem:
+connection -> connect
+connected  -> connect
+connecting -> connect
+
+Example of a stem that is not a real word:
+universal -> univers
+
+============================================================
+7. LEMMATIZATION
+============================================================
+Word           Default        POS     With POS       
+-----------------------------------------------------
+connection     connection     n       connection     
+connected      connected      v       connect        
+connecting     connecting     v       connect        
+organization   organization   n       organization   
+organized      organized      v       organize       
+university     university     n       university     
+universal      universal      a       universal      
+flies          fly            v       fly            
+wolves         wolf           n       wolf           
+better         better         a       good           
+ran            ran            v       run            
+
+Words that changed after giving a POS hint:
+connected -> connected -> connect
+connecting -> connecting -> connect
+organized -> organized -> organize
+better -> better -> good
+ran -> ran -> run
+
+============================================================
+8. SENTENCE SPLITTING
+============================================================
+T3:
+Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.
+
+Sentences:
+Mr. Smith arrived in London on Friday.
+He met the Apple team at 9 a.m.
+
+Number of sentences: 2
+
+Mr. and a.m. did not break the sentences into wrong places.
+
+============================================================
+9. POS TAGGING AND NER
+============================================================
+POS tags:
+[('Mr.', 'NNP'), ('Smith', 'NNP'), ('arrived', 'VBD'), ('in', 'IN'), ('London', 'NNP'), ('on', 'IN'), ('Friday', 'NNP'), ('.', '.'), ('He', 'PRP'), ('met', 'VBD'), ('the', 'DT'), ('Apple', 'NNP'), ('team', 'NN'), ('at', 'IN'), ('9', 'CD'), ('a.m', 'NN'), ('.', '.')]
+
+Named entities:
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+
+Extracted entities:
+Mr. -> PERSON
+Smith -> PERSON
+London -> GPE
+
+============================================================
+10. FULL PIPELINE - DEFAULT STOPWORDS
+============================================================
+Original:
+I don't think this jacket is worth the price. Not happy at all 😞
+
+1. Lowercase:
+i don't think this jacket is worth the price. not happy at all 😞
+
+2. Regex:
+i don t think this jacket is worth the price  not happy at all  
+
+3. Tokenize:
+['i', 'don', 't', 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+
+4. Stopwords:
+['think', 'jacket', 'worth', 'price', 'happy']
+
+5. Lemmatize:
+['think', 'jacket', 'worth', 'price', 'happy']
+
+Final text:
+think jacket worth price happy
+
+============================================================
+10. FULL PIPELINE - NEGATION KEPT
+============================================================
+Original:
+I don't think this jacket is worth the price. Not happy at all 😞
+
+1. Lowercase:
+i don't think this jacket is worth the price. not happy at all 😞
+
+2. Regex:
+i don t think this jacket is worth the price  not happy at all  
+
+3. Tokenize:
+['i', 'don', 't', 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+
+4. Stopwords:
+['think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+5. Lemmatize:
+['think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+Final text:
+think jacket worth price not happy
