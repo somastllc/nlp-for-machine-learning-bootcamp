@@ -1,0 +1,212 @@
+==================================================
+TASK 1: LOWERCASE
+==================================================
+Before:
+URGENT!!! You have WON a $1,000 gift card. Call 0712345678 NOW!
+
+After:
+urgent!!! you have won a $1,000 gift card. call 0712345678 now!
+
+==================================================
+TASK 2: WHITESPACE NORMALIZATION
+==================================================
+Before:
+'   The   delivery   was   fast,   and the  packaging   was   great.'
+
+After:
+'The delivery was fast, and the packaging was great.'
+
+==================================================
+TASK 3A: REGEX CLEANING
+==================================================
+Before:
+urgent!!! you have won a ┬ú1,000 gift card. call 0712345678 now!
+
+After:
+urgent you have won a  gift card call  now
+
+==================================================
+TASK 3B: REGEX REPLACEMENT
+==================================================
+Before:
+URGENT!!! You have WON a ┬ú1,000 gift card. Call 0712345678 NOW!
+
+After:
+urgent! you have won a MONEY gift card. call PHONE_NUMBER now!
+
+==================================================
+STOPWORDS AND NEGATION
+==================================================
+
+Before:
+['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '≡ƒÿ₧']
+
+After removing NLTK stopwords:
+["n't", 'think', 'jacket', 'worth', 'price', '.', 'happy', '≡ƒÿ₧']
+
+After removing stopwords but keeping negation:
+["n't", 'think', 'jacket', 'worth', 'price', '.', 'Not', 'happy', '≡ƒÿ₧']
+
+==================================================
+STEMMING COMPARISON
+==================================================
+Word            Porter          Lancaster       Snowball       
+------------------------------------------------------------
+connection      connect         connect         connect        
+connected       connect         connect         connect        
+connecting      connect         connect         connect        
+organization    organ           org             organ          
+organized       organ           org             organ          
+university      univers         univers         univers        
+universal       univers         univers         univers        
+flies           fli             fli             fli            
+wolves          wolv            wolv            wolv           
+better          better          bet             better         
+ran             ran             ran             ran            
+
+==================================================
+LEMMATIZATION (DEFAULT VS WITH POS)
+==================================================
+Word            Default         With POS       
+---------------------------------------------
+connection      connection      connection     
+connected       connected       connect        
+connecting      connecting      connect        
+organization    organization    organization   
+organized       organized       organize       
+university      university      university     
+universal       universal       universal      
+flies           fly             fly            
+wolves          wolf            wolf           
+better          better          good           
+ran             ran             run            
+
+==================================================
+SENTENCE SPLITTING
+==================================================
+
+Before:
+Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.
+
+After sent_tokenize:
+Sentence 1: Mr. Smith arrived in London on Friday.
+Sentence 2: He met the Apple team at 9 a.m.
+Total sentences: 2
+
+==================================================
+POS TAGGING AND NER
+==================================================
+
+POS Tags:
+[('Mr.', 'NNP'), ('Smith', 'NNP'), ('arrived', 'VBD'), ('in', 'IN'), ('London', 'NNP'), ('on', 'IN'), ('Friday', 'NNP'), ('.', '.'), ('He', 'PRP'), ('met', 'VBD'), ('the', 'DT'), ('Apple', 'NNP'), ('team', 'NN'), ('at', 'IN'), ('9', 'CD'), ('a.m', 'NN'), ('.', '.')]
+
+Named Entities (NER):
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+
+==================================================
+STEMMING COMPARISON
+==================================================
+Word            Porter          Lancaster       Snowball       
+------------------------------------------------------------
+connection      connect         connect         connect        
+connected       connect         connect         connect        
+connecting      connect         connect         connect        
+organization    organ           org             organ          
+organized       organ           org             organ          
+university      univers         univers         univers        
+universal       univers         univers         univers        
+flies           fli             fli             fli            
+wolves          wolv            wolv            wolv           
+better          better          bet             better         
+ran             ran             ran             ran            
+
+==================================================
+LEMMATIZATION (DEFAULT VS WITH POS)
+==================================================
+Word            Default         With POS       
+---------------------------------------------
+connection      connection      connection     
+connected       connected       connect        
+connecting      connecting      connect        
+organization    organization    organization   
+organized       organized       organize       
+university      university      university     
+universal       universal       universal      
+flies           fly             fly            
+wolves          wolf            wolf           
+better          better          good           
+ran             ran             run            
+
+==================================================
+SENTENCE SPLITTING
+==================================================
+
+Before:
+Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.
+
+After sent_tokenize:
+Sentence 1: Mr. Smith arrived in London on Friday.
+Sentence 2: He met the Apple team at 9 a.m.
+Total sentences: 2
+
+==================================================
+POS TAGGING AND NER
+==================================================
+
+POS Tags:
+[('Mr.', 'NNP'), ('Smith', 'NNP'), ('arrived', 'VBD'), ('in', 'IN'), ('London', 'NNP'), ('on', 'IN'), ('Friday', 'NNP'), ('.', '.'), ('He', 'PRP'), ('met', 'VBD'), ('the', 'DT'), ('Apple', 'NNP'), ('team', 'NN'), ('at', 'IN'), ('9', 'CD'), ('a.m', 'NN'), ('.', '.')]
+
+Named Entities (NER):
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+
+==================================================
+FULL PIPELINE (RUN 1: DEFAULT STOPWORDS)
+==================================================
+1. Lowercase : i don't think this jacket is worth the price. not happy at all ≡ƒÿ₧
+2. Regex     : i dont think this jacket is worth the price not happy at all 
+3. Tokenize  : ['i', 'dont', 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+4. Stopwords : ['dont', 'think', 'jacket', 'worth', 'price', 'happy']
+5. Lemmatize : ['dont', 'think', 'jacket', 'worth', 'price', 'happy']
+
+==================================================
+FULL PIPELINE (RUN 2: KEEPING NEGATION)
+==================================================
+1. Lowercase : i don't think this jacket is worth the price. not happy at all ≡ƒÿ₧
+2. Regex     : i dont think this jacket is worth the price not happy at all 
+3. Tokenize  : ['i', 'dont', 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+4. Stopwords : ['dont', 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+5. Lemmatize : ['dont', 'think', 'jacket', 'worth', 'price', 'not', 'happy']
