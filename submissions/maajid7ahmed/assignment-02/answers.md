@@ -64,70 +64,7 @@ Uysal and Günal (2014) studied how preprocessing affects text classification. T
 
 The study found that the best results did not come from automatically applying every cleaning step or removing every step. The useful combination depended on the language and the type of text. This supports the idea that preprocessing must match the NLP task. For example, removing numbers may be acceptable in one news-classification task but harmful in spam detection, where phone numbers and money amounts may be important.
 
-## Part B – Practical
 
-**Important note:** The practical tables and exact model outputs must be taken from running `preprocessing_practice.py` with the course NLTK data installed. The script prints all required results. Do not invent or manually type model output. After running it, check `output.txt` and use the actual results from your computer in the tables below.
-
-### Task 1 – Lowercasing
-
-Lowercasing T1 changes uppercase words such as `URGENT` and `WON` into lowercase. This makes the words more consistent for a word-based model. However, a spam detector may lose the uppercase emphasis, which can be a useful sign of an urgent or suspicious message.
-
-### Task 3 – Regex cleaning
-
-The pattern `[^a-z\s]` removes characters that are not lowercase English letters or whitespace. In T1, this removes the pound sign, digits in the money amount and phone number, comma, periods and exclamation marks. The replacement rules are safer because they replace the phone number with `PHONE_NUMBER`, the amount with `MONEY`, and repeated exclamation marks with one `!`, preserving the type of information.
-
-### Task 5 – Stopwords and negation
-
-The default English stopword list removes common words and can also remove `not`. This is risky because T2 contains the complaint “Not happy at all.” The custom list keeps `not`, `n't`, `no`, and `never`, so the negative meaning is more likely to remain in the tokens.
-
-### Task 6 – Stemming comparison
-
-Use the exact output printed under **6) STEMMING COMPARISON** in `output.txt` to complete this table.
-
-| Word | Porter | Lancaster | Snowball |
-|---|---|---|---|
-| connection | Copy from output.txt | Copy from output.txt | Copy from output.txt |
-| connected | Copy from output.txt | Copy from output.txt | Copy from output.txt |
-| connecting | Copy from output.txt | Copy from output.txt | Copy from output.txt |
-| organization | Copy from output.txt | Copy from output.txt | Copy from output.txt |
-| organized | Copy from output.txt | Copy from output.txt | Copy from output.txt |
-| university | Copy from output.txt | Copy from output.txt | Copy from output.txt |
-| universal | Copy from output.txt | Copy from output.txt | Copy from output.txt |
-| flies | Copy from output.txt | Copy from output.txt | Copy from output.txt |
-| wolves | Copy from output.txt | Copy from output.txt | Copy from output.txt |
-| better | Copy from output.txt | Copy from output.txt | Copy from output.txt |
-| ran | Copy from output.txt | Copy from output.txt | Copy from output.txt |
-
-The stemmers may merge different words into the same result. For example, the three related words `connection`, `connected`, and `connecting` are expected to be reduced to a common stem by common English stemmers. Some stems, such as `organ` or `univers`, are not ordinary dictionary words. This shows that stemming cuts words by rules and does not always produce a real word.
-
-### Task 7 – Lemmatization
-
-The default `WordNetLemmatizer` treats words as nouns. Supplying a part-of-speech hint can change the result; for example, a verb hint can change `connected` or `ran` to its base verb form, and an adjective hint can change `better` to `good`. Use the actual default and hinted results printed by the script, because the WordNet data and the supplied part-of-speech hints determine the output.
-
-### Task 8 – Sentence splitting
-
-The script uses NLTK's `sent_tokenize` to split T3 into sentences. The expected sentence count is two: the first sentence ends after `Friday.` and the second ends after `a.m.`. The tokenizer should keep `Mr.` and `a.m.` as abbreviations rather than treating each abbreviation period as a sentence boundary; confirm the exact result in `output.txt`.
-
-### Task 9 – POS tagging and named entity recognition
-
-Copy the actual POS tags and NER entities from the script output. NLTK's named entity model may recognize `Smith` as a person and `London` as a location, but it may not identify every entity correctly. In this sentence, `Apple` refers to a company, and `Friday` is a day. The model can miss or mislabel entities, so compare its result with the meaning of the sentence.
-
-| Entity in T3 | Correct label | Model label from output.txt | Correct? |
-|---|---|---|---|
-| Mr. Smith | PERSON | Fill from output.txt | Check against PERSON |
-| London | GPE / location | Fill from output.txt | Check against GPE |
-| Friday | DATE / day | Fill from output.txt | Check whether recognized |
-| Apple | ORGANIZATION | Fill from output.txt | Check against ORGANIZATION |
-
-The model does not necessarily recognize every person, place, organization, or day. In particular, NLTK's standard named-entity labels may not include a separate day/date category in the same way as a dedicated date recognizer.
-
-### Task 10 – Full pipeline
-
-The full pipeline applies lowercase, regex cleaning, tokenization, stopword removal, and lemmatization in order. With the default stopword list, the word `not` may be removed, which weakens or changes the customer's complaint. The custom stopword list keeps negation words, so it better preserves the negative meaning of T2. The version that keeps negation is more suitable for customer-sentiment analysis.
-
-### Which preprocessing steps would I use for a spam detector, and which would I avoid?
-
-For a spam detector, I would normalize repeated spaces and use lowercasing carefully, but I would also keep information about uppercase emphasis. I would replace phone numbers and money amounts with markers instead of deleting them, and I would keep useful punctuation patterns such as repeated exclamation marks in a separate feature. I would avoid the broad regex `[^a-z\s]` because it deletes digits, currency symbols and punctuation. I would also avoid removing negation words and emojis without checking whether they help the model. I would test each choice using validation data before selecting the final pipeline.
 
 ## References
 
