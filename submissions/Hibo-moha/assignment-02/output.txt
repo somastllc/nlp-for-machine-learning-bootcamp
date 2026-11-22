@@ -1,0 +1,140 @@
+
+============================================================
+NLP PREPROCESSING PRACTICE
+============================================================
+
+1. LOWERCASE NORMALIZATION
+Original: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+Lowercase: urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+
+2. WHITESPACE NORMALIZATION
+Original: '   The   delivery   was   fast,   and the  packaging   was   great. '
+Cleaned: 'The delivery was fast, and the packaging was great.'
+
+3. REGEX CLEANING
+Original lowercase: urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+After regex: urgent you have won a  gift card call  now
+Removed characters include punctuation, currency symbols and digits.
+
+4. CUSTOM REGEX REPLACEMENT
+Original: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+Processed: URGENT! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!
+
+5. TOKENIZATION
+Python split(): ['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞']
+NLTK word_tokenize(): ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+
+6. TOKEN COUNT AND VOCABULARY
+Tokens: ['the', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+Token count: 11
+Unique vocabulary: [',', '.', 'and', 'delivery', 'fast', 'great', 'packaging', 'the', 'was']
+Vocabulary size: 9
+
+7. STOPWORD REMOVAL
+Original tokens: ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'not', 'happy', 'at', 'all', '😞']
+Default stopword removal: ["n't", 'think', 'jacket', 'worth', 'price', '.', 'happy', '😞']
+Negation-preserving removal: ["n't", 'think', 'jacket', 'worth', 'price', '.', 'not', 'happy', '😞']
+
+8. STEMMING
+Word            Porter          Lancaster       Snowball       
+------------------------------------------------------------
+connection      connect         connect         connect        
+connected       connect         connect         connect        
+connecting      connect         connect         connect        
+organization    organ           org             organ          
+organized       organ           org             organ          
+university      univers         univers         univers        
+universal       univers         univers         univers        
+flies           fli             fli             fli            
+wolves          wolv            wolv            wolv           
+better          better          bet             better         
+ran             ran             ran             ran            
+
+9. LEMMATIZATION
+Default lemmatization:
+connection -> connection
+connected -> connected
+connecting -> connecting
+organization -> organization
+organized -> organized
+university -> university
+universal -> universal
+flies -> fly
+wolves -> wolf
+better -> better
+ran -> ran
+
+Lemmatization with POS hints:
+flies -> fly
+wolves -> wolf
+better -> good
+ran -> run
+organized -> organize
+
+10. SENTENCE TOKENIZATION
+Sentence 1: Mr. Smith arrived in London on Friday.
+Sentence 2: He met the Apple team at 9 a.m.
+
+11. PART-OF-SPEECH TAGGING
+Mr.             NNP
+Smith           NNP
+arrived         VBD
+in              IN
+London          NNP
+on              IN
+Friday          NNP
+.               .
+He              PRP
+met             VBD
+the             DT
+Apple           NNP
+team            NN
+at              IN
+9               CD
+a.m             NN
+.               .
+
+12. NAMED ENTITY RECOGNITION
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+
+Named entity chunks:
+Mr. -> PERSON
+Smith -> PERSON
+London -> GPE
+
+13. COMPLETE PREPROCESSING PIPELINE
+
+Original text:
+I don't think this jacket is worth the price. Not happy at all 😞
+
+Default pipeline:
+["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+
+Negation-preserving pipeline:
+["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+14. FINAL COMPARISON
+Default pipeline keeps: ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+Negation-safe pipeline keeps: ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+Recommendation:
+For a sentiment analysis or spam detection system, preprocessing should preserve meaningful information. Negation words such as 'not' should not be removed because they can change the meaning of a sentence.
+
+END OF NLP PREPROCESSING PRACTICE

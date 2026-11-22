@@ -1,0 +1,76 @@
+before: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+after: urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+before: 'The   delivery   was   fast,   and the  packaging   was   great.'
+after: 'The delivery was fast, and the packaging was great.'
+before:  'URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!'
+after: 'urgent!!! you have won a £1,000 gift card. call 0712345678 now!'
+cleaning 'urgent    you have won a        gift card  call            now '
+boefore:  I don't think this jacket is worth the price. Not happy at all 😞
+text_split:  ['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞']
+word_tokonize(): ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+text The   delivery   was   fast,   and the  packaging   was   great.
+word_tokonize() ['The', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+tokens: ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+default: ["n't", 'think', 'jacket', 'worth', 'price', '.', 'happy', '😞']
+keeping: ["n't", 'think', 'jacket', 'worth', 'price', '.', 'Not', 'happy', '😞']
+comparing
+connection -> porter: connect | snowball: connect | lancater: connect
+connected -> porter: connect | snowball: connect | lancater: connect
+connecting -> porter: connect | snowball: connect | lancater: connect
+organization -> porter: organ | snowball: organ | lancater: org
+organized -> porter: organ | snowball: organ | lancater: org
+university -> porter: univers | snowball: univers | lancater: univers
+universal -> porter: univers | snowball: univers | lancater: univers
+flies -> porter: fli | snowball: fli | lancater: fli
+wolves -> porter: wolv | snowball: wolv | lancater: wolv
+better -> porter: better | snowball: better | lancater: bet
+ran -> porter: ran | snowball: ran | lancater: ran
+connection (defualt): connection
+connection (post hint): connection
+connected (defualt): connected
+connected (post hint): connect
+connecting (defualt): connecting
+connecting (post hint): connect
+organization (defualt): organization
+organization (post hint): organization
+organized (defualt): organized
+organized (post hint): organize
+university (defualt): university
+university (post hint): university
+universal (defualt): universal
+universal (post hint): universal
+flies (defualt): fly
+flies (post hint): fly
+wolves (defualt): wolf
+wolves (post hint): wolf
+better (defualt): better
+better (post hint): good
+ran (defualt): ran
+ran (post hint): run
+['Mr. Smith arrived in London on Friday.', 'He met the Apple team at 9 a.m.']
+[('Mr.', 'NNP'), ('Smith', 'NNP'), ('arrived', 'VBD'), ('in', 'IN'), ('London', 'NNP'), ('on', 'IN'), ('Friday', 'NNP'), ('.', '.'), ('He', 'PRP'), ('met', 'VBD'), ('the', 'DT'), ('Apple', 'NNP'), ('team', 'NN'), ('at', 'IN'), ('9', 'CD'), ('a.m', 'NN'), ('.', '.')]
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+original I don't think this jacket is worth the price. Not happy at all 😞
+lower i don't think this jacket is worth the price. not happy at all 😞
+regex i don t think this jacket is worth the price  not happy at all  
+token ['i', 'don', 't', 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+stop word remove ['think', 'jacket', 'worth', 'price', 'happy']
+lemma ['think', 'jacket', 'worth', 'price', 'happy']
+same ['think', 'jacket', 'worth', 'price', 'not', 'happy']

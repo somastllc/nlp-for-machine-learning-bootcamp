@@ -1,0 +1,251 @@
+1. LOWERCASE NORMALIZATION
+============================================================
+Before:
+URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+After:
+urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+
+============================================================
+2. WHITESPACE NORMALIZATION
+============================================================
+Before:
+'   The   delivery   was   fast,   and the  packaging   was   great.   '
+After:
+'The delivery was fast, and the packaging was great.'
+
+============================================================
+3. REGULAR EXPRESSIONS
+============================================================
+Before:
+urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+After:
+urgent you have won a gift card call now
+
+Characters removed:
+['!', '!', '!', '£', '1', ',', '0', '0', '0', '.', '0', '7', '1', '2', '3', '4', '5', '6', '7', '8', '!']
+
+Custom replacements:
+urgent! you have won a MONEY gift card. call PHONE_NUMBER now!
+
+============================================================
+4. TOKENIZATION
+============================================================
+Original text:
+I don't think this jacket is worth the price. Not happy at all 😞
+
+Using split():
+['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞']
+Token count: 14
+
+Using word_tokenize():
+['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+Token count: 16
+
+T4 tokens:
+['The', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+Token count: 11
+T4 vocabulary:
+[',', '.', 'The', 'and', 'delivery', 'fast', 'great', 'packaging', 'the', 'was']
+Vocabulary size: 10
+
+============================================================
+5. STOPWORD REMOVAL
+============================================================
+Before:
+['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'not', 'happy', 'at', 'all', '😞']
+After:
+["n't", 'think', 'jacket', 'worth', 'price', '.', 'happy', '😞']
+
+After preserving negation:
+["n't", 'think', 'jacket', 'worth', 'price', '.', 'not', 'happy', '😞']
+
+============================================================
+6. STEMMING
+============================================================
+Word           Porter         Lancaster      Snowball       
+------------------------------------------------------------
+connection     connect        connect        connect        
+connected      connect        connect        connect        
+connecting     connect        connect        connect        
+organization   organ          org            organ          
+organized      organ          org            organ          
+university     univers        univers        univers        
+universal      univers        univers        univers        
+flies          fli            fli            fli            
+wolves         wolv           wolv           wolv           
+better         better         bet            better         
+ran            ran            ran            ran            
+
+Porter shared stems:
+connect : ['connection', 'connected', 'connecting']
+organ : ['organization', 'organized']
+univers : ['university', 'universal']
+
+Lancaster shared stems:
+connect : ['connection', 'connected', 'connecting']
+org : ['organization', 'organized']
+univers : ['university', 'universal']
+
+Snowball shared stems:
+connect : ['connection', 'connected', 'connecting']
+organ : ['organization', 'organized']
+univers : ['university', 'universal']
+
+Example of a stem that is not a real word:
+universal -> univers
+
+============================================================
+7. LEMMATIZATION
+============================================================
+Word           Default        With POS       
+---------------------------------------------
+connection     connection     connection     
+connected      connected      connect        
+connecting     connecting     connect        
+organization   organization   organization   
+organized      organized      organize       
+university     university     university     
+universal      universal      universal      
+flies          fly            fly            
+wolves         wolf           wolf           
+better         better         good           
+ran            ran            run            
+
+Words that changed after giving POS hints:
+connected -> connected -> connect
+connecting -> connecting -> connect
+organized -> organized -> organize
+better -> better -> good
+ran -> ran -> run
+
+============================================================
+8. SENTENCE TOKENIZATION
+============================================================
+Before:
+Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.
+
+After:
+Sentence 1: Mr. Smith arrived in London on Friday.
+Sentence 2: He met the Apple team at 9 a.m.
+
+Number of sentences: 2
+
+Abbreviations:
+Mr. : Mr. Smith arrived in London on Friday.
+a.m. : He met the Apple team at 9 a.m.
+
+============================================================
+9. POS TAGGING AND NAMED ENTITY RECOGNITION
+============================================================
+Original text:
+Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.
+
+POS tags:
+Mr.            NNP
+Smith          NNP
+arrived        VBD
+in             IN
+London         NNP
+on             IN
+Friday         NNP
+.              .
+He             PRP
+met            VBD
+the            DT
+Apple          NNP
+team           NN
+at             IN
+9              CD
+a.m            NN
+.              .
+
+Named entities:
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+
+Extracted entities:
+Mr.                 PERSON
+Smith               PERSON
+London              GPE
+
+Entity comparison:
+Entity         Predicted           Expected            Correct   
+-----------------------------------------------------------------
+Smith          PERSON              PERSON              Yes       
+London         GPE                 GPE                 Yes       
+Friday         NOT RECOGNIZED      DATE                No        
+Apple          NOT RECOGNIZED      ORGANIZATION        No        
+
+============================================================
+10. COMPLETE PREPROCESSING PIPELINE
+============================================================
+
+--- PIPELINE A: DEFAULT STOPWORDS ---
+
+Original text:
+I don't think this jacket is worth the price. Not happy at all 😞
+
+1. Lowercase:
+i don't think this jacket is worth the price. not happy at all 😞
+
+2. Regex cleaning:
+i don't think this jacket is worth the price not happy at all
+
+3. Tokenization:
+['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+
+4. Stopword removal:
+["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+
+5. Lemmatization:
+["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+
+Final result:
+n't think jacket worth price happy
+
+--- PIPELINE B: PRESERVE NEGATION ---
+
+Original text:
+I don't think this jacket is worth the price. Not happy at all 😞
+
+1. Lowercase:
+i don't think this jacket is worth the price. not happy at all 😞
+
+2. Regex cleaning:
+i don't think this jacket is worth the price not happy at all
+
+3. Tokenization:
+['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+
+4. Stopword removal:
+["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+5. Lemmatization:
+["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+Final result:
+n't think jacket worth price not happy
+
+--- PIPELINE COMPARISON ---
+Original: I don't think this jacket is worth the price. Not happy at all 😞
+Default:  n't think jacket worth price not happy
+
+============================================================
+ALL TASKS COMPLETED
+============================================================

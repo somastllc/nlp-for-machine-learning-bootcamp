@@ -1,0 +1,118 @@
+
+## Output of PREPROCESSING.py
+
+TASK 1: LOWERCASE NORMALIZATION
+Before: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+After:  urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+
+TASK 2: WHITESPACE NORMALIZATION
+Before: '   The   delivery   was   fast,   and the  packaging   was   great.'
+After:  'The delivery was fast, and the packaging was great.'
+
+TASK 3: REGEX CLEANING
+Lowercase text: urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+Deleted characters: ['!', '!', '!', '£', '1', ',', '0', '0', '0', '.', '0', '7', '1', '2', '3', '4', '5', '6', '7', '8', '!']
+Cleaned text: urgent you have won a  gift card call  now
+
+Custom replacements:
+URGENT! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!
+
+TASK 4: TOKENIZATION
+T2 using split(): ['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞']
+Split token count: 14
+
+T2 using word_tokenize(): ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+Word token count: 16
+
+T4 tokens: ['the', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+T4 token count: 11
+T4 vocabulary size: 9
+
+TASK 5: STOPWORD REMOVAL
+Original tokens: ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'not', 'happy', 'at', 'all', '😞']
+Without standard stopwords: ["n't", 'think', 'jacket', 'worth', 'price', '.', 'happy', '😞']
+
+With negation preserved: ["n't", 'think', 'jacket', 'worth', 'price', '.', 'not', 'happy', '😞']
+
+TASK 6: STEMMING COMPARISON
+Word           Porter         Lancaster      Snowball
+------------------------------------------------------------
+connection     connect        connect        connect
+connected      connect        connect        connect
+connecting     connect        connect        connect
+organization   organ          org            organ
+organized      organ          org            organ
+university     univers        univers        univers
+universal      univers        univers        univers
+flies          fli            fli            fli
+wolves         wolv           wolv           wolv
+better         better         bet            better
+ran            ran            ran            ran
+
+TASK 7: LEMMATIZATION
+Word           Default        Verb (v)       Noun (n)       Adjective (a)
+------------------------------------------------------------
+connection     connection     connection     connection     connection
+connected      connected      connect        connected      connected
+connecting     connecting     connect        connecting     connecting
+organization   organization   organization   organization   organization
+organized      organized      organize       organized      organized
+university     university     university     university     university
+universal      universal      universal      universal      universal
+flies          fly            fly            fly            flies
+wolves         wolf           wolves         wolf            wolves
+better         better         better         better         good
+ran            ran            run            ran            ran
+
+TASK 8: SENTENCE TOKENIZATION
+Sentence 1: Mr. Smith arrived in London on Friday.
+Sentence 2: He met the Apple team at 9 a.m.
+Total sentences: 2
+
+TASK 9: POS TAGGING AND NAMED ENTITY RECOGNITION
+POS tagged words:
+[('Mr.', 'NNP'), ('Smith', 'NNP'), ('arrived', 'VBD'), ('in', 'IN'), ('London', 'NNP'), ('on', 'IN'), ('Friday', 'NNP'), ('.', '.'), ('He', 'PRP'), ('met', 'VBD'), ('the', 'DT'), ('Apple', 'NNP'), ('team', 'NN'), ('at', 'IN'), ('9', 'CD'), ('a.m', 'NN'), ('.', '.')]
+
+Named Entity Recognition:
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+
+Extracted entities:
+Mr. : PERSON
+Smith : PERSON
+London : GPE
+
+TASK 10: COMPLETE PREPROCESSING PIPELINE
+
+Pipeline A: Standard stopword removal
+1. Lowercase: i don't think this jacket is worth the price. not happy at all 😞
+2. Regex cleaning: i don't think this jacket is worth the price not happy at all
+3. Tokens: ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+4. Without stopwords: ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+5. Lemmatized: ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+
+Pipeline B: Negation-preserving stopword removal
+1. Lowercase: i don't think this jacket is worth the price. not happy at all 😞
+2. Regex cleaning: i don't think this jacket is worth the price not happy at all
+3. Tokens: ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+4. Without selected stopwords: ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+5. Lemmatized: ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+
+

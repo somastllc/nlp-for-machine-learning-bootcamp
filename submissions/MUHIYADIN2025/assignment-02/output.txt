@@ -1,0 +1,127 @@
+
+1. LOWERCASE T1
+
+Before: 'URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!'
+After:  'urgent!!! you have won a £1,000 gift card. call 0712345678 now!'
+
+
+2. WHITESPACE NORMALIZATION OF T4
+
+Before: '   The   delivery   was   fast,   and the  packaging   was   great.'
+After:  'The delivery was fast, and the packaging was great.'
+
+
+3A. REQUIRED REGEX [^a-z\s] ON LOWERCASED T1
+
+Before: 'urgent!!! you have won a £1,000 gift card. call 0712345678 now!'
+After:  'urgent you have won a  gift card call  now'
+Deleted characters with counts: {'!': 4, ',': 1, '.': 1, '0': 4, '1': 2, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1, '7': 2, '8': 1, '£': 1}
+
+
+3B. REPLACEMENT RULES FOR PHONE, MONEY, AND EXCLAMATIONS
+
+Before: 'URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!'
+After:  'URGENT! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!'
+
+==============================================================================
+4. TOKENIZATION OF T2
+==============================================================================
+split() tokens: ['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞']
+split() token count: 14
+word_tokenize() tokens: ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+word_tokenize() token count: 16
+
+==============================================================================
+4B. TOKEN COUNT AND VOCABULARY OF T4
+==============================================================================
+word_tokenize() tokens: ['The', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+Token count: 11
+Vocabulary size (unique, case-sensitive tokens): 10
+Vocabulary: [',', '.', 'The', 'and', 'delivery', 'fast', 'great', 'packaging', 'the', 'was']
+
+==============================================================================
+5. STOPWORDS AND NEGATION IN T2
+==============================================================================
+Original tokens: ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+NLTK stopwords removed: ['i', 'do', 'this', 'is', 'the', 'not', 'at', 'all']
+After NLTK default stopwords: ["n't", 'think', 'jacket', 'worth', 'price', '.', 'happy', '😞']
+After custom list keeping negation: ["n't", 'think', 'jacket', 'worth', 'price', '.', 'not', 'happy', '😞']
+
+==============================================================================
+6. PORTER, LANCASTER, AND SNOWBALL STEMMING
+==============================================================================
+Word             Porter           Lancaster        Snowball        
+----------------------------------------------------------------
+connection       connect          connect          connect         
+connected        connect          connect          connect         
+connecting       connect          connect          connect         
+organization     organ            org              organ           
+organized        organ            org              organ           
+university       univers          univers          univers         
+universal        univers          univers          univers         
+flies            fli              fli              fli             
+wolves           wolv             wolv             wolv            
+better           better           bet              better          
+ran              ran              ran              ran             
+
+
+7. WORDNET LEMMATIZATION: DEFAULT NOUN VS CHOSEN POS
+==============================================================================
+Word             Default (n)          With POS hint        POS  
+-----------------------------------------------------------------
+connection       connection           connection           n    
+connected        connected            connect              v    
+connecting       connecting           connect              v    
+organization     organization         organization         n    
+organized        organized            organize             v    
+university       university           university           n    
+universal        universal            universal            a    
+flies            fly                  fly                  n    
+wolves           wolf                 wolf                 n    
+better           better               good                 a    
+ran              ran                  run                  v    
+
+==============================================================================
+8. SENTENCE SPLITTING OF T3
+==============================================================================
+Input: Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.
+Sentences: ['Mr. Smith arrived in London on Friday.', 'He met the Apple team at 9 a.m.']
+Sentence count: 2
+
+==============================================================================
+9. POS TAGGING AND NAMED-ENTITY CHUNKING OF T3
+
+Tokens: ['Mr.', 'Smith', 'arrived', 'in', 'London', 'on', 'Friday', '.', 'He', 'met', 'the', 'Apple', 'team', 'at', '9', 'a.m', '.']
+POS tags: [('Mr.', 'NNP'), ('Smith', 'NNP'), ('arrived', 'VBD'), ('in', 'IN'), ('London', 'NNP'), ('on', 'IN'), ('Friday', 'NNP'), ('.', '.'), ('He', 'PRP'), ('met', 'VBD'), ('the', 'DT'), ('Apple', 'NNP'), ('team', 'NN'), ('at', 'IN'), ('9', 'CD'), ('a.m', 'NN'), ('.', '.')]
+NER tree:
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+Recognized entities (surface, label): [('Mr.', 'PERSON'), ('Smith', 'PERSON'), ('London', 'GPE')]
+
+
+10. FULL T2 PIPELINE: LOWERCASE -> REGEX -> TOKENIZE -> STOPWORDS -> LEMMATIZE
+
+Before: "I don't think this jacket is worth the price. Not happy at all 😞"
+After lowercase: "i don't think this jacket is worth the price. not happy at all 😞"
+After regex (keeps apostrophes): "i don't think this jacket is worth the price not happy at all "
+After tokenize: ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+After stopwords (NLTK default stopwords): ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+After lemmatize (NLTK default stopwords): ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+After stopwords (Custom list retaining negation): ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+After lemmatize (Custom list retaining negation): ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
