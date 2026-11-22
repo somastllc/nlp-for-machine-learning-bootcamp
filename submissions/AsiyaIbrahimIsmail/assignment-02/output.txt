@@ -2,8 +2,8 @@
 ======================================================================
 TASK 1: Lowercasing T1
 ======================================================================
-Before: URGENT!!! You have WON a $1,000 gift card. Call 0712345678 NOW!
-After:  urgent!!! you have won a $1,000 gift card. call 0712345678 now!
+Before: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+After:  urgent!!! you have won a £1,000 gift card. call 0712345678 now!
 
 ======================================================================
 TASK 2: Whitespace normalization of T4
@@ -15,12 +15,12 @@ After:  'The delivery was fast, and the packaging was great.'
 TASK 3: Regex cleaning of T1
 ======================================================================
 3a. Pattern [^a-z\s] on lowercased T1
-Before: urgent!!! you have won a $1,000 gift card. call 0712345678 now!
+Before: urgent!!! you have won a £1,000 gift card. call 0712345678 now!
 After:  'urgent    you have won a        gift card  call            now '
-Everything that was matched (deleted): ['!!!', '$1,000', '.', '0712345678', '!']
+Everything that was matched (deleted): ['!!!', '£1,000', '.', '0712345678', '!']
 
 3b. Replace instead of delete (applied to the original T1)
-Before: URGENT!!! You have WON a $1,000 gift card. Call 0712345678 NOW!
+Before: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
 After:  URGENT! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!
 
 ======================================================================
@@ -118,7 +118,7 @@ Named entities found by ne_chunk:
   Smith       PERSON
   London      GPE
 
-Check by hand: were Ali (person), Mogadisho (place), Apple (organization)
+Check by hand: were Smith (person), London (place), Apple (organization)
 and Friday (day) all recognized? Which labels are wrong?
 
 ======================================================================

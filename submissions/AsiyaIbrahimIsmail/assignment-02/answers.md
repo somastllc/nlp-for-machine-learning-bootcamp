@@ -106,54 +106,65 @@ Subword methods such as Byte-Pair Encoding (BPE) start from characters and repea
 
 > The outputs below must come from **your own run** of `preprocessing_practice.py`. Run `python preprocessing_practice.py > output.txt`, then fill in the bracketed parts from `output.txt`. Do not type results from memory.
 
-### Table for task 6 (stemming)
+### Task 6 – Stemming
 
 | Word | Porter | Lancaster | Snowball |
 |---|---|---|---|
-| connection | [from output] | [ ] | [ ] |
-| connected | | | |
-| connecting | | | |
-| organization | | | |
-| organized | | | |
-| university | | | |
-| universal | | | |
-| flies | | | |
-| wolves | | | |
-| better | | | |
-| ran | | | |
+| connection | connect | connect | connect |
+| connected | connect | connect | connect |
+| connecting | connect | connect | connect |
+| organization | organ | org | organ |
+| organized | organ | org | organ |
+| university | univers | univers | univers |
+| universal | univers | univers | univers |
+| flies | fli | fli | fli |
+| wolves | wolv | wolv | wolv |
+| better | better | bet | better |
+| ran | ran | ran | ran |
 
-Pair of different words merged into the same stem: [copy from the "merged" lines of your output, e.g. check `university` and `universal`].
-A stem that is not a real word: [copy from the WordNet check line].
+All three stemmers merge `connection`, `connected` and `connecting` into `connect`; they also merge `university` and `universal` into `univers`. Lancaster is the most aggressive here: it reduces `organization` to `org` and `better` to `bet`, while Porter and Snowball produce `organ` and leave `better` unchanged. The WordNet check reports `fli`, `univers` and `wolv` as non-words for Porter and Snowball; Lancaster also reports `org`.
 
-### Entity table for task 9 (NER on T3)
+### Task 9 – Named entities in T3
 
 | Entity | Label from `ne_chunk` | Correct? |
 |---|---|---|
-| [from output] | [ ] | [ ] |
+| Mr. | PERSON | No; this is a title, not the person's name. |
+| Smith | PERSON | Yes |
+| London | GPE | Yes; it is a place. |
+| Apple | Not recognized | No; it refers to a company in this sentence. |
+| Friday | Not recognized | No; it is a day. |
 
-What the model missed: [check whether Smith, London, Apple and Friday were all found].
+The model recognized Smith and London, but missed Apple and Friday. It also grouped `Mr.` as a separate `PERSON`, which is not a useful entity label for the title by itself.
 
-### Short answers (2–4 sentences each)
+### Short answers
 
-**Task 1 – What could a spam detector lose by lowercasing T1?** [Hint: look at what the original has that the lowercase version loses: capitalized words such as URGENT, WON and NOW. Explain why shouting is a spam clue.]
+**Task 1 – What could a spam detector lose by lowercasing T1?**
+Lowercasing removes the capitalization in `URGENT`, `WON` and `NOW`. That emphasis can signal a promotional or spam message, so a detector should consider preserving capitalization as a feature rather than discarding it.
 
-**Task 3 – What did `[^a-z\s]` delete, and why is that a problem?** [Use the "everything that was matched" line. Mention the `£`, the digits of the amount and phone number, and the punctuation.]
+**Task 3 – What did `[^a-z\s]` delete, and why is that a problem?**
+The output shows that the pattern deletes `!!!`, the `£1,000` amount, the phone number `0712345678`, the period and the final exclamation mark. This removes potentially useful spam signals such as the currency, amount, phone number and emphatic punctuation.
 
-**Task 4 – Compare `split()` and `word_tokenize` on T2, and the T4 counts.** [Use your printed token counts. Explain how punctuation, the contraction "don't" and the emoji are handled differently, and how case changes the vocabulary size of T4.]
+**Task 4 – Compare `split()` and `word_tokenize` on T2, and the T4 counts.**
+`split()` returns 14 tokens and keeps `don't` and `price.` intact, while `word_tokenize()` returns 16 by splitting `don't` into `do` and `n't` and separating the period after `price`. The emoji is retained by both; T4 has 11 tokens and 10 case-sensitive vocabulary items, or 9 after lowercasing.
 
-**Task 5 – How did the meaning change between the two stopword lists?** [Compare the two printed lists. Note whether negation words survived in the second list and how that changes the sentiment of "I don't think this jacket is worth the price. Not happy at all".]
+**Task 5 – How did the meaning change between the two stopword lists?**
+The default stopword list removes `not`, so its output no longer clearly represents the negative sentiment in “Not happy”; it still retains `n't` because `n't` is not in NLTK's default list. The custom list preserves both `not` and `n't`, retaining more of the complaint's negation.
 
-**Task 6 – Stemming observations.** [Name your merged pair and your non-word stem from the table, and say which stemmer was most aggressive.]
+**Task 6 – Stemming observations.**
+The stemmers merge `connection`, `connected` and `connecting` into `connect`, and merge `university` and `universal` into `univers`. Lancaster is most aggressive in this example, producing `org` and `bet`; the WordNet check also identifies stems such as `fli` and `wolv` as non-words.
 
-**Task 7 – Lemmatization.** [List the words whose lemma changed only when you supplied the part-of-speech hint, from the "changed?" column. Explain why the default noun assumption fails for verbs and adjectives.]
+**Task 7 – Lemmatization.**
+The words that change when given a POS hint are `connected` → `connect`, `connecting` → `connect`, `organized` → `organize`, `better` → `good` and `ran` → `run`. The default treats each word as a noun, so it cannot correctly lemmatize these verb and adjective forms.
 
-**Task 8 – Sentence splitting.** [State the number of sentences from your output and whether `Mr.` and `a.m.` broke the sentences wrongly.]
+**Task 8 – Sentence splitting.**
+The tokenizer returns two sentences, and neither `Mr.` nor `a.m.` causes an incorrect sentence split. It keeps “Mr. Smith arrived in London on Friday.” together as the first sentence.
 
-**Task 10 – Which pipeline keeps the customer's complaint?** [Compare the final lemma lists of the two runs. Identify which one still contains the negation words and explain why that matters.]
+**Task 10 – Which pipeline keeps the customer's complaint?**
+The negation-keeping pipeline is more informative because its final list retains `not` as well as `n't`. The default-stopword pipeline removes `not`, weakening the negative sentiment in the customer's complaint.
 
 ### Which preprocessing steps for a spam detector?
 
-[Write one paragraph using your own output as evidence. Suggested structure: (1) **Use** whitespace normalization, and regex *replacement* (PHONE_NUMBER, MONEY, URL) rather than deletion, because task 3 shows that deleting removes the strongest clues; (2) **be careful** with lowercasing, since capitalization and `!!!` are signals (task 1), so consider keeping a feature for capitalization or repeated punctuation; (3) **avoid** the aggressive `[^a-z\s]` rule and blind stopword removal, with evidence from tasks 3 and 5; (4) stemming or lemmatization are optional, so compare on validation data; (5) apply identical preprocessing at training and prediction time.]
+I would normalize whitespace and replace recognizable values such as phone numbers and money amounts with labels like `PHONE_NUMBER` and `MONEY`, rather than deleting them: Task 3 shows that deletion removes the amount and number. I would be cautious about lowercasing and repeated-punctuation cleanup because capitalization and `!!!` may be spam signals, and I would avoid the broad `[^a-z\s]` rule and blind stopword removal because they can discard useful evidence, including negation. Stemming or lemmatization should be tested against a validation set, and the same preprocessing should be applied during both training and prediction.
 
 ---
 
