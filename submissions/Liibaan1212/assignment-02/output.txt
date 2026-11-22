@@ -1,0 +1,224 @@
+
+=================================================================
+TASK 1: LOWERCASE
+=================================================================
+BEFORE: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+AFTER: urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+
+=================================================================
+TASK 2: WHITESPACE NORMALIZATION
+=================================================================
+BEFORE: '   The   delivery   was   fast,   and the  packaging   was   great.'
+AFTER: 'The delivery was fast, and the packaging was great.'
+
+=================================================================
+TASK 3: REGEX CLEANING
+=================================================================
+Original lowercase text:
+urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+
+Pattern: [^a-z\s]
+AFTER: urgent you have won a  gift card call  now
+
+Deleted sequences:
+['!!!', '£1,000', '.', '0712345678', '!']
+
+CUSTOM REGEX REPLACEMENT
+BEFORE: urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+AFTER: urgent! you have won a MONEY gift card. call PHONE_NUMBER now!
+
+=================================================================
+TASK 4: TOKENIZATION
+=================================================================
+T2: I don't think this jacket is worth the price. Not happy at all 😞
+
+Using split():
+['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞']
+Token count: 14
+
+Using word_tokenize():
+['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+Token count: 16
+
+T4 TOKENIZATION
+Tokens: ['The', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+Token count: 11
+Unique tokens: {'.', 'and', 'was', 'packaging', 'great', 'delivery', 'fast', 'the', ','}
+Vocabulary size: 9
+
+=================================================================
+TASK 5: STOPWORDS AND NEGATION
+=================================================================
+Original tokens:
+['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+
+After default stopword removal:
+["n't", 'think', 'jacket', 'worth', 'price', '.', 'happy', '😞']
+
+After custom stopword removal:
+["n't", 'think', 'jacket', 'worth', 'price', '.', 'Not', 'happy', '😞']
+
+=================================================================
+TASK 6: STEMMING
+=================================================================
+WORD           PORTER         LANCASTER      SNOWBALL       
+------------------------------------------------------------
+connection     connect        connect        connect        
+connected      connect        connect        connect        
+connecting     connect        connect        connect        
+organization   organ          org            organ          
+organized      organ          org            organ          
+university     univers        univers        univers        
+universal      univers        univers        univers        
+flies          fli            fli            fli            
+wolves         wolv           wolv           wolv           
+better         better         bet            better         
+ran            ran            ran            ran            
+
+=================================================================
+STEMMER COLLISIONS
+=================================================================
+
+ PORTER
+connect <- ['connection', 'connected', 'connecting']
+organ <- ['organization', 'organized']
+univers <- ['university', 'universal']
+
+ LANCASTER
+connect <- ['connection', 'connected', 'connecting']
+org <- ['organization', 'organized']
+univers <- ['university', 'universal']
+
+ SNOWBALL
+connect <- ['connection', 'connected', 'connecting']
+organ <- ['organization', 'organized']
+univers <- ['university', 'universal']
+
+=================================================================
+TASK 7: LEMMATIZATION
+=================================================================
+WORD           DEFAULT        WITH POS HINT       
+--------------------------------------------------
+connection     connection     connection          
+connected      connected      connect             
+connecting     connecting     connect             
+organization   organization   organization        
+organized      organized      organize            
+university     university     university          
+universal      universal      universal           
+flies          fly            fly                 
+wolves         wolf           wolf                
+better         better         good                
+ran            ran            run                 
+
+=================================================================
+TASK 8: SENTENCE SPLITTING
+=================================================================
+Original:
+Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.
+
+Sentences:
+1. Mr. Smith arrived in London on Friday.
+2. He met the Apple team at 9 a.m.
+
+Sentence count: 2
+
+=================================================================
+TASK 9: POS TAGGING AND NER
+=================================================================
+POS TAGGING:
+Mr.             NNP
+Smith           NNP
+arrived         VBD
+in              IN
+London          NNP
+on              IN
+Friday          NNP
+.               .
+He              PRP
+met             VBD
+the             DT
+Apple           NNP
+team            NN
+at              IN
+9               CD
+a.m             NN
+.               .
+
+NAMED ENTITY RECOGNITION:
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+
+EXTRACTED ENTITIES:
+Entity: Mr.                       Label: PERSON
+Entity: Smith                     Label: PERSON
+Entity: London                    Label: GPE
+
+=================================================================
+TASK 10: FULL PREPROCESSING PIPELINE
+=================================================================
+
+############################################################
+PIPELINE A: DEFAULT STOPWORDS
+############################################################
+
+1. LOWERCASE
+i don't think this jacket is worth the price. not happy at all 😞
+
+2. REGEX CLEANING
+i don't think this jacket is worth the price not happy at all
+
+3. TOKENIZATION
+['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+
+4. STOPWORD REMOVAL
+["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+
+5. LEMMATIZATION
+["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+
+############################################################
+PIPELINE B: NEGATION-PRESERVING STOPWORDS
+############################################################
+
+1. LOWERCASE
+i don't think this jacket is worth the price. not happy at all 😞
+
+2. REGEX CLEANING
+i don't think this jacket is worth the price not happy at all
+
+3. TOKENIZATION
+['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+
+4. STOPWORD REMOVAL
+["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+5. LEMMATIZATION
+["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+=================================================================
+FINAL PIPELINE COMPARISON
+=================================================================
+Default stopwords:
+["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+
+Custom stopwords:
+["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+END OF PREPROCESSING PRACTICE
