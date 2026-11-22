@@ -1,0 +1,117 @@
+
+==============================================================================
+TASK 1: LOWERCASE T1
+==============================================================================
+BEFORE: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+AFTER:  urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+
+==============================================================================
+TASK 2: WHITESPACE NORMALIZATION T4
+==============================================================================
+BEFORE: '   The   delivery   was   fast,   and the  packaging   was   great. '
+AFTER:  The delivery was fast, and the packaging was great.
+
+==============================================================================
+TASK 3: REGEX [^a-z\s] ON LOWERCASE T1
+==============================================================================
+BEFORE: urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+REMOVED CHARACTERS: ['!', '!', '!', '£', '1', ',', '0', '0', '0', '.', '0', '7', '1', '2', '3', '4', '5', '6', '7', '8', '!']
+AFTER: urgent you have won a  gift card call  now
+
+==============================================================================
+TASK 4: CUSTOM REGEX REPLACEMENTS
+==============================================================================
+BEFORE: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+AFTER:  URGENT! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!
+
+==============================================================================
+TASK 5: TOKENIZATION OF T2
+==============================================================================
+split(): ['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞']
+word_tokenize(): ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+
+==============================================================================
+TASK 5B: T4 TOKEN COUNT AND VOCABULARY
+==============================================================================
+TOKENS: ['the', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+TOKEN COUNT: 11
+VOCABULARY: [',', '.', 'and', 'delivery', 'fast', 'great', 'packaging', 'the', 'was']
+VOCABULARY SIZE: 9
+
+==============================================================================
+TASK 6: STEMMING COMPARISON
+==============================================================================
+WORD            PORTER          LANCASTER       SNOWBALL        
+connection      connect         connect         connect         
+connected       connect         connect         connect         
+connecting      connect         connect         connect         
+organization    organ           org             organ           
+organized       organ           org             organ           
+university      univers         univers         univers         
+universal       univers         univers         univers         
+flies           fli             fli             fli             
+wolves          wolv            wolv            wolv            
+better          better          bet             better          
+ran             ran             ran             ran             
+
+==============================================================================
+TASK 7: WORDNET LEMMATIZATION
+==============================================================================
+WORD            DEFAULT         POS HINT        
+connection      connection      connection      
+connected       connected       connect         
+connecting      connecting      connect         
+organization    organization    organization    
+organized       organized       organize        
+university      university      university      
+universal       universal       universal       
+flies           fly             fly             
+wolves          wolf            wolf            
+better          better          good            
+ran             ran             run             
+
+==============================================================================
+TASK 8: SENTENCE SPLITTING AND POS TAGGING T3
+==============================================================================
+SENTENCES:
+- Mr. Smith arrived in London on Friday.
+- He met the Apple team at 9 a.m.
+POS TAGS: [('Mr.', 'NNP'), ('Smith', 'NNP'), ('arrived', 'VBD'), ('in', 'IN'), ('London', 'NNP'), ('on', 'IN'), ('Friday', 'NNP'), ('.', '.'), ('He', 'PRP'), ('met', 'VBD'), ('the', 'DT'), ('Apple', 'NNP'), ('team', 'NN'), ('at', 'IN'), ('9', 'CD'), ('a.m', 'NN'), ('.', '.')]
+
+==============================================================================
+TASK 9: NAMED ENTITY RECOGNITION T3
+==============================================================================
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+ENTITY TABLE (entity text | label):
+Mr. | PERSON
+Smith | PERSON
+London | GPE
+
+==============================================================================
+TASK 10: FULL PIPELINE ON T2
+==============================================================================
+ORIGINAL: I don't think this jacket is worth the price. Not happy at all 😞
+LOWERCASE: i don't think this jacket is worth the price. not happy at all 😞
+REGEX CLEANED: i don't think this jacket is worth the price not happy at all
+TOKENS: ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+DEFAULT STOPWORD REMOVAL: ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+NEGATION-PRESERVING STOPWORD REMOVAL: ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+LEMMATIZED DEFAULT: ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+LEMMATIZED KEEPING NEGATION: ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
