@@ -1,0 +1,130 @@
+
+=== 1) LOWERCASING ===
+Before: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+After:  urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+
+=== 2) WHITESPACE NORMALIZATION ===
+Before: '   The   delivery   was   fast,   and the  packaging   was   great.'
+After:  'The delivery was fast, and the packaging was great.'
+
+=== 3) REGEX CLEANING ===
+Lowercased T1:       'urgent!!! you have won a £1,000 gift card. call 0712345678 now!'
+After [^a-z\s]:     'urgent you have won a  gift card call  now'
+Deleted characters:  ['!', '!', '!', '£', '1', ',', '0', '0', '0', '.', '0', '7', '1', '2', '3', '4', '5', '6', '7', '8', '!']
+Unique deleted:      ['!', ',', '.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '£']
+Replaced T1:         URGENT! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!
+
+=== 4) TOKENIZATION ===
+T2 split():         ['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞']
+T2 split() count:   14
+T2 word_tokenize(): ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+T2 token count:     16
+T4 tokens:          ['The', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+T4 token count:     11
+T4 vocabulary:      [',', '.', 'The', 'and', 'delivery', 'fast', 'great', 'packaging', 'the', 'was']
+T4 vocab size:      10
+T4 vocab (lower):   9
+
+=== 5) STOPWORDS AND NEGATION ===
+Default stopwords:       ["n't", 'think', 'jacket', 'worth', 'price', '.', 'happy', '😞']
+Keeping negation words:  ["n't", 'think', 'jacket', 'worth', 'price', '.', 'Not', 'happy', '😞']
+
+=== 6) STEMMING ===
+word          Porter      Lancaster   Snowball
+----------------------------------------------------
+connection    connect     connect     connect     
+connected     connect     connect     connect     
+connecting    connect     connect     connect     
+organization  organ       org         organ       
+organized     organ       org         organ       
+university    univers     univers     univers     
+universal     univers     univers     univers     
+flies         fli         fli         fli         
+wolves        wolv        wolv        wolv        
+better        better      bet         better      
+ran           ran         ran         ran         
+
+Merged by Porter:
+   connect <- ['connection', 'connected', 'connecting']
+   organ <- ['organization', 'organized']
+   univers <- ['university', 'universal']
+
+Porter stems that are not real words:
+   university -> univers
+   universal -> univers
+   flies -> fli
+   wolves -> wolv
+
+=== 7) LEMMATIZATION ===
+word          default       with hint     hint
+----------------------------------------------------
+connection    connection    connection    n
+connected     connected     connect       v
+connecting    connecting    connect       v
+organization  organization  organization  n
+organized     organized     organize      v
+university    university    university    n
+universal     universal     universal     a
+flies         fly           fly           n
+wolves        wolf          wolf          n
+better        better        good          a
+ran           ran           run           v
+
+Changed only when the POS hint was given:
+   connected -> connect
+   connecting -> connect
+   organized -> organize
+   better -> good
+   ran -> run
+
+=== 8) SENTENCE SPLITTING ===
+Sentences: ['Mr. Smith arrived in London on Friday.', 'He met the Apple team at 9 a.m.']
+Count:     2
+
+=== 9) POS TAGGING AND NER ===
+POS tags: [('Mr.', 'NNP'), ('Smith', 'NNP'), ('arrived', 'VBD'), ('in', 'IN'), ('London', 'NNP'), ('on', 'IN'), ('Friday', 'NNP'), ('.', '.'), ('He', 'PRP'), ('met', 'VBD'), ('the', 'DT'), ('Apple', 'NNP'), ('team', 'NN'), ('at', 'IN'), ('9', 'CD'), ('a.m', 'NN'), ('.', '.')]
+NER tree: (S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+Entities: [('Mr.', 'PERSON'), ('Smith', 'PERSON'), ('London', 'GPE')]
+
+Model check:
+  Mr.     -> PERSON  (part of a person name)
+  Smith   -> PERSON  (correct)
+  London  -> GPE     (correct)
+  Apple   -> missed; should be ORGANIZATION
+  Friday  -> missed; should be DATE
+  9 a.m.  -> missed; should be TIME
+
+=== 10) FULL PIPELINE ON T2 ===
+
+--- default stopwords ---
+Lowercased:         "i don't think this jacket is worth the price. not happy at all 😞"
+Regex cleaned:      "i don't think this jacket is worth the price not happy at all"
+Tokens:             ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+Stopwords removed:  ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+Lemmatized:         ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+Final text:         n't think jacket worth price happy
+
+--- negation-keeping stopwords ---
+Lowercased:         "i don't think this jacket is worth the price. not happy at all 😞"
+Regex cleaned:      "i don't think this jacket is worth the price not happy at all"
+Tokens:             ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+Stopwords removed:  ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+Lemmatized:         ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+Final text:         n't think jacket worth price not happy
