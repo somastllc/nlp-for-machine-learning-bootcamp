@@ -1,0 +1,18 @@
+=== Task 1: Lowercasing ===
+Before: URGENT!!! You have WON a �1,000 gift card. Call 0712345678 NOW!
+After: urgent!!! you have won a �1,000 gift card. call 0712345678 now!
+
+=== Task 2: Whitespace Normalization ===
+Before: '   The   delivery   was   fast,   and the  packaging   was   great.   '
+After: 'The delivery was fast, and the packaging was great.'
+
+=== Task 3A: Regex Cleaning ===
+Before: urgent!!! you have won a �1,000 gift card. call 0712345678 now!
+After: urgent you have won a  gift card call  now
+
+=== Task 3B: Regex Replacement ===
+Before: URGENT!!! You have WON a �1,000 gift card. Call 0712345678 NOW!
+After: URGENT! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!
+
+=== Task 4: Tokenization ===
+Using split(): 
