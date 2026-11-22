@@ -1,6 +1,6 @@
 # Assignment 1: NLP Foundations
 
-**Author:** Ali Omar Abdi
+**Author:** Ali Omar Abdi     
 **Subject:** Natural Language Processing (NLP)  
 
 
