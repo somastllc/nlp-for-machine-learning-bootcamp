@@ -1,4 +1,3 @@
-# **ASSIGNMENT 1 – NLP FOUNDATIONS**
 # Assignment 1 – NLP Foundations
 ---
 ## 1. Definition of NLP and its relationship with AI and ML
@@ -575,7 +574,7 @@ I have also understood that developing Somali NLP systems requires special atten
 The Somali lemmatization case study demonstrates that researchers are already developing language-specific resources to address these challenges.
 ---
 
-## References (APA 7th Edition)
+## References 
 ---
 1. Gedi, A. A., Mohamed, S. A., Yusuf, Y. A., Mohamed, M. A., Hassan, F. M., & Assowe, H. A. (2026). Morphologically-informed Somali lemmatization corpus built with a web-based crowdsourcing platform. *Proceedings of the 7th Workshop on African Natural Language Processing*, 179–189. [https://doi.org/10.18653/v1/2026.africanlp-main.17](https://doi.org/10.18653/v1/2026.africanlp-main.17)
 2. Bahar, K., & Ramaha, N. T. (2023). Exploring Somali sentiment analysis: A resource-light approach for small-scale text classification. *International Conference on Applied Engineering and Natural Sciences*. [https://doi.org/10.59287/icaens.1069](https://doi.org/10.59287/icaens.1069)
