@@ -1,6 +1,10 @@
-======================================================================
+# Reporting - Output
+
+
+
+---------------------------------------------
 1) LOWERCASE T1
-======================================================================
+---------------------------------------------
 Before:
 'URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!'
 
@@ -10,18 +14,18 @@ After:
 Discussion:
 Lowercasing removes capitalization information. For spam detection, words such as URGENT, WON, and NOW being written in all capitals can be a useful spam signal.
 
-======================================================================
+---------------------------------------------
 2) WHITESPACE NORMALIZATION T4
-======================================================================
+---------------------------------------------
 Before:
 '   The   delivery   was   fast,   and the  packaging   was   great.'
 
 After:
 'The delivery was fast, and the packaging was great.'
 
-======================================================================
+---------------------------------------------
 3) REGEX CLEANING
-======================================================================
+---------------------------------------------
 Before:
 'urgent!!! you have won a £1,000 gift card. call 0712345678 now!'
 
@@ -42,9 +46,9 @@ Money amount -> MONEY
 After replacement:
 'urgent! you have won a MONEY gift card. call PHONE_NUMBER now!'
 
-======================================================================
+---------------------------------------------
 4) TOKENIZATION
-======================================================================
+---------------------------------------------
 T2:
 "I don't think this jacket is worth the price. Not happy at all 😞"
 
@@ -70,9 +74,9 @@ T4 vocabulary:
 T4 vocabulary size:
 7
 
-======================================================================
+---------------------------------------------
 5) STOPWORDS AND NEGATION
-======================================================================
+---------------------------------------------
 T2 tokens:
 ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
 
@@ -86,9 +90,9 @@ Keeping: not, n't, no, never
 Why?
 Negation words can change sentiment and meaning. For example, 'happy' and 'not happy' have opposite meanings. Removing 'not' can therefore damage a sentiment or complaint classifier.
 
-======================================================================
+---------------------------------------------
 6) STEMMING COMPARISON
-======================================================================
+---------------------------------------------
 Word           Porter         Lancaster      Snowball       Regexp         
 ---------------------------------------------------------------------------
 connection     connect        connect        connect        connect        
@@ -114,9 +118,9 @@ Some stemmers may produce forms such as 'univers', 'connect', or other shortened
 Conclusion:
 Porter and Snowball are generally less aggressive than Lancaster. Lancaster can shorten words more aggressively. RegexpStemmer follows only the suffix rules we specify.
 
-======================================================================
+---------------------------------------------
 7) LEMMATIZATION
-======================================================================
+---------------------------------------------
 Word           Default        Verb (v)       Noun (n)       Adjective (a)  
 ---------------------------------------------------------------------------
 connection     connection     connection     connection     connection     
@@ -136,9 +140,9 @@ running: running -> run
 better: better -> good
 studies: study -> study
 
-======================================================================
+---------------------------------------------
 8) SENTENCE TOKENIZATION
-======================================================================
+---------------------------------------------
 T3:
 'Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.'
 
@@ -151,9 +155,9 @@ Sentence count:
 
 Note: sent_tokenize tries not to split at abbreviations such as Mr. and a.m.
 
-======================================================================
+---------------------------------------------
 9) POS TAGGING + NAMED ENTITY RECOGNITION
-======================================================================
+---------------------------------------------
 Tokens:
 ['Mr.', 'Smith', 'arrived', 'in', 'London', 'on', 'Friday', '.', 'He', 'met', 'the', 'Apple', 'team', 'at', '9', 'a.m', '.']
 
@@ -203,9 +207,9 @@ ORGANIZATION: Apple
 
 Note: NLTK's English NER model can make mistakes. Always inspect the result instead of assuming every entity is correct.
 
-======================================================================
+---------------------------------------------
 10) FULL PIPELINE ON T2
-======================================================================
+---------------------------------------------
 Pipeline: lowercase -> regex cleaning -> tokenize -> stopword removal -> lemmatization
 
 Original:
@@ -232,9 +236,10 @@ Pipeline keeping negation words:
 Complaint meaning:
 The complaint contains negation such as 'don't' and 'not'. Removing negation words can make the complaint meaning less clear. Therefore, a sentiment or complaint classifier should usually preserve important negation words.
 
-======================================================================
+---------------------------------------------
 FINAL SUMMARY
-======================================================================
+---------------------------------------------
 Preprocessing is task-dependent. Lowercasing and whitespace normalization can reduce unnecessary variation, but aggressive regex cleaning or stopword removal can delete useful information.
 For spam detection, preserve useful signals such as phone numbers, money amounts, capitalization, and repeated punctuation when appropriate.
 For sentiment or complaint detection, preserve negation words such as 'not', 'no', 'never', and important forms of 'n't'.
+---------------------------------------------
