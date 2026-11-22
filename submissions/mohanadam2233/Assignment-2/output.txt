@@ -1,0 +1,280 @@
+STEP 1: LOWERCASE
+Before: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+After: urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+
+STEP 2: WHITESPACE NORMALIZATION
+Before: '   The   delivery   was   fast,   and the  packaging   was   great.'
+After:  'The delivery was fast, and the packaging was great.'
+
+STEP 3: REGEX CLEANING
+
+A. Remove characters using [^a-z\s]
+Before: urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+After: urgent you have won a  gift card call  now
+
+B. Replace phone number, money, and repeated exclamation marks
+Before: urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+After:  urgent! you have won a MONEY gift card. call PHONE_NUMBER now!
+
+STEP 4: TOKENIZATION
+
+A. Python split()
+Original text: I don't think this jacket is worth the price. Not happy at all 😞
+Tokens: ['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞']
+Token count: 14
+
+B. NLTK word_tokenize()
+Original text: I don't think this jacket is worth the price. Not happy at all 😞
+Tokens: ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+Token count: 16
+
+C. Tokenization of T4
+Text: The delivery was fast, and the packaging was great.
+Tokens: ['The', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+Token count: 11
+Vocabulary size: 10
+
+STEP 5: STOPWORDS AND NEGATION
+
+Original tokens:
+['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+
+A. NLTK DEFAULT STOPWORD REMOVAL
+Before: ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+After:  ["n't", 'think', 'jacket', 'worth', 'price', '.', 'happy', '😞']
+
+B. CUSTOM STOPWORD REMOVAL
+Protected negation words: {'not', 'never', 'no', "n't"}
+Before: ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+After:  ["n't", 'think', 'jacket', 'worth', 'price', '.', 'Not', 'happy', '😞']
+
+STEP 6: STEMMING
+
+WORD STEMMING COMPARISON
+Original Word   Porter          Lancaster       Snowball        
+----------------------------------------------------------------
+connection      connect         connect         connect         
+connected       connect         connect         connect         
+connecting      connect         connect         connect         
+organization    organ           org             organ           
+organized       organ           org             organ           
+university      univers         univers         univers         
+universal       univers         univers         univers         
+flies           fli             fli             fli             
+wolves          wolv            wolv            wolv            
+better          better          bet             better          
+ran             ran             ran             ran             
+
+WORDS MERGED BY PORTER STEMMER
+Original words: ['connection', 'connected', 'connecting']
+Common stem: connect
+Original words: ['organization', 'organized']
+Common stem: organ
+Original words: ['university', 'universal']
+Common stem: univers
+
+EXAMPLE OF A STEM THAT IS NOT A NORMAL WORD
+Original word: connection
+Stem: connect
+
+STEP 7: LEMMATIZATION
+
+A. DEFAULT LEMMATIZATION
+Default POS is noun (n)
+connection       -> connection
+connected        -> connected
+connecting       -> connecting
+organization     -> organization
+organized        -> organized
+university       -> university
+universal        -> universal
+flies            -> fly
+wolves           -> wolf
+better           -> better
+ran              -> ran
+
+B. LEMMATIZATION WITH POS HINTS
+connection       -> connection       POS: n
+connected        -> connect          POS: v
+connecting       -> connect          POS: v
+organization     -> organization     POS: n
+organized        -> organize         POS: v
+university       -> university       POS: n
+universal        -> universal        POS: a
+flies            -> fly              POS: v
+wolves           -> wolf             POS: n
+better           -> good             POS: a
+ran              -> run              POS: v
+
+C. WORDS CHANGED BY POS HINTS
+Word: connected
+Default result: connected
+POS-hinted result: connect
+-----------------------------------
+Word: connecting
+Default result: connecting
+POS-hinted result: connect
+-----------------------------------
+Word: organized
+Default result: organized
+POS-hinted result: organize
+-----------------------------------
+Word: better
+Default result: better
+POS-hinted result: good
+-----------------------------------
+Word: ran
+Default result: ran
+POS-hinted result: run
+-----------------------------------
+
+STEP 8: SENTENCE SPLITTING
+
+Original text:
+Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.
+
+Detected sentences:
+Sentence 1: Mr. Smith arrived in London on Friday.
+Sentence 2: He met the Apple team at 9 a.m.
+
+Total number of sentences: 2
+
+ABBREVIATION CHECK
+Does the first sentence contain 'Mr. Smith'? True
+Does the second sentence end with 'a.m.'? True
+
+STEP 9: POS TAGGING AND NAMED ENTITY RECOGNITION
+
+A. POS TAGGING
+Original text: Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.
+
+POS tags:
+Mr.             NNP
+Smith           NNP
+arrived         VBD
+in              IN
+London          NNP
+on              IN
+Friday          NNP
+.               .
+He              PRP
+met             VBD
+the             DT
+Apple           NNP
+team            NN
+at              IN
+9               CD
+a.m             NN
+.               .
+
+B. NAMED ENTITY RECOGNITION
+
+NER Tree:
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+
+DETECTED ENTITIES
+Entity: Mr.                  Label: PERSON
+Entity: Smith                Label: PERSON
+Entity: London               Label: GPE
+
+C. ENTITY LABEL EVALUATION
+
+Expected entity comparison:
+Mr. Smith       Expected: PERSON          Result: NOT RECOGNIZED CORRECTLY
+London          Expected: GPE             Result: CORRECT
+Friday          Expected: DATE            Result: NOT RECOGNIZED CORRECTLY
+Apple           Expected: ORGANIZATION    Result: NOT RECOGNIZED CORRECTLY
+
+D. ENTITIES MISSED BY THE MODEL
+Missing or incorrect: Mr. Smith (Expected label: PERSON)
+Missing or incorrect: Friday (Expected label: DATE)
+Missing or incorrect: Apple (Expected label: ORGANIZATION)
+
+STEP 10: FULL NLP PREPROCESSING PIPELINE
+
+=======================================================
+PIPELINE A: DEFAULT NLTK STOPWORDS
+=======================================================
+
+1. LOWERCASE
+Before: I don't think this jacket is worth the price. Not happy at all 😞
+After:  i don't think this jacket is worth the price. not happy at all 😞
+
+2. REGEX CLEANING
+Before: i don't think this jacket is worth the price. not happy at all 😞
+After:  i don't think this jacket is worth the price not happy at all
+
+3. TOKENIZATION
+Before: i don't think this jacket is worth the price not happy at all
+After:  ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+
+4. STOPWORD REMOVAL
+Before: ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+After:  ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+
+5. LEMMATIZATION
+Before: ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+After:  ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+
+FINAL PROCESSED TEXT:
+n't think jacket worth price happy
+
+=======================================================
+PIPELINE B: CUSTOM NEGATION-KEEPING STOPWORDS
+=======================================================
+
+1. LOWERCASE
+Before: I don't think this jacket is worth the price. Not happy at all 😞
+After:  i don't think this jacket is worth the price. not happy at all 😞
+
+2. REGEX CLEANING
+Before: i don't think this jacket is worth the price. not happy at all 😞
+After:  i don't think this jacket is worth the price not happy at all
+
+3. TOKENIZATION
+Before: i don't think this jacket is worth the price not happy at all
+After:  ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+
+4. STOPWORD REMOVAL
+Before: ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+After:  ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+5. LEMMATIZATION
+Before: ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+After:  ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+FINAL PROCESSED TEXT:
+n't think jacket worth price not happy
+
+=======================================================
+FINAL PIPELINE COMPARISON
+=======================================================
+
+Default stopword result:
+n't think jacket worth price happy
+
+Custom stopword result:
+n't think jacket worth price not happy
+
+Does the custom result preserve 'not'?
+True
+
+Does the default result preserve 'not'?
+False
