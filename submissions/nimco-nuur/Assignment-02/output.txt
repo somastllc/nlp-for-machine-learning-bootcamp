@@ -1,0 +1,190 @@
+
+============================================================
+TASK 1: LOWERCASE
+============================================================
+BEFORE: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+AFTER : urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+
+============================================================
+TASK 2: WHITESPACE NORMALIZATION
+============================================================
+BEFORE: '    The   delivery   was   fast,   and the  packaging   was   great. '
+AFTER : 'The delivery was fast, and the packaging was great.'
+
+============================================================
+TASK 3: REGEX CLEANING
+============================================================
+BEFORE: urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+AFTER : urgent you have won a  gift card call  now
+
+CUSTOM REGEX REPLACEMENTS
+BEFORE: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+AFTER : URGENT! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!
+
+============================================================
+TASK 4: TOKENIZATION
+============================================================
+
+T2: split()
+BEFORE: I don't think this jacket is worth the price. Not happy at all 😞
+AFTER : ['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞']
+COUNT : 14
+
+T2: word_tokenize()
+BEFORE: I don't think this jacket is worth the price. Not happy at all 😞
+AFTER : ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+COUNT : 16
+
+T4: TOKENIZATION AND VOCABULARY
+BEFORE: The delivery was fast, and the packaging was great.
+AFTER : ['The', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+TOKEN COUNT: 11
+VOCABULARY: {'was', '.', 'delivery', 'packaging', 'great', 'The', 'the', 'fast', ',', 'and'}
+VOCABULARY SIZE: 10
+
+============================================================
+TASK 5: STOPWORD REMOVAL
+============================================================
+
+DEFAULT STOPWORD REMOVAL
+BEFORE: ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'not', 'happy', 'at', 'all', '😞']
+AFTER : ["n't", 'think', 'jacket', 'worth', 'price', '.', 'happy', '😞']
+
+NEGATION-PRESERVING STOPWORD REMOVAL
+BEFORE: ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'not', 'happy', 'at', 'all', '😞']
+AFTER : ["n't", 'think', 'jacket', 'worth', 'price', '.', 'not', 'happy', '😞']
+
+============================================================
+TASK 6: STEMMING
+============================================================
+
+BEFORE: ['connection', 'connected', 'connecting', 'organization', 'organized', 'university', 'universal', 'flies', 'wolves', 'better', 'ran']
+
+AFTER: STEMMER COMPARISON
+WORD           PORTER         LANCASTER      SNOWBALL
+connection     connect        connect        connect        
+connected      connect        connect        connect        
+connecting     connect        connect        connect        
+organization   organ          org            organ          
+organized      organ          org            organ          
+university     univers        univers        univers        
+universal      univers        univers        univers        
+flies          fli            fli            fli            
+wolves         wolv           wolv           wolv           
+better         better         bet            better         
+ran            ran            ran            ran            
+
+============================================================
+TASK 7: LEMMATIZATION
+============================================================
+BEFORE: ['connection', 'connected', 'connecting', 'organization', 'organized', 'university', 'universal', 'flies', 'wolves', 'better', 'ran']
+
+AFTER: LEMMATIZATION COMPARISON
+WORD           DEFAULT        VERB           NOUN           ADJECTIVE      
+connection     connection     connection     connection     connection     
+connected      connected      connect        connected      connected      
+connecting     connecting     connect        connecting     connecting     
+organization   organization   organization   organization   organization   
+organized      organized      organize       organized      organized      
+university     university     university     university     university     
+universal      universal      universal      universal      universal      
+flies          fly            fly            flies          flies          
+wolves         wolf           wolves         wolf           wolves         
+better         better         better         better         good
+ran            ran            run            ran            ran            
+
+============================================================
+TASK 8: SENTENCE SPLITTING
+============================================================
+BEFORE: Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.
+
+AFTER:
+Sentence 1: Mr. Smith arrived in London on Friday.
+Sentence 2: He met the Apple team at 9 a.m.
+SENTENCE COUNT: 2
+
+============================================================
+TASK 9: POS TAGGING AND NER
+============================================================
+BEFORE: Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.
+
+AFTER: TOKENIZATION
+['Mr.', 'Smith', 'arrived', 'in', 'London', 'on', 'Friday', '.', 'He', 'met', 'the', 'Apple', 'team', 'at', '9', 'a.m', '.']
+
+AFTER: POS TAGGING
+[('Mr.', 'NNP'), ('Smith', 'NNP'), ('arrived', 'VBD'), ('in', 'IN'), ('London', 'NNP'), ('on', 'IN'), ('Friday', 'NNP'), ('.', '.'), ('He', 'PRP'), ('met', 'VBD'), ('the', 'DT'), ('Apple', 'NNP'), ('team', 'NN'), ('at', 'IN'), ('9', 'CD'), ('a.m', 'NN'), ('.', '.')]
+
+AFTER: NAMED ENTITY RECOGNITION
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+
+============================================================
+TASK 10: FULL PREPROCESSING PIPELINE
+============================================================
+
+ORIGINAL TEXT:
+I don't think this jacket is worth the price. Not happy at all 😞
+
+PIPELINE 1: DEFAULT
+
+STEP 1: LOWERCASE
+BEFORE: I don't think this jacket is worth the price. Not happy at all 😞
+AFTER : i don't think this jacket is worth the price. not happy at all 😞
+
+STEP 2: REGEX CLEANING
+BEFORE: i don't think this jacket is worth the price. not happy at all 😞
+AFTER : i don t think this jacket is worth the price not happy at all
+
+STEP 3: TOKENIZATION
+BEFORE: i don t think this jacket is worth the price not happy at all
+AFTER : ['i', 'don', 't', 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price','not', 'happy', 'at', 'all']
+
+STEP 4: STOPWORD REMOVAL
+BEFORE: ['i', 'don', 't', 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price','not', 'happy', 'at', 'all']
+AFTER : ['think', 'jacket', 'worth', 'price', 'happy']
+
+STEP 5: LEMMATIZATION
+BEFORE: ['think', 'jacket', 'worth', 'price', 'happy']
+AFTER : ['think', 'jacket', 'worth', 'price', 'happy']
+
+FINAL RESULT: ['think', 'jacket', 'worth', 'price', 'happy']
+
+PIPELINE 2: NEGATION PRESERVED
+
+STEP 1: LOWERCASE
+BEFORE: I don't think this jacket is worth the price. Not happy at all 😞
+AFTER : i don't think this jacket is worth the price. not happy at all 😞
+
+STEP 2: REGEX CLEANING
+BEFORE: i don't think this jacket is worth the price. not happy at all 😞
+AFTER : i don t think this jacket is worth the price not happy at all
+
+STEP 3: TOKENIZATION
+BEFORE: i don t think this jacket is worth the price not happy at all
+AFTER : ['i', 'don', 't', 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price','not', 'happy', 'at', 'all']
+
+STEP 4: STOPWORD REMOVAL
+BEFORE: ['i', 'don', 't', 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price','not', 'happy', 'at', 'all']
+AFTER : ['think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+STEP 5: LEMMATIZATION
+BEFORE: ['think', 'jacket', 'worth', 'price', 'not', 'happy']
+AFTER : ['think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+FINAL RESULT: ['think', 'jacket', 'worth', 'price', 'not', 'happy']
