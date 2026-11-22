@@ -1,247 +1,591 @@
-I’ll use this exact console-output style for your Practical section, with numbered steps, separator lines, headings, before-and-after results, tables, and short explanations.
+======================================================================
+NLP PRACTICAL — TEXT PREPROCESSING
+======================================================================
 
-```
+
+
 ======================================================================
-1) LOWERCASE T1
+1) LOWERCASE — T1
 ======================================================================
+
 Before:
 'URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!'
 
 After:
 'urgent!!! you have won a £1,000 gift card. call 0712345678 now!'
 
-Discussion:
-Lowercasing removes capitalization information. For spam detection, words such as URGENT, WON, and NOW being written in all capitals can be a useful spam signal.
+Explanation:
+Lowercasing changes capital letters into small letters.
+
+Example:
+'URGENT' -> 'urgent'
+'WON'    -> 'won'
+
+Why?
+It helps treat 'URGENT' and 'urgent' as the same word.
+
+Important:
+For spam detection, capital letters can also be useful information.
+For example, 'URGENT!!!' may be a strong spam signal.
+
+Conclusion:
+Lowercasing is useful, but we should use it carefully.
+
 
 ======================================================================
-2) WHITESPACE NORMALIZATION T4
+2) WHITESPACE NORMALIZATION — T4
 ======================================================================
+
 Before:
 '   The   delivery   was   fast,   and the  packaging   was   great.'
 
 After:
 'The delivery was fast, and the packaging was great.'
 
+Explanation:
+Whitespace normalization removes extra spaces.
+
+Why?
+Extra spaces usually do not add meaning and can make text messy.
+
+Conclusion:
+Whitespace normalization makes text cleaner and more consistent.
+
+
 ======================================================================
 3) REGEX CLEANING
 ======================================================================
+
 Before:
 'urgent!!! you have won a £1,000 gift card. call 0712345678 now!'
 
-After using [^a-z\s]:
+Regex:
+[^a-z\s]
+
+After:
 'urgent you have won a  gift card call  now'
 
-Deleted characters:
-['!', '!', '!', '£', '1', ',', '0', '0', '0', '.', '0', '7', '1', '2', '3', '4', '5', '6', '7', '8', '!']
+Explanation:
+This regex keeps only:
+- lowercase letters (a-z)
+- spaces (\s)
 
-Important:
-This regex deletes punctuation, numbers, currency symbols, and other non-letter characters. This can remove useful spam signals such as phone numbers, money amounts, and repeated exclamation marks.
+It removes:
+- punctuation
+- numbers
+- currency symbols
+- phone numbers
 
-Own replacement rules:
-Phone number -> PHONE_NUMBER
-Money amount -> MONEY
+Example:
+
+'!!!'       -> removed
+'£1,000'    -> removed
+'0712345678' -> removed
+
+Problem:
+Some of this information may be useful.
+
+For example:
+- £1,000 can be a spam signal
+- 0712345678 is a phone number
+- !!! can show strong or suspicious language
+
+----------------------------------------------------------------------
+BETTER APPROACH: REPLACE IMPORTANT INFORMATION
+----------------------------------------------------------------------
+
+Instead of deleting important information, we can replace it.
+
+Phone number:
+0712345678 -> PHONE_NUMBER
+
+Money:
+£1,000 -> MONEY
+
+Repeated punctuation:
 !!! -> !
 
 After replacement:
 'urgent! you have won a MONEY gift card. call PHONE_NUMBER now!'
 
+Conclusion:
+Regex cleaning should depend on the NLP task.
+
+Do not remove useful information without a reason.
+
+
 ======================================================================
 4) TOKENIZATION
 ======================================================================
-T2:
+
+Text:
 "I don't think this jacket is worth the price. Not happy at all 😞"
 
-Using split():
-['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞']
+----------------------------------------------------------------------
+Using split()
+----------------------------------------------------------------------
 
-Using word_tokenize():
-['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+Tokens:
+['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the',
+ 'price.', 'Not', 'happy', 'at', 'all', '😞']
 
-Token counts:
-split() count: 14
-word_tokenize() count: 16
+Token count:
+14
 
-T4 tokens:
-['The', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+----------------------------------------------------------------------
+Using word_tokenize()
+----------------------------------------------------------------------
 
-T4 token count:
+Tokens:
+['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the',
+ 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+
+Token count:
+16
+
+Explanation:
+Tokenization means breaking text into smaller pieces called tokens.
+
+For example:
+
+"don't" -> "do" + "n't"
+
+"price." -> "price" + "."
+
+Why?
+Machine Learning models usually need text to be converted into
+smaller units before processing it.
+
+Conclusion:
+Tokenization is one of the basic steps in NLP.
+
+
+----------------------------------------------------------------------
+T4 TOKENIZATION
+----------------------------------------------------------------------
+
+Text:
+'The delivery was fast, and the packaging was great.'
+
+Tokens:
+['The', 'delivery', 'was', 'fast', ',', 'and', 'the',
+ 'packaging', 'was', 'great', '.']
+
+Token count:
 11
 
-T4 vocabulary:
+
+----------------------------------------------------------------------
+T4 VOCABULARY
+----------------------------------------------------------------------
+
+Vocabulary:
 ['and', 'delivery', 'fast', 'great', 'packaging', 'the', 'was']
 
-T4 vocabulary size:
+Vocabulary size:
 7
+
+Explanation:
+Vocabulary means the unique words/tokens in the text.
+
+For example:
+'the' appears more than once, but it is counted only once
+in the vocabulary.
+
+Conclusion:
+Vocabulary = unique tokens.
+
 
 ======================================================================
 5) STOPWORDS AND NEGATION
 ======================================================================
-T2 tokens:
-['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
 
-Default NLTK stopword removal:
+T2:
+"I don't think this jacket is worth the price. Not happy at all 😞"
+
+Tokens:
+['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth',
+ 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+
+----------------------------------------------------------------------
+STOPWORD REMOVAL
+----------------------------------------------------------------------
+
+Result:
 ["n't", 'think', 'jacket', 'worth', 'price', '.', 'happy', '😞']
 
-Custom stopword removal:
-Keeping: not, n't, no, never
-["n't", 'think', 'jacket', 'worth', 'price', '.', 'Not', 'happy', '😞']
+Explanation:
+Stopwords are common words that are often removed because they may
+not provide much information for some NLP tasks.
 
-Why?
-Negation words can change sentiment and meaning. For example, 'happy' and 'not happy' have opposite meanings. Removing 'not' can therefore damage a sentiment or complaint classifier.
+Examples:
+- the
+- is
+- at
+- this
 
-======================================================================
-6) STEMMING COMPARISON
-======================================================================
-Word           Porter         Lancaster      Snowball       Regexp
----------------------------------------------------------------------------
-connection     connect        connect        connect        connect
-connected      connect        connect        connect        connect
-connecting     connect        connect        connect        connect
-organization   organ          org            organ          organiz
-organized      organ          org            organ          organiz
-university     univers        univers        univers        university
-universal      univers        univers        univers        universal
-flies          fli            fli            fli            flie
-wolves         wolv           wolv           wolv           wolve
-better         better         bet            better         better
-ran            ran            ran            ran            ran
+But we must be careful with NEGATION.
 
-Merged pairs / similar stems:
-connect -> ['connection', 'connected', 'connecting']
-organ -> ['organization', 'organized']
-univers -> ['university', 'universal']
+----------------------------------------------------------------------
+NEGATION
+----------------------------------------------------------------------
 
-Non-word stems:
-Some stemmers produce shortened forms that are not normal English words, such as 'univers', 'organ', 'fli', and 'wolv'. However, 'connect' is a valid English word.
+Important negation words:
+
+- not
+- no
+- never
+- n't
+
+Example:
+
+'happy'
+and
+'not happy'
+
+have different meanings.
+
+If we remove 'not':
+
+'not happy' -> 'happy'
+
+The meaning becomes wrong.
 
 Conclusion:
-Porter and Snowball are generally less aggressive than Lancaster. Lancaster can shorten words more aggressively. RegexpStemmer follows only the suffix rules we specify.
+For sentiment analysis and complaint detection, it is usually
+better to keep important negation words.
+
+
+======================================================================
+6) STEMMING
+======================================================================
+
+Explanation:
+Stemming reduces words to a shorter common form.
+
+Example:
+
+connection  -> connect
+connected   -> connect
+connecting  -> connect
+
+This helps a model recognize that these words are related.
+
+----------------------------------------------------------------------
+STEMMING COMPARISON
+----------------------------------------------------------------------
+
+Word           Porter       Lancaster      Snowball       Regexp
+---------------------------------------------------------------------------
+connection     connect      connect        connect        connect
+connected      connect      connect        connect        connect
+connecting     connect      connect        connect        connect
+organization   organ        org            organ          organiz
+organized      organ        org            organ          organiz
+university     univers      univers        univers        university
+universal      univers      univers        univers        universal
+flies          fli          fli            fli            flie
+wolves         wolv         wolv           wolv           wolve
+better         better       bet            better         better
+ran            ran          ran            ran            ran
+
+Explanation:
+Different stemmers use different rules.
+
+Some stemmers are more aggressive than others.
+
+For example:
+
+university -> univers
+
+'univers' is not a normal English word, but stemming can still
+produce it.
+
+Conclusion:
+Stemming is fast and simple, but the result may not always be
+a real English word.
+
 
 ======================================================================
 7) LEMMATIZATION
 ======================================================================
-Word           Default        Verb (v)       Noun (n)       Adjective (a)
----------------------------------------------------------------------------
-connection     connection     connection     connection     connection
-connected      connected      connect        connected      connected
-connecting     connecting     connect        connecting     connecting
-organization   organization   organization   organization   organization
-organized      organized      organize       organized      organized
-university     university     university     university     university
-universal      universal      universal      universal      universal
-flies          fly            fly            flies          flies
-wolves         wolf           wolves         wolf           wolves
-better         better         better         better         good
-ran            ran            run            ran            ran
 
-Examples of POS hints:
-running: running -> run
-better: better -> good
-studies: study -> study
+Explanation:
+Lemmatization changes a word into its correct dictionary/base form.
+
+Examples:
+
+running -> run
+studies -> study
+better -> good
+ran -> run
+
+Lemmatization usually gives a more meaningful result than stemming.
+
+----------------------------------------------------------------------
+EXAMPLES
+----------------------------------------------------------------------
+
+Word           Lemma
+----------------------------
+running        run
+studies        study
+flies          fly
+wolves         wolf
+better         good
+ran            run
+
+----------------------------------------------------------------------
+STEMMING vs LEMMATIZATION
+----------------------------------------------------------------------
+
+Stemming:
+'studies' -> 'studi'
+
+Lemmatization:
+'studies' -> 'study'
+
+Explanation:
+Stemming simply cuts or reduces a word.
+
+Lemmatization uses language information to find the correct base word.
+
+Conclusion:
+Lemmatization is usually more linguistically accurate, but it can
+require more processing.
+
 
 ======================================================================
 8) SENTENCE TOKENIZATION
 ======================================================================
-T3:
-'Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.'
+
+Text:
+'Mr. Smith arrived in London on Friday. He met the Apple team at
+9 a.m.'
 
 Sentences:
+
 1 -> Mr. Smith arrived in London on Friday.
+
 2 -> He met the Apple team at 9 a.m.
 
 Sentence count:
 2
 
-Note:
-sent_tokenize tries not to split at abbreviations such as Mr. and a.m.
+Explanation:
+Sentence tokenization separates a paragraph into individual
+sentences.
+
+The tokenizer should understand that:
+
+'Mr.'
+and
+'a.m.'
+
+are abbreviations and should not normally end a sentence.
+
+Conclusion:
+Sentence tokenization helps us process text sentence by sentence.
+
 
 ======================================================================
-9) POS TAGGING + NAMED ENTITY RECOGNITION
+9) POS TAGGING
 ======================================================================
-Tokens:
-['Mr.', 'Smith', 'arrived', 'in', 'London', 'on', 'Friday', '.', 'He', 'met', 'the', 'Apple', 'team', 'at', '9', 'a.m', '.']
 
-POS tags:
-Mr.             NNP
-Smith           NNP
-arrived         VBD
-in              IN
-London          NNP
-on              IN
-Friday          NNP
-.               .
-He              PRP
-met             VBD
-the             DT
-Apple           NNP
-team            NN
-at              IN
-9               CD
-a.m             NN
-.               .
+POS means:
+Part of Speech
 
-Named Entity Recognition:
-(S
-  (PERSON Mr./NNP)
-  (PERSON Smith/NNP)
-  arrived/VBD
-  in/IN
-  (GPE London/NNP)
-  on/IN
-  Friday/NNP
-  ./.
-  He/PRP
-  met/VBD
-  the/DT
-  Apple/NNP
-  team/NN
-  at/IN
-  9/CD
-  a.m/NN
-  ./. )
+It tells us the grammatical role of a word.
 
-Expected / important entities:
-PERSON: Mr. Smith
-GPE: London
-ORGANIZATION: Apple
+Text:
+'Mr. Smith arrived in London on Friday.'
 
-Note:
-NLTK's English NER model can make mistakes. In this output, it identifies Mr. and Smith separately as PERSON, identifies London as GPE, but does not identify Apple as ORGANIZATION. Always inspect the result rather than assuming every entity is correct.
+----------------------------------------------------------------------
+POS TAGS
+----------------------------------------------------------------------
+
+Mr.        -> NNP
+Smith      -> NNP
+arrived    -> VBD
+in         -> IN
+London     -> NNP
+on         -> IN
+Friday     -> NNP
+
+----------------------------------------------------------------------
+COMMON POS TAGS
+----------------------------------------------------------------------
+
+NNP -> Proper noun
+NN  -> Noun
+VBD -> Past-tense verb
+IN  -> Preposition
+PRP -> Personal pronoun
+DT  -> Determiner
+CD  -> Number
+
+Example:
+
+'London' -> NNP
+'arrived' -> VBD
+'He' -> PRP
+
+Conclusion:
+POS tagging helps the computer understand the grammatical role
+of each word.
+
 
 ======================================================================
-10) FULL PIPELINE ON T2 - 
+10) NAMED ENTITY RECOGNITION — NER
 ======================================================================
-Pipeline: lowercase -> regex cleaning -> tokenize -> stopword removal -> lemmatization
 
-Original:
+NER means:
+Named Entity Recognition
+
+NER identifies important real-world information in text.
+
+Example:
+
+'Mr. Smith arrived in London. He met the Apple team.'
+
+Expected entities:
+
+PERSON:
+Mr. Smith
+
+LOCATION / GPE:
+London
+
+ORGANIZATION:
+Apple
+
+Explanation:
+NER can identify:
+
+PERSON        -> people
+GPE           -> geographical locations
+ORGANIZATION  -> companies or organizations
+
+Important:
+NER is not always perfect.
+
+A model may identify 'Mr.' and 'Smith' separately instead of
+recognizing them as one person.
+
+It may also fail to recognize 'Apple' as an organization.
+
+Conclusion:
+NER results should always be checked.
+
+
+======================================================================
+11) FULL NLP PIPELINE — T2
+======================================================================
+
+Original text:
+
 "I don't think this jacket is worth the price. Not happy at all 😞"
 
-1. Lowercase:
+Pipeline:
+
+Lowercase
+    ->
+Regex Cleaning
+    ->
+Tokenization
+    ->
+Stopword Removal
+    ->
+Lemmatization
+
+----------------------------------------------------------------------
+STEP 1 — LOWERCASE
+----------------------------------------------------------------------
+
 "i don't think this jacket is worth the price. not happy at all 😞"
 
-2. Regex cleaned:
-"i don't think this jacket is worth the price not happy at all "
+----------------------------------------------------------------------
+STEP 2 — REGEX CLEANING
+----------------------------------------------------------------------
 
-3. Tokens:
-['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+"i don't think this jacket is worth the price not happy at all"
 
-4. Stopwords removed:
+Explanation:
+Punctuation and the emoji are removed by the selected regex rule.
+
+----------------------------------------------------------------------
+STEP 3 — TOKENIZATION
+----------------------------------------------------------------------
+
+['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth',
+ 'the', 'price', 'not', 'happy', 'at', 'all']
+
+----------------------------------------------------------------------
+STEP 4 — STOPWORD REMOVAL
+----------------------------------------------------------------------
+
 ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
 
-5. Lemmatized:
-["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+Problem:
+The word 'not' has been removed.
 
-Pipeline keeping negation words:
+This can change the meaning.
+
+----------------------------------------------------------------------
+STEP 5 — KEEP NEGATION
+----------------------------------------------------------------------
+
 ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
 
-Complaint meaning:
-The complaint contains negation such as 'don't' and 'not'. Removing negation words can make the complaint meaning less clear. Therefore, a sentiment or complaint classifier should usually preserve important negation words.
+Better for sentiment/complaint detection.
+
+Why?
+
+Because:
+
+'not happy'
+
+means something different from:
+
+'happy'
+
+Therefore, important negation words should be preserved.
+
 
 ======================================================================
 FINAL SUMMARY
 ======================================================================
-Preprocessing is task-dependent. Lowercasing and whitespace normalization can reduce unnecessary variation, but aggressive regex cleaning or stopword removal can delete useful information.
 
-For spam detection, preserve useful signals such as phone numbers, money amounts, capitalization, and repeated punctuation when appropriate.
+NLP preprocessing prepares raw text for analysis and Machine Learning.
 
-For sentiment or complaint detection, preserve negation words such as 'not', 'no', 'never', and important forms of 'n't'.
+The main techniques are:
+
+1. Lowercasing
+   -> Converts uppercase letters to lowercase.
+
+2. Whitespace normalization
+   -> Removes unnecessary spaces.
+
+3. Regex cleaning
+   -> Removes or replaces unwanted characters.
+
+4. Tokenization
+   -> Breaks text into smaller tokens.
+
+5. Stopword removal
+   -> Removes selected common words.
+
+6. Stemming
+   -> Reduces words to a shorter root-like form.
+
+7. Lemmatization
+   -> Converts words to their dictionary/base form.
+
+8. Sentence tokenization
+   -> Separates text into sentences.
+
+9. POS tagging
+   -> Identifies the grammatical role of words.
+
+10. NER
+    -> Identifies people, places, organizations, and other entities.
