@@ -1,0 +1,227 @@
+
+=== 1) LOWERCASING ===
+
+Before: 'URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!'
+After:  'urgent!!! you have won a £1,000 gift card. call 0712345678 now!'
+ALL-CAPS words: ['URGENT!!!', 'WON', 'NOW!']
+Note: URGENT, WON and NOW may help spam detection; lowercasing hides them.
+
+
+=== 2) WHITESPACE NORMALIZATION ===
+
+Before: '   The   delivery   was   fast,   and the  packaging   was   great.'
+After:  'The delivery was fast, and the packaging was great.'
+Length: 73 characters -> 59 characters
+
+
+=== 3) REGEX CLEANING ===
+
+3a) DELETING WITH REGEX [^a-z\s]
+
+Before: 'urgent!!! you have won a £1,000 gift card. call 0712345678 now!'
+After:  'urgent    you have won a       gift card  call            now '
+Deleted: £, 1,000, 0712345678, ! and . (symbols and digits)
+
+
+3b) REPLACING INSTEAD OF DELETING
+
+Original:       'URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!'
+After PHONE:    'URGENT!!! You have WON a £1,000 gift card. Call PHONE_NUMBER NOW!'
+After MONEY:    'URGENT!!! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!'
+After BANGS:    'URGENT! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!'
+Final:          'URGENT! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!'
+
+
+=== 4) TOKENIZATION ===
+
+4a) TOKENIZING T2: split() VS word_tokenize()
+
+T2:               "I don't think this jacket is worth the price. Not happy at all 😞"
+
+split():          ['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞']
+split() count:    14
+
+word_tokenize():  ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+word_tokenize count: 16
+
+Only in split:    ["don't", 'price.']
+Only in wt:      ['do', "n't", 'price', '.']
+
+
+4b) TOKENIZING T4: TOKEN COUNT AND VOCABULARY SIZE
+
+T4 tokens:        ['The', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+Token count:      11
+Vocab size:       10
+Vocabulary:       [',', '.', 'The', 'and', 'delivery', 'fast', 'great', 'packaging', 'the', 'was']
+
+
+=== 5) STOPWORDS AND NEGATION ===
+
+Tokens:            ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'not', 'happy', 'at', 'all', '😞']
+
+NLTK list size:   198
+Negations in it:  ["n't", 'no', 'not', 'never']
+
+Default removed:  ['i', 'do', "n't", 'this', 'is', 'the', 'not', 'at', 'all']
+Default result:   ['think', 'jacket', 'worth', 'price', '.', 'happy', '😞']
+
+Custom removed:   ['i', 'do', 'this', 'is', 'the', 'at', 'all']
+Custom result:    ["n't", 'think', 'jacket', 'worth', 'price', '.', 'not', 'happy', '😞']
+
+
+=== 6) COMPARING STEMMERS ===
+
+Word             Porter       Lancaster    Snowball
+----------------------------------------------------
+connection       connect      connect      connect
+connected        connect      connect      connect
+connecting       connect      connect      connect
+organization     organ        org           organ
+organized        organ        org           organ
+university       univers      univers       univers
+universal        univers      univers       univers
+flies            fli          fli           fli
+wolves           wolv         wolv          wolv
+better           better       bet           better
+ran              ran          ran           ran
+
+Porter merged:
+{'connect': ['connection', 'connected', 'connecting'],
+ 'organ': ['organization', 'organized'],
+ 'univers': ['university', 'universal']}
+
+Lancaster merged:
+{'connect': ['connection', 'connected', 'connecting'],
+ 'org': ['organization', 'organized'],
+ 'univers': ['university', 'universal']}
+
+Snowball merged:
+{'connect': ['connection', 'connected', 'connecting'],
+ 'organ': ['organization', 'organized'],
+ 'univers': ['university', 'universal']}
+
+
+=== 7) LEMMATIZATION WITH POS HINTS ===
+
+Word             Default       POS    With hint     Changed?
+------------------------------------------------------------
+connection       connection    n      connection    no
+connected        connected     v      connect       yes
+connecting       connecting    v      connect       yes
+organization     organization  n      organization  no
+organized        organized     v      organize      yes
+university       university    n      university    no
+universal        universal     a      universal     no
+flies            fly            v      fly           no
+wolves           wolf           n      wolf          no
+better           better         a      good          yes
+ran              ran            v      run           yes
+
+Changed w/ hint:
+['connected', 'connecting', 'organized', 'better', 'ran']
+
+Same either way:
+['connection', 'organization', 'university', 'universal', 'flies', 'wolves']
+
+
+=== 8) SENTENCE SPLITTING ===
+
+Original: 'Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.'
+
+Sentence count: 2
+
+Sentence 1: 'Mr. Smith arrived in London on Friday.'
+Sentence 2: 'He met the Apple team at 9 a.m.'
+
+Split after Mr.?: False
+Split in a.m.?: False
+
+Naive re.split:
+2 pieces ->
+['Mr. Smith arrived in London on Friday.',
+ 'He met the Apple team at 9 a.m.']
+
+
+=== 9) POS TAGGING AND NER ===
+
+Tokens:
+['Mr.', 'Smith', 'arrived', 'in', 'London', 'on', 'Friday', '.', 'He', 'met', 'the', 'Apple', 'team', 'at', '9', 'a.m', '.']
+
+POS tags:
+Mr.        NNP
+Smith      NNP
+arrived    VBD
+in         IN
+London     NNP
+on         IN
+Friday     NNP
+.          .
+He         PRP
+met        VBD
+the        DT
+Apple      NNP
+team       NN
+at         IN
+9          CD
+a.m        NN
+.          .
+
+NER tree:
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+
+Entities found (text -> label):
+Mr. -> PERSON
+Smith -> PERSON
+London -> GPE
+
+Check manually:
+Smith (person), London (place), Friday (day),
+Apple (company), 9 a.m. (time).
+
+
+=== 10) FULL PIPELINE ===
+
+Original:
+"I don't think this jacket is worth the price. Not happy at all 😞"
+
+Lowercased:
+"i don't think this jacket is worth the price. not happy at all 😞"
+
+Regex cleaned:
+"i don't think this jacket is worth the price  not happy at all  "
+
+Tokens:
+['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+
+Default stop:
+["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+
+Default lemmas:
+["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+
+Negation stop:
+["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+Negation lemmas:
+["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+
+END OF OUTPUT
