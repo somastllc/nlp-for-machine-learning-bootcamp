@@ -11,7 +11,7 @@ from nltk.corpus import stopwords, wordnet
 from nltk.stem import LancasterStemmer, PorterStemmer, SnowballStemmer, WordNetLemmatizer
 
 # ---------------------------------------------------------------- data
-T1 = "URGENT!!! You have WON a $1,000 gift card. Call 0712345678 NOW!"
+T1 = "URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!"
 T2 = "I don't think this jacket is worth the price. Not happy at all 😞"
 T3 = "Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m."
 T4 = "   The   delivery   was   fast,   and the  packaging   was   great.   "
@@ -101,10 +101,7 @@ for name, mapping in stems.items():
 
 print("\nStems that are not words in WordNet (rough check):")
 for name, mapping in stems.items():
-    try:
-        fake = sorted({st for st in mapping.values() if not wordnet.synsets(st)})
-    except MemoryError:
-        fake = ["<WordNet unavailable: low memory>"]
+    fake = sorted({st for st in mapping.values() if not wordnet.synsets(st)})
     print(f"  {name}: {fake}")
 
 # ------------------------------------------------------- 7. lemmatization
@@ -118,11 +115,8 @@ POS_HINT = {
 }
 print(f"{'word':<14}{'default(noun)':<16}{'with hint':<14}{'hint':<6}{'changed?'}")
 for w in WORDS:
-    try:
-        d = lemmatizer.lemmatize(w)
-        h = lemmatizer.lemmatize(w, pos=POS_HINT[w])
-    except MemoryError:
-        d, h = w, w
+    d = lemmatizer.lemmatize(w)
+    h = lemmatizer.lemmatize(w, pos=POS_HINT[w])
     print(f"{w:<14}{d:<16}{h:<14}{POS_HINT[w]:<6}{'YES' if d != h else ''}")
 
 # ------------------------------------------------------- 8. sentence splitting
@@ -150,7 +144,7 @@ for node in tree:
         print(f"  {text:<12}{node.label()}")
 if not found:
     print("  (none)")
-print("\nCheck by hand: were Ali (person), Mogadisho (place), Apple (organization)")
+print("\nCheck by hand: were Smith (person), London (place), Apple (organization)")
 print("and Friday (day) all recognized? Which labels are wrong?")
 
 # ------------------------------------------------------- 10. full pipeline
@@ -178,13 +172,7 @@ def pipeline(text, stop_set, label):
     print("3. Tokenize:     ", toks)
     no_stop = [t for t in toks if t not in stop_set]
     print("4. Stopwords:    ", no_stop)
-    lemmas = []
-    for w, tag in pos_tag(no_stop):
-        try:
-            lemma = lemmatizer.lemmatize(w, wn_pos(tag))
-        except MemoryError:
-            lemma = w
-        lemmas.append(lemma)
+    lemmas = [lemmatizer.lemmatize(w, wn_pos(tag)) for w, tag in pos_tag(no_stop)]
     print("5. Lemmatize:    ", lemmas)
 
 
