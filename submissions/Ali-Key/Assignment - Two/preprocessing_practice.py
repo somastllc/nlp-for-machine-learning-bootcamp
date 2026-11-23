@@ -1,4 +1,4 @@
-# Assignment 2 — Preprocessing Practice
+# Assignment Two — Preprocessing Practice
 # Part B – Practical
 
 import re
@@ -17,7 +17,6 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 
 # --------------------------------
 # TEXTS
-# Discussion: What are the differences between the texts?
 # --------------------------------
 
 T1 = "URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!"
@@ -59,7 +58,6 @@ print(
 
 # --------------------------------
 # WORDS FOR STEMMING / LEMMATIZATION
-# Discussion: How do word forms change?
 # --------------------------------
 
 words = [

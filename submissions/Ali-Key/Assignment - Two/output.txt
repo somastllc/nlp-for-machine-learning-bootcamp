@@ -1,8 +1,12 @@
 ======================================================================
-NLP PRACTICAL — TEXT PREPROCESSING
+NLP PRACTICAL — REPORT - TEXT PREPROCESSING
 ======================================================================
 
-
+======================================================================
+Purpose
+This report explains common text-preprocessing techniques using simple examples. 
+It also shows why preprocessing choices depend on the NLP task.
+======================================================================
 
 ======================================================================
 1) LOWERCASE — T1
