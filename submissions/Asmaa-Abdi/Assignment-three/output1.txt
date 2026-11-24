@@ -1,0 +1,59 @@
+vocabulary ['cash', 'class', 'free', 'lunch', 'notes', 'win']
+win -> [0, 0, 0, 0, 0, 1]
+free -> [0, 0, 1, 0, 0, 0]
+cash -> [1, 0, 0, 0, 0, 0]
+documents ['Win a FREE phone now! Reply WIN to claim.', 'Free entry: win cash prizes today. Call now.', 'Are we still meeting for lunch today?', 'Please send me the lecture notes before class.', 'The lecture was not good, but the notes were great.']
+vocabulary ['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+(row) ,(columns):  (5, 32)
+[[0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 1 0 0 0 1 0 0 0 0 2]
+ [0 0 0 1 1 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 1 0 0 0 1]
+ [1 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 1 0 0]
+ [0 1 0 0 0 0 1 0 0 0 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 0 0 0]
+ [0 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0 0 0 0 0 0 0 2 0 0 1 0 1 0]]
+win free phone: [[0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]]
+phone free win: [[0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]]
+all tokens:  42
+vocabulary size: 32
+message: ['Win a FREE phone now! Reply WIN to claim!']
+default: ['claim', 'free', 'now', 'phone', 'reply', 'to', 'win']
+lowercasing: ['FREE', 'Reply', 'WIN', 'Win', 'claim', 'now', 'phone', 'to']
+stopword: ['claim', 'free', 'phone', 'reply', 'win']
+vocabulary size: 32
+min_df: ['free', 'lecture', 'notes', 'now', 'the', 'today', 'win']
+max_features:  ['free', 'lecture', 'the', 'today', 'win']
+ngram: The lecture was not good, but the notes were great.
+unigram: ['but', 'good', 'great', 'lecture', 'not', 'notes', 'the', 'was', 'were']
+unigram and bigram: ['but', 'but the', 'good', 'good but', 'great', 'lecture', 'lecture was', 'not', 'not good', 'notes', 'notes were', 'the', 'the lecture', 'the notes', 'was', 'was not', 'were', 'were great']
+trigram , unigram and bigram: ['are', 'are we', 'are we still', 'before', 'before class', 'but', 'but the', 'but the notes', 'call', 'call now', 'cash', 'cash prizes', 'cash prizes today', 'claim', 'class', 'entry', 'entry win', 'entry win cash', 'for', 'for lunch', 'for lunch today', 'free', 'free entry', 'free entry win', 'free phone', 'free phone now', 'good', 'good but', 'good but the', 'great', 'lecture', 'lecture notes', 'lecture notes before', 'lecture was', 'lecture was not', 'lunch', 'lunch today', 'me', 'me the', 'me the lecture', 'meeting', 'meeting for', 'meeting for lunch', 'not', 'not good', 'not good but', 'notes', 'notes before', 'notes before class', 'notes were', 'notes were great', 'now', 'now reply', 'now reply win', 'phone', 'phone now', 'phone now reply', 'please', 'please send', 'please send me', 'prizes', 'prizes today', 'prizes today call', 'reply', 'reply win', 'reply win to', 'send', 'send me', 'send me the', 'still', 'still meeting', 'still meeting for', 'the', 'the lecture', 'the lecture notes', 'the lecture was', 'the notes', 'the notes were', 'to', 'to claim', 'today', 'today call', 'today call now', 'was', 'was not', 'was not good', 'we', 'we still', 'we still meeting', 'were', 'were great', 'win', 'win cash', 'win cash prizes', 'win free', 'win free phone', 'win to', 'win to claim']
+[[0.   0.   0.   0.   0.   0.36 0.   0.   0.   0.29 0.   0.   0.   0.   0.   0.   0.   0.   0.29 0.36 0.   0.   0.36 0.   0.   0.   0.36 0.   0.   0.   0.   0.57]
+ [0.   0.   0.   0.39 0.39 0.   0.   0.39 0.   0.31 0.   0.   0.   0.   0.   0.   0.   0.   0.31 0.   0.   0.39 0.   0.   0.   0.   0.   0.31 0.   0.   0.   0.31]
+ [0.39 0.   0.   0.   0.   0.   0.   0.   0.39 0.   0.   0.   0.   0.39 0.   0.39 0.   0.   0.   0.   0.   0.   0.   0.   0.39 0.   0.   0.31 0.   0.39 0.   0.  ]
+ [0.   0.38 0.   0.   0.   0.   0.38 0.   0.   0.   0.   0.   0.31 0.   0.38 0.   0.   0.31 0.   0.   0.38 0.   0.   0.38 0.   0.31 0.   0.   0.   0.   0.   0.  ]
+ [0.   0.   0.32 0.   0.   0.   0.   0.   0.   0.   0.32 0.32 0.26 0.   0.   0.   0.32 0.26 0.   0.   0.   0.   0.   0.   0.   0.51 0.   0.   0.32 0.   0.32 0.  ]]
+count:  Win a FREE phone now! Reply WIN to claim.
+  claim ->count 1 | tf-idf: 0.356
+  free ->count 1 | tf-idf: 0.287
+  now ->count 1 | tf-idf: 0.287
+  phone ->count 1 | tf-idf: 0.356
+  reply ->count 1 | tf-idf: 0.356
+  to ->count 1 | tf-idf: 0.356
+  win ->count 2 | tf-idf: 0.574
+TF-IDF by hand: The lecture was not good, but the notes were great. ===
+cash | df= 1 |tf= 0.1111111111111111 | idf= 1.609 | tf-idf= 0.179
+today | df= 2 |tf= 0.1111111111111111 | idf= 0.916 | tf-idf= 0.102
+total cells: 160
+non zero cells: 39
+zero cells: 121
+vocabulary: ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+[[0 0 0 0 1 0 0 0 1 0 0 0 0 0 1 1 0 0 1 0 0 0 1 0 0 2]
+ [0 0 1 1 0 0 1 0 1 0 0 0 0 0 1 0 0 1 0 0 0 0 0 1 0 1]
+ [1 0 0 0 0 0 0 1 0 0 1 0 1 0 0 0 0 0 0 0 1 0 0 1 1 0]
+ [0 1 0 0 0 1 0 0 0 1 0 1 0 1 0 0 1 0 0 1 0 1 0 0 0 0]]
+N1: [[0 0 0 0 1 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0]]
+N2: [[0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0]]
+train only: ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+train + test: ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'is', 'lecture', 'lunch', 'me', 'meeting', 'moved', 'notes', 'now', 'phone', 'please', 'prize', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'tomorrow', 'we', 'win', 'your']
+vocabulary: ['delicious', 'food', 'tasty', 'terrible', 'the', 'was']
+tasty: [0 1 1 0 1 1]
+delicious: [1 1 0 0 1 1]
+terrible: [0 1 0 1 1 1]
