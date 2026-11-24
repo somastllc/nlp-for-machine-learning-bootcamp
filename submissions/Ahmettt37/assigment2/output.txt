@@ -1,0 +1,160 @@
+========== TASK 1: LOWERCASE ==========
+Before: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+After: urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+
+========== TASK 2: WHITESPACE ==========
+Before: '   The   delivery   was   fast,   and the  packaging   was   great.'
+After: 'The delivery was fast, and the packaging was great.'
+
+==========  regex cleaning ==========
+Before: URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+After: URGENT! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!
+T2 using split():
+['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞']
+
+T2 using word_tokenize():
+['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+
+========== TASK 5: DEFAULT STOPWORDS ==========
+Original tokens: ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+After removing stopwords: ["n't", 'think', 'jacket', 'worth', 'price', '.', 'happy', '😞']
+
+========== CUSTOM STOPWORDS ==========
+After keeping negation: ["n't", 'think', 'jacket', 'worth', 'price', '.', 'Not', 'happy', '😞']
+
+========== TASK 6: COMPARING STEMMERS ==========
+connection -> Porter: connect | Lancaster: connect | Snowball: connect | Regexp: connection
+connected -> Porter: connect | Lancaster: connect | Snowball: connect | Regexp: connected
+connecting -> Porter: connect | Lancaster: connect | Snowball: connect | Regexp: connect
+organization -> Porter: organ | Lancaster: org | Snowball: organ | Regexp: organization
+organized -> Porter: organ | Lancaster: org | Snowball: organ | Regexp: organized
+university -> Porter: univers | Lancaster: univers | Snowball: univers | Regexp: university
+universal -> Porter: univers | Lancaster: univers | Snowball: univers | Regexp: universal
+flies -> Porter: fli | Lancaster: fli | Snowball: fli | Regexp: flie
+wolves -> Porter: wolv | Lancaster: wolv | Snowball: wolv | Regexp: wolve
+better -> Porter: better | Lancaster: bet | Snowball: better | Regexp: better
+ran -> Porter: ran | Lancaster: ran | Snowball: ran | Regexp: ran
+
+========== MERGED WORDS ==========
+Porter : ['connection', 'connected', 'connecting'] -> connect
+Porter : ['organization', 'organized'] -> organ
+Porter : ['university', 'universal'] -> univers
+Lancaster : ['connection', 'connected', 'connecting'] -> connect
+Lancaster : ['organization', 'organized'] -> org
+Lancaster : ['university', 'universal'] -> univers
+Snowball : ['connection', 'connected', 'connecting'] -> connect
+Snowball : ['organization', 'organized'] -> organ
+Snowball : ['university', 'universal'] -> univers
+
+========== TASK 7: LEMMATIZATION ==========
+Word            Default         With POS hint  
+--------------------------------------------------
+connection      connection      connection     
+connected       connected       connect        
+connecting      connecting      connect        
+organization    organization    organization   
+organized       organized       organize       
+university      university      university     
+universal       universal       universal      
+flies           fly             fly            
+wolves          wolf            wolf           
+better          better          good           
+ran             ran             run            
+
+========== WORDS CHANGED WITH POS HINT ==========
+['connected', 'connecting', 'organized', 'better', 'ran']
+
+========== TASK 8: SENTENCE SPLITTING ==========
+Sentence 1: Mr. Smith arrived in London on Friday.
+Sentence 2: He met the Apple team at 9 a.m.
+Total sentences: 2
+
+========== TASK 9: POS TAGGING ==========
+Mr. -> NNP
+Smith -> NNP
+arrived -> VBD
+in -> IN
+London -> NNP
+on -> IN
+Friday -> NNP
+. -> .
+He -> PRP
+met -> VBD
+the -> DT
+Apple -> NNP
+team -> NN
+at -> IN
+9 -> CD
+a.m -> NN
+. -> .
+
+========== NAMED ENTITY RECOGNITION ==========
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+
+========== EXTRACTED ENTITIES ==========
+Mr. -> PERSON
+Smith -> PERSON
+London -> GPE
+
+Total entities: 3
+
+======================================
+RUN 1: DEFAULT STOPWORDS
+======================================
+
+Original text:
+I don't think this jacket is worth the price. Not happy at all 😞
+
+1. LOWERCASE:
+i don't think this jacket is worth the price. not happy at all 😞
+
+2. REGEX CLEANING:
+i don't think this jacket is worth the price not happy at all
+
+3. TOKENIZATION:
+['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+
+4. STOPWORDS REMOVAL:
+["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+
+5. LEMMATIZATION:
+["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+
+======================================
+RUN 2: CUSTOM STOPWORDS
+======================================
+
+Original text:
+I don't think this jacket is worth the price. Not happy at all 😞
+
+1. LOWERCASE:
+i don't think this jacket is worth the price. not happy at all 😞
+
+2. REGEX CLEANING:
+i don't think this jacket is worth the price not happy at all
+
+3. TOKENIZATION:
+['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+
+4. STOPWORDS REMOVAL:
+["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+
+5. LEMMATIZATION:
+["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']

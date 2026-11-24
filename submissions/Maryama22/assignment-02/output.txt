@@ -1,0 +1,142 @@
+
+=================================================================
+Task 1: Lowercasing (T1)
+=================================================================
+Before: URGENT!!! You have WON a ú1,000 gift card. Call 0712345678 NOW!
+After : urgent!!! you have won a ú1,000 gift card. call 0712345678 now!
+
+=================================================================
+Task 2: Whitespace Normalization (T4)
+=================================================================
+Before: '   The   delivery   was   fast,   and the  packaging   was   great.'
+After : 'The delivery was fast, and the packaging was great.'
+
+=================================================================
+Task 3a: Regex Cleaning with [^a-z\s] on Lowercased T1
+=================================================================
+Before: urgent!!! you have won a ú1,000 gift card. call 0712345678 now!
+After : urgent you have won a  gift card call  now
+Deleted characters: ['!', '!', '!', 'ú', '1', ',', '0', '0', '0', '.', '0', '7', '1', '2', '3', '4', '5', '6', '7', '8', '!']
+
+=================================================================
+Task 3b: Custom Regex Replacements on T1
+=================================================================
+Before: URGENT!!! You have WON a ú1,000 gift card. Call 0712345678 NOW!
+After : URGENT! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!
+
+=================================================================
+Task 4a: Tokenization of T2 (split vs word_tokenize)
+=================================================================
+Before: I don't think this jacket is worth the price. Not happy at all 
+split() tokens       : ['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all']
+split() token count  : 13
+word_tokenize tokens : ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all']
+word_tokenize count  : 15
+
+=================================================================
+Task 4b: Tokenization of T4 (Token Count & Vocabulary Size)
+=================================================================
+Before (normalized T4): The delivery was fast, and the packaging was great.
+Tokens          : ['The', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+Token count     : 11
+Vocabulary size : 10
+Unique tokens   : [',', '.', 'The', 'and', 'delivery', 'fast', 'great', 'packaging', 'the', 'was']
+
+=================================================================
+Task 5: Stopwords and Negation on T2
+=================================================================
+Before: ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all']
+After (default stopwords removed): ["n't", 'think', 'jacket', 'worth', 'price', '.', 'happy']
+After (negation-keeping list)    : ["n't", 'think', 'jacket', 'worth', 'price', '.', 'Not', 'happy']
+
+=================================================================
+Task 6: Stemming Comparison (Porter, Lancaster, Snowball)
+=================================================================
+Word            Porter          Lancaster       Snowball       
+------------------------------------------------------------
+connection      connect         connect         connect        
+connected       connect         connect         connect        
+connecting      connect         connect         connect        
+organization    organ           org             organ          
+organized       organ           org             organ          
+university      univers         univers         univers        
+universal       univers         univers         univers        
+flies           fli             fli             fli            
+wolves          wolv            wolv            wolv           
+better          better          bet             better         
+ran             ran             ran             ran            
+
+=================================================================
+Task 7: Lemmatization (Default vs POS Hint)
+=================================================================
+Word            POS    Default         With POS        Changed?
+-----------------------------------------------------------------
+connection      n      connection      connection      No
+connected       v      connected       connect         Yes
+connecting      v      connecting      connect         Yes
+organization    n      organization    organization    No
+organized       v      organized       organize        Yes
+university      n      university      university      No
+universal       a      universal       universal       No
+flies           v      fly             fly             No
+wolves          n      wolf            wolf            No
+better          a      better          good            Yes
+ran             v      ran             run             Yes
+
+=================================================================
+Task 8: Sentence Splitting on T3
+=================================================================
+Before: Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.
+Sentence count: 2
+  Sentence 1: Mr. Smith arrived in London on Friday.
+  Sentence 2: He met the Apple team at 9 a.m.
+
+=================================================================
+Task 9: POS Tagging and NER on T3
+=================================================================
+Before: Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.
+POS tags: [('Mr.', 'NNP'), ('Smith', 'NNP'), ('arrived', 'VBD'), ('in', 'IN'), ('London', 'NNP'), ('on', 'IN'), ('Friday', 'NNP'), ('.', '.'), ('He', 'PRP'), ('met', 'VBD'), ('the', 'DT'), ('Apple', 'NNP'), ('team', 'NN'), ('at', 'IN'), ('9', 'CD'), ('a.m', 'NN'), ('.', '.')]
+
+NE Chunk Tree:
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+
+Extracted Named Entities:
+  Entity: Mr.             | Label: PERSON
+  Entity: Smith           | Label: PERSON
+  Entity: London          | Label: GPE
+
+=================================================================
+Task 10: Full Pipeline on T2
+=================================================================
+Before: I don't think this jacket is worth the price. Not happy at all 
+
+--- Run 1: Default NLTK Stopwords ---
+  1_lowercase: i don't think this jacket is worth the price. not happy at all 
+  2_regex: i don't think this jacket is worth the price not happy at all
+  3_tokenize: ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+  4_stopwords: ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+  5_lemmatize: ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+
+--- Run 2: Negation-Keeping Stopwords ---
+  1_lowercase: i don't think this jacket is worth the price. not happy at all 
+  2_regex: i don't think this jacket is worth the price not happy at all
+  3_tokenize: ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+  4_stopwords: ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+  5_lemmatize: ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
