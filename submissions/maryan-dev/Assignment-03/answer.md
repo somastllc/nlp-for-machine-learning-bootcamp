@@ -1,4 +1,4 @@
-# Text Vectorization for Machine Learning: A Research Report
+# Text Vectorization Nlp  for Machine Learning
 
 ---
 ## 1. Text vectorization and one-hot encoding
