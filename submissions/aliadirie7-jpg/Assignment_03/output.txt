@@ -1,0 +1,165 @@
+﻿One-hot vector for free:
+[0, 0, 1, 0, 0, 0]
+Vector for cash:
+[1, 0, 0, 0, 0, 0]
+One-hot vectors for win free cash:
+win : [0, 0, 0, 0, 0, 1]
+free : [0, 0, 1, 0, 0, 0]
+cash : [1, 0, 0, 0, 0, 0]
+
+===== VOCABULARY =====
+['are' 'before' 'but' 'call' 'cash' 'claim' 'class' 'entry' 'for' 'free'
+ 'good' 'great' 'lecture' 'lunch' 'me' 'meeting' 'not' 'notes' 'now'
+ 'phone' 'please' 'prizes' 'reply' 'send' 'still' 'the' 'to' 'today' 'was'
+ 'we' 'were' 'win']
+
+===== DTM SHAPE =====
+(5, 32)
+
+===== DOCUMENT TERM MATRIX =====
+[[0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 1 0 0 0 1 0 0 0 0 2]
+ [0 0 0 1 1 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 1 0 0 0 1]
+ [1 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 1 0 0]
+ [0 1 0 0 0 0 1 0 0 0 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 0 0 0]
+ [0 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0 0 0 0 0 0 0 2 0 0 1 0 1 0]]
+
+===== TEST VECTORS =====
+[[0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]
+ [0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]]
+
+===== TASK 3 =====
+Total tokens: 42
+Vocabulary size: 32
+
+===== WORDS IN MORE THAN ONE DOCUMENT =====
+free : 2
+lecture : 2
+notes : 2
+now : 2
+the : 2
+today : 2
+win : 2
+===== DEFAULT VOCABULARY =====
+['claim' 'free' 'now' 'phone' 'reply' 'to' 'win']
+
+===== LOWERCASE FALSE VOCABULARY =====
+['FREE' 'Reply' 'WIN' 'Win' 'claim' 'now' 'phone' 'to']
+
+===== STOP WORDS ENGLISH VOCABULARY =====
+['claim' 'free' 'phone' 'reply' 'win']
+
+===== ALL DOCUMENTS WITH ENGLISH STOP WORDS =====
+['cash' 'claim' 'class' 'entry' 'free' 'good' 'great' 'lecture' 'lunch'
+ 'meeting' 'notes' 'phone' 'prizes' 'reply' 'send' 'today' 'win']
+
+===== MIN_DF = 2 =====
+['free' 'lecture' 'notes' 'now' 'the' 'today' 'win']
+Vocabulary size: 7
+
+===== MAX_FEATURES = 5 =====
+['free' 'lecture' 'now' 'the' 'win']
+Vocabulary size: 5
+
+===== UNIGRAM =====
+['but' 'good' 'great' 'lecture' 'not' 'notes' 'the' 'was' 'were']
+
+===== UNIGRAM + BIGRAM =====
+['but' 'but the' 'good' 'good but' 'great' 'lecture' 'lecture was' 'not'
+ 'not good' 'notes' 'notes were' 'the' 'the lecture' 'the notes' 'was'
+ 'was not' 'were' 'were great']
+
+===== N-GRAM COMPARISON =====
+
+N-gram range: (1, 1)
+Vocabulary size: 32
+
+N-gram range: (1, 2)
+Vocabulary size: 67
+
+N-gram range: (1, 3)
+Vocabulary size: 98
+
+===== TF-IDF MATRIX =====
+[[0.   0.   0.   0.   0.   0.36 0.   0.   0.   0.29 0.   0.   0.   0.
+  0.   0.   0.   0.   0.29 0.36 0.   0.   0.36 0.   0.   0.   0.36 0.
+  0.   0.   0.   0.57]
+ [0.   0.   0.   0.39 0.39 0.   0.   0.39 0.   0.31 0.   0.   0.   0.
+  0.   0.   0.   0.   0.31 0.   0.   0.39 0.   0.   0.   0.   0.   0.31
+  0.   0.   0.   0.31]
+ [0.39 0.   0.   0.   0.   0.   0.   0.   0.39 0.   0.   0.   0.   0.39
+  0.   0.39 0.   0.   0.   0.   0.   0.   0.   0.   0.39 0.   0.   0.31
+  0.   0.39 0.   0.  ]
+ [0.   0.38 0.   0.   0.   0.   0.38 0.   0.   0.   0.   0.   0.31 0.
+  0.38 0.   0.   0.31 0.   0.   0.38 0.   0.   0.38 0.   0.31 0.   0.
+  0.   0.   0.   0.  ]
+ [0.   0.   0.32 0.   0.   0.   0.   0.   0.   0.   0.32 0.32 0.26 0.
+  0.   0.   0.32 0.26 0.   0.   0.   0.   0.   0.   0.   0.51 0.   0.
+  0.32 0.   0.32 0.  ]]
+
+===== TF-IDF VOCABULARY =====
+['are' 'before' 'but' 'call' 'cash' 'claim' 'class' 'entry' 'for' 'free'
+ 'good' 'great' 'lecture' 'lunch' 'me' 'meeting' 'not' 'notes' 'now'
+ 'phone' 'please' 'prizes' 'reply' 'send' 'still' 'the' 'to' 'today' 'was'
+ 'we' 'were' 'win']
+
+===== DOCUMENT 1 =====
+claim: Count=1, TF-IDF=0.36
+free: Count=1, TF-IDF=0.29
+now: Count=1, TF-IDF=0.29
+phone: Count=1, TF-IDF=0.36
+reply: Count=1, TF-IDF=0.36
+to: Count=1, TF-IDF=0.36
+win: Count=2, TF-IDF=0.57
+
+===== DOCUMENT 2 =====
+call: Count=1, TF-IDF=0.39
+cash: Count=1, TF-IDF=0.39
+entry: Count=1, TF-IDF=0.39
+free: Count=1, TF-IDF=0.31
+now: Count=1, TF-IDF=0.31
+prizes: Count=1, TF-IDF=0.39
+today: Count=1, TF-IDF=0.31
+win: Count=1, TF-IDF=0.31
+
+===== TASK 8: COUNT AND DF =====
+cash: Count=1, DF=1
+today: Count=1, DF=2
+cash: IDF = 2.0986
+today: IDF = 1.6931
+
+===== MANUAL TF-IDF =====
+
+Word: cash
+TF: 1
+IDF: 2.0986
+Raw TF-IDF: 2.0986
+Normalized TF-IDF: 0.3891
+
+Word: today
+TF: 1
+IDF: 1.6931
+Raw TF-IDF: 1.6931
+Normalized TF-IDF: 0.3140
+
+===== TASK 9: SPARSE MATRIX =====
+Total cells: 160
+Non-zero cells: 39
+Zero cells: 121
+Sparsity: 75.62%
+
+===== TASK 10: OOV WORDS =====
+Vocabulary: ['are' 'before' 'call' 'cash' 'claim' 'class' 'entry' 'for' 'free'
+ 'lecture' 'lunch' 'me' 'meeting' 'notes' 'now' 'phone' 'please' 'prizes'
+ 'reply' 'send' 'still' 'the' 'to' 'today' 'we' 'win']
+New document vectors:
+ [[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1]
+ [0 0 0 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]]
+
+===== TASK 11: DATA LEAKAGE =====
+Training vocabulary size: 26
+All vocabulary size: 32
+
+===== TASK 12: COSINE SIMILARITY =====
+[[1.   0.75 0.75]
+ [0.75 1.   0.75]
+ [0.75 0.75 1.  ]]
