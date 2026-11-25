@@ -1,0 +1,51 @@
+ python .\vectorization_practice.py                
+Vocabulary: ['class', 'free', 'notes', 'prize']
+free -> [0, 1, 0, 0]
+prize -> [0, 0, 0, 1]
+Documents:  ['win free cash now', 'free prize claim now', 'see you in class today', 'please send the class notes']
+Vocabulary: ['cash', 'claim', 'class', 'free', 'in', 'notes', 'now', 'please', 'prize', 'see', 'send', 'the', 'today', 'win', 'you']
+Shape (rows, columns): (4, 15)
+[[1 0 0 1 0 0 1 0 0 0 0 0 0 1 0]
+ [0 1 0 1 0 0 1 0 1 0 0 0 0 0 0]
+ [0 0 1 0 1 0 0 0 0 1 0 0 1 0 1]
+ [0 0 1 0 0 1 0 1 0 0 1 1 0 0 0]]
+'free prize': [[0 0 0 1 0 0 0 0 1 0 0 0 0 0 0]]
+'prize free': [[0 0 0 1 0 0 0 0 1 0 0 0 0 0 0]]
+Total tokens:    18
+Vocabulary size: 15
+Message:  FREE Prize! Call the office NOW
+Default:  ['call', 'free', 'now', 'office', 'prize', 'the']
+lowercase=False  ['Call', 'FREE', 'NOW', 'Prize', 'office', 'the']
+stop_words='english':  ['free', 'office', 'prize']
+Full vocabulary size: 15
+min_df=2:             ['class', 'free', 'now']
+max_features=5:       ['cash', 'claim', 'class', 'free', 'now']
+Sentence: not a good movie
+Unigrams: ['good', 'movie', 'not']
+Unigrams and bigrams: ['good', 'good movie', 'movie', 'not', 'not good']
+[[0.56 0.   0.   0.44 0.   0.   0.44 0.   0.   0.   0.   0.   0.   0.56 0.  ]
+ [0.   0.56 0.   0.44 0.   0.   0.44 0.   0.56 0.   0.   0.   0.   0.   0.  ]
+ [0.   0.   0.37 0.   0.47 0.   0.   0.   0.   0.47 0.   0.   0.47 0.   0.47]
+ [0.   0.   0.37 0.   0.   0.47 0.   0.47 0.   0.   0.47 0.47 0.   0.   0.  ]]
+Count vs TF-IDF for: win free cash now
+  cash -> count: 1 | tf-idf: 0.555
+  free -> count: 1 | tf-idf: 0.438
+  now -> count: 1 | tf-idf: 0.438
+  win -> count: 1 | tf-idf: 0.555
+win | df = 1 | TF = 0.25 | IDF = 1.386 | TF-IDF = 0.347
+free | df = 2 | TF = 0.25 | IDF = 0.693 | TF-IDF = 0.173
+Total cells:    60
+Non-zero cells: 18
+Zero cells:     42
+Vocabulary (from training text): ['class', 'free', 'notes', 'prize']
+Train matrix:
+[[0 1 0 1]
+ [1 0 1 0]]
+'free notes':       [[0 1 1 0]]
+'free meeting':     [[0 1 0 0]]
+'meeting tomorrow': [[0 0 0 0]]
+Fitted on training text only: ['class', 'free', 'notes', 'prize']
+Fitted on train + test text:  ['class', 'free', 'meeting', 'notes', 'prize']
+Vocabulary: ['good', 'great', 'movie', 'the', 'was']
+'the movie was good':  [1 0 1 1 1]
+'the movie was great': [0 1 1 1 1]
