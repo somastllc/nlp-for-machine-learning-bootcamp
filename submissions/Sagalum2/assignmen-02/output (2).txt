@@ -1,0 +1,254 @@
+[nltk_data] Downloading package punkt_tab to /root/nltk_data...
+[nltk_data]   Package punkt_tab is already up-to-date!
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+[nltk_data]   Package wordnet is already up-to-date!
+[nltk_data] Downloading package averaged_perceptron_tagger_eng to
+[nltk_data]     /root/nltk_data...
+[nltk_data]   Package averaged_perceptron_tagger_eng is already up-to-
+[nltk_data]       date!
+[nltk_data] Downloading package maxent_ne_chunker_tab to
+[nltk_data]     /root/nltk_data...
+[nltk_data]   Package maxent_ne_chunker_tab is already up-to-date!
+[nltk_data] Downloading package words to /root/nltk_data...
+[nltk_data]   Package words is already up-to-date!
+
+========================================================================
+INPUT TEXTS
+========================================================================
+T1                          : 'URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!'
+T2                          : "I don't think this jacket is worth the price. Not happy at all 😞"
+T3                          : 'Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.'
+T4                          : '   The   delivery   was   fast,   and the  packaging   was   great.  '
+WORDS ['connection', 'connected', 'connecting', 'organization', 'organized', 'university', 'universal', 'flies', 'wolves', 'better', 'ran']
+
+========================================================================
+TASK 1: Lowercasing (T1)
+========================================================================
+Before URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+After urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+ALL-CAPS words lost ['URGENT', 'WON', 'NOW']
+-> After lowercasing these look like ordinary words; the shouting signal is gone.
+
+========================================================================
+TASK 2: Whitespace normalization (T4)
+========================================================================
+Before (repr) '   The   delivery   was   fast,   and the  packaging   was   great.  '
+After (repr) 'The delivery was fast, and the packaging was great.'
+
+========================================================================
+TASK 3a: Deleting with [^a-z\s] on lowercased T1
+========================================================================
+Before urgent!!! you have won a £1,000 gift card. call 0712345678 now!
+After urgent you have won a  gift card call  now
+Deleted runs ['!!!', '£1,000', '.', '0712345678', '!']
+Deleted characters (count):
+  '!'  x4   EXCLAMATION MARK
+  '£'  x1   POUND SIGN
+  '1'  x2   DIGIT ONE
+  ','  x1   COMMA
+  '0'  x4   DIGIT ZERO
+  '.'  x1   FULL STOP
+  '7'  x2   DIGIT SEVEN
+  '2'  x1   DIGIT TWO
+  '3'  x1   DIGIT THREE
+  '4'  x1   DIGIT FOUR
+  '5'  x1   DIGIT FIVE
+  '6'  x1   DIGIT SIX
+  '8'  x1   DIGIT EIGHT
+Total chars deleted 21
+
+========================================================================
+TASK 3b: Replacing with my own regex rules on T1
+========================================================================
+Original URGENT!!! You have WON a £1,000 gift card. Call 0712345678 NOW!
+After money rule URGENT!!! You have WON a MONEY gift card. Call 0712345678 NOW!
+After phone rule URGENT!!! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!
+After exclamation rule URGENT! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!
+Final URGENT! You have WON a MONEY gift card. Call PHONE_NUMBER NOW!
+
+========================================================================
+TASK 4: Tokenization
+========================================================================
+T2 split() ['I', "don't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price.', 'Not', 'happy', 'at', 'all', '😞']
+  token count 14
+T2 word_tokenize ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+  token count 16
+T4 split() ['The', 'delivery', 'was', 'fast,', 'and', 'the', 'packaging', 'was', 'great.']
+  token count 9
+T4 word_tokenize ['The', 'delivery', 'was', 'fast', ',', 'and', 'the', 'packaging', 'was', 'great', '.']
+  token count 11
+  vocabulary size 10
+  unique tokens [',', '.', 'The', 'and', 'delivery', 'fast', 'great', 'packaging', 'the', 'was']
+  vocab size (lowercased) 9
+  unique (lowercased) [',', '.', 'and', 'delivery', 'fast', 'great', 'packaging', 'the', 'was']
+
+========================================================================
+TASK 5: Stopwords and negation (T2 tokens)
+========================================================================
+T2 tokens ['I', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', '.', 'Not', 'happy', 'at', 'all', '😞']
+NLTK default stopwords ["n't", 'think', 'jacket', 'worth', 'price', '.', 'happy', '😞']
+Negation-keeping list       : ["n't", 'think', 'jacket', 'worth', 'price', '.', 'Not', 'happy', '😞']
+Removed (default) ['I', 'do', 'this', 'is', 'the', 'Not', 'at', 'all']
+Removed (my list) ['I', 'do', 'this', 'is', 'the', 'at', 'all']
+Negations kept (default) ["n't"]
+Negations kept (mine) ["n't", 'Not']
+Only my list keeps ['Not']
+Stopwords in NLTK list 198
+Stopwords in my list 196
+
+========================================================================
+TASK 6: Stemming (Porter vs Lancaster vs Snowball)
+========================================================================
+word          Porter        Lancaster     Snowball      
+--------------------------------------------------------
+connection    connect       connect       connect       
+connected     connect       connect       connect       
+connecting    connect       connect       connect       
+organization  organ         org           organ         
+organized     organ         org           organ         
+university    univers       univers       univers       
+universal     univers       univers       univers       
+flies         fli           fli           fli           
+wolves        wolv          wolv          wolv          
+better        better        bet           better        
+ran           ran           ran           ran           
+
+Different words merged into the same stem:
+  Porter:
+    'connect' <- ['connection', 'connected', 'connecting']
+    'organ' <- ['organization', 'organized']
+    'univers' <- ['university', 'universal']
+  Lancaster:
+    'connect' <- ['connection', 'connected', 'connecting']
+    'org' <- ['organization', 'organized']
+    'univers' <- ['university', 'universal']
+  Snowball:
+    'connect' <- ['connection', 'connected', 'connecting']
+    'organ' <- ['organization', 'organized']
+    'univers' <- ['university', 'universal']
+
+Stems that are not real words (not found in WordNet):
+  Porter: [('university', 'univers'), ('universal', 'univers'), ('flies', 'fli'), ('wolves', 'wolv')]
+  Lancaster: [('organization', 'org'), ('organized', 'org'), ('university', 'univers'), ('universal', 'univers'), ('flies', 'fli'), ('wolves', 'wolv')]
+  Snowball: [('university', 'univers'), ('universal', 'univers'), ('flies', 'fli'), ('wolves', 'wolv')]
+
+========================================================================
+TASK 7: Lemmatization (WordNetLemmatizer)
+========================================================================
+word          default       hint  with hint     changed?
+--------------------------------------------------------
+connection    connection    n     connection    
+connected     connected     v     connect       YES
+connecting    connecting    v     connect       YES
+organization  organization  n     organization  
+organized     organized     v     organize      YES
+university    university    n     university    
+universal     universal     a     universal     
+flies         fly           v     fly           
+wolves        wolf          n     wolf          
+better        better        a     good          YES
+ran           ran           v     run           YES
+
+Changed only with hint ['connected', 'connecting', 'organized', 'better', 'ran']
+
+========================================================================
+TASK 8: Sentence splitting (T3)
+========================================================================
+T3 Mr. Smith arrived in London on Friday. He met the Apple team at 9 a.m.
+Number of sentences 2
+  Sentence 1: 'Mr. Smith arrived in London on Friday.'
+  Sentence 2: 'He met the Apple team at 9 a.m.'
+Any sentence ends with 'Mr.' False
+Any split inside 'a.m.' False
+Last sentence ends with ' a.m.'
+
+========================================================================
+TASK 9: POS tagging and NER (T3)
+========================================================================
+POS tags:
+  Mr.       NNP
+  Smith     NNP
+  arrived   VBD
+  in        IN
+  London    NNP
+  on        IN
+  Friday    NNP
+  .         .
+  He        PRP
+  met       VBD
+  the       DT
+  Apple     NNP
+  team      NN
+  at        IN
+  9         CD
+  a.m       NN
+  .         .
+
+NE tree:
+(S
+  (PERSON Mr./NNP)
+  (PERSON Smith/NNP)
+  arrived/VBD
+  in/IN
+  (GPE London/NNP)
+  on/IN
+  Friday/NNP
+  ./.
+  He/PRP
+  met/VBD
+  the/DT
+  Apple/NNP
+  team/NN
+  at/IN
+  9/CD
+  a.m/NN
+  ./.)
+
+Entities found by ne_chunk:
+entity        label           correct?
+--------------------------------------------
+Mr.           PERSON          no gold label (check by hand)
+Smith         PERSON          YES
+London        GPE             YES
+
+What did the model miss?
+expected    type            recognized?
+--------------------------------------------
+Smith       person          YES
+London      place           YES
+Apple       organization    MISSED
+Friday      day / date      MISSED
+9 a.m.      time            MISSED
+Labels the model can output : PERSON, ORGANIZATION, GPE, LOCATION, FACILITY, GSP (no DATE/TIME)
+
+========================================================================
+TASK 10: Full pipeline on T2
+========================================================================
+
+--- Pipeline: NLTK default stopwords ---
+0. original I don't think this jacket is worth the price. Not happy at all 😞
+1. lowercase i don't think this jacket is worth the price. not happy at all 😞
+2. regex clean i don't think this jacket is worth the price not happy at all
+3. tokenize ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+4. stopword removal ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+5. lemmatize ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+Negation words surviving ["n't"]
+
+--- Pipeline: negation-keeping stopwords ---
+0. original I don't think this jacket is worth the price. Not happy at all 😞
+1. lowercase i don't think this jacket is worth the price. not happy at all 😞
+2. regex clean i don't think this jacket is worth the price not happy at all
+3. tokenize ['i', 'do', "n't", 'think', 'this', 'jacket', 'is', 'worth', 'the', 'price', 'not', 'happy', 'at', 'all']
+4. stopword removal ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+5. lemmatize ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+Negation words surviving ["n't", 'not']
+
+========================================================================
+TASK 10: Comparison
+========================================================================
+Default list result ["n't", 'think', 'jacket', 'worth', 'price', 'happy']
+Negation-keeping result ["n't", 'think', 'jacket', 'worth', 'price', 'not', 'happy']
+Default keeps 'not'? False
+Negation-keeping keeps 'not'? True
