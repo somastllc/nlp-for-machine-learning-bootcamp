@@ -1,0 +1,163 @@
+# Output of the script: 
+
+=== 1) ONE-HOT ENCODING ===
+Vocabulary: ['cash', 'class', 'free', 'lunch', 'notes', 'win']
+free -> [0, 0, 1, 0, 0, 0]
+cash -> [1, 0, 0, 0, 0, 0]
+
+One-hot vectors for 'win free cash':
+win -> [0, 0, 0, 0, 0, 1]
+free -> [0, 0, 1, 0, 0, 0]
+cash -> [1, 0, 0, 0, 0, 0]
+
+=== 2) BAG OF WORDS ===
+Documents: ['Win a FREE phone now! Reply WIN to claim.', 'Free entry: win cash prizes today. Call now.', 'Are we still meeting for lunch today?', 'Please send me the lecture notes before class.', 'The lecture was not good, but the notes were great.']
+Vocabulary: ['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']Shape (rows, columns): (5, 32)
+Document-Term Matrix:
+[[0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 1 0 0 0 1 0 0 0 0 2]
+ [0 0 0 1 1 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 1 0 0 0 1]
+ [1 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 1 0 0]
+ [0 1 0 0 0 0 1 0 0 0 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 0 0 0]
+ [0 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0 0 0 0 0 0 0 2 0 0 1 0 1 0]]
+
+'win free phone': [[0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]]
+'phone free win': [[0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]]
+
+=== 3) TOKENS vs VOCABULARY SIZE ===
+Total tokens: 41
+Vocabulary size: 32
+Words appearing in more than one document:
+free -> 2 documents
+lecture -> 2 documents
+notes -> 2 documents
+now -> 2 documents
+the -> 2 documents
+today -> 2 documents
+win -> 2 documents
+
+=== 4) PREPROCESSING INSIDE THE VECTORIZER ===
+D1: Win a FREE phone now! Reply WIN to claim.
+Default vocabulary: ['claim', 'free', 'now', 'phone', 'reply', 'to', 'win']
+lowercase=False vocabulary: ['FREE', 'Reply', 'WIN', 'Win', 'claim', 'now', 'phone', 'to']
+stop_words='english' vocabulary: ['claim', 'free', 'phone', 'reply', 'win']
+
+Check 'not' in English stop words:
+Vocabulary with English stop words: ['cash', 'claim', 'class', 'entry', 'free', 'good', 'great', 'lecture', 'lunch', 'meeting', 'notes', 'phone', 'prizes', 'reply', 'send', 'today', 'win']
+Is 'not' in vocabulary? False
+
+=== 5) LIMITING THE VOCABULARY ===
+Full vocabulary: ['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+Full vocabulary size: 32
+
+min_df=2 vocabulary: ['free', 'lecture', 'notes', 'now', 'the', 'today', 'win']
+min_df=2 size: 7
+
+max_features=5 vocabulary: ['free', 'lecture', 'the', 'today', 'win']
+max_features=5 size: 5
+
+=== 6) N-GRAMS ===
+D5: The lecture was not good, but the notes were great.
+Unigrams: ['but', 'good', 'great', 'lecture', 'not', 'notes', 'the', 'was', 'were']
+Unigrams and bigrams: ['but', 'but the', 'good', 'good but', 'great', 'lecture', 'lecture was', 'not', 'not good', 'notes', 'notes were', 'the', 'the lecture', 'the notes', 'was', 'was not', 'were', 'were great']
+
+N-gram vocabulary sizes for D1-D5:
+ngram_range = (1, 1) | Vocabulary size = 32
+ngram_range = (1, 2) | Vocabulary size = 67
+ngram_range = (1, 3) | Vocabulary size = 98
+
+=== 7) TF-IDF ===
+Vocabulary: ['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']TF-IDF matrix (rounded to 2 decimals):
+[[0.   0.   0.   0.   0.   0.36 0.   0.   0.   0.29 0.   0.   0.   0.   0.   0.   0.   0.   0.29 0.36 0.   0.   0.36 0.   0.   0.   0.36 0.   0.   0.   0.   0.57]
+ [0.   0.   0.   0.39 0.39 0.   0.   0.39 0.   0.31 0.   0.   0.   0.   0.   0.   0.   0.   0.31 0.   0.   0.39 0.   0.   0.   0.   0.   0.31 0.   0.   0.   0.31]
+ [0.39 0.   0.   0.   0.   0.   0.   0.   0.39 0.   0.   0.   0.   0.39 0.   0.39 0.   0.   0.   0.   0.   0.   0.   0.   0.39 0.   0.   0.31 0.   0.39 0.   0.  ]
+ [0.   0.38 0.   0.   0.   0.   0.38 0.   0.   0.   0.   0.   0.31 0.   0.38 0.   0.   0.31 0.   0.   0.38 0.   0.   0.38 0.   0.31 0.   0.   0.   0.   0.   0.  ]
+ [0.   0.   0.32 0.   0.   0.   0.   0.   0.   0.   0.32 0.32 0.26 0.   0.   0.   0.32 0.26 0.   0.   0.   0.   0.   0.   0.   0.51 0.   0.   0.32 0.   0.32 0.  ]]
+
+Count vs TF-IDF for D1 and D2:
+
+Document: D1
+claim -> count: 1 | TF-IDF: 0.356
+free -> count: 1 | TF-IDF: 0.287
+now -> count: 1 | TF-IDF: 0.287
+phone -> count: 1 | TF-IDF: 0.356
+reply -> count: 1 | TF-IDF: 0.356
+to -> count: 1 | TF-IDF: 0.356
+win -> count: 2 | TF-IDF: 0.574
+
+Document: D2
+call -> count: 1 | TF-IDF: 0.389
+cash -> count: 1 | TF-IDF: 0.389
+entry -> count: 1 | TF-IDF: 0.389
+free -> count: 1 | TF-IDF: 0.314
+now -> count: 1 | TF-IDF: 0.314
+prizes -> count: 1 | TF-IDF: 0.389
+today -> count: 1 | TF-IDF: 0.314
+win -> count: 1 | TF-IDF: 0.314
+
+=== 8) TF-IDF BY HAND FOR D2 ===
+Document: Free entry: win cash prizes today. Call now.
+Total documents (N): 5
+Total tokens in D2: 8
+
+Word: cash
+Count: 1
+Document frequency (df): 1
+TF = 1 / 8 = 0.125
+IDF = log( 5 / 1 ) = 1.609438
+TF-IDF = 0.125 * 1.609438 = 0.20118
+
+Word: today
+Count: 1
+Document frequency (df): 2
+TF = 1 / 8 = 0.125
+IDF = log( 5 / 2 ) = 0.916291
+TF-IDF = 0.125 * 0.916291 = 0.114536
+
+=== 9) SPARSE MATRIX ===
+Matrix shape: (5, 32)
+Total cells: 160
+Non-zero cells: 39
+Zero cells: 121
+Percentage of zeros: 75.62 %
+
+=== 10) FIT AND TRANSFORM ===
+Training documents: D1-D4
+Training vocabulary: ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+
+Training matrix:
+[[0 0 0 0 1 0 0 0 1 0 0 0 0 0 1 1 0 0 1 0 0 0 1 0 0 2]
+ [0 0 1 1 0 0 1 0 1 0 0 0 0 0 1 0 0 1 0 0 0 0 0 1 0 1]
+ [1 0 0 0 0 0 0 1 0 0 1 0 1 0 0 0 0 0 0 0 1 0 0 1 1 0]
+ [0 1 0 0 0 1 0 0 0 1 0 1 0 1 0 0 1 0 0 1 0 1 0 0 0 0]]
+
+New texts and their vectors:
+Claim your free prize now -> [0 0 0 0 1 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0]
+Is the lunch meeting moved to tomorrow? -> [0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0]
+
+Out-of-vocabulary words:
+Claim your free prize now -> ['prize', 'your']
+Is the lunch meeting moved to tomorrow? -> ['is', 'moved', 'tomorrow']
+
+=== 11) DATA LEAKAGE ===
+Training vocabulary: ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+Vocabulary fitted on training + test: ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'is', 'lecture', 'lunch', 'me', 'meeting', 'moved', 'notes', 'now', 'phone', 'please', 'prize', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'tomorrow', 'we', 'win', 'your']
+Words leaked from test set: ['is', 'moved', 'prize', 'tomorrow', 'your']
+
+=== 12) NO MEANING: REVIEW COMPARISON ===
+Reviews: ['the food was tasty', 'the food was delicious', 'the food was terrible']
+Vocabulary: ['delicious', 'food', 'tasty', 'terrible', 'the', 'was']
+
+Review vectors:
+the food was tasty -> [0 1 1 0 1 1]
+the food was delicious -> [1 1 0 0 1 1]
+the food was terrible -> [0 1 0 1 1 1]
+
+Cosine similarity matrix:
+[[1.   0.75 0.75]
+ [0.75 1.   0.75]
+ [0.75 0.75 1.  ]]
+
+Pairwise cosine similarities:
+R1 vs R2: 0.75
+R1 vs R3: 0.75
+R2 vs R3: 0.75
