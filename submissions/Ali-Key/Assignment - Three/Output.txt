@@ -1,0 +1,830 @@
+======================================================================
+ASSIGNMENT THREEE- NLP PRACTICAL - REPORT - TEXT VECTORIZATION
+======================================================================
+
+======================================================================
+REPORTING
+======================================================================
+
+This report explains how text is converted into numerical features
+using different vectorization techniques.
+
+It covers One-Hot Encoding, Bag of Words, TF-IDF, N-grams,
+vocabulary limits, sparse matrices, and cosine similarity.
+
+It also shows why vectorization settings depend on the NLP task.
+
+
+======================================================================
+1) ONE-HOT ENCODING — TASK 1
+======================================================================
+
+Vocabulary:
+
+['cash', 'class', 'free', 'lunch', 'notes', 'win']
+
+----------------------------------------------------------------------
+TEXT 1: "free cash"
+----------------------------------------------------------------------
+
+Vector:
+
+[1, 0, 1, 0, 0, 0]
+
+----------------------------------------------------------------------
+TEXT 2: "win free cash"
+----------------------------------------------------------------------
+
+Vector:
+
+[1, 0, 1, 0, 0, 1]
+
+Explanation:
+One-hot encoding represents each word using a vector of zeros
+and ones.
+
+Each position represents one word in the vocabulary.
+
+Example:
+
+cash  -> [1, 0, 0, 0, 0, 0]
+free  -> [0, 0, 1, 0, 0, 0]
+win   -> [0, 0, 0, 0, 0, 1]
+
+Why?
+Machine Learning models need numerical features instead of
+ordinary text.
+
+Conclusion:
+One-hot encoding is simple, but it does not show word order
+or the meaning of words.
+
+
+======================================================================
+2) BAG OF WORDS — TASK 2
+======================================================================
+
+Explanation:
+Bag of Words (BoW) converts text into numbers by counting
+how many times each word appears in a document.
+
+It creates a Document-Term Matrix.
+
+----------------------------------------------------------------------
+DOCUMENTS
+----------------------------------------------------------------------
+
+D1:
+"Win a FREE phone now! Reply WIN to claim."
+
+D2:
+"Free entry: win cash prizes today. Call now."
+
+D3:
+"Are we still meeting for lunch today?"
+
+D4:
+"Please send me the lecture notes before class."
+
+D5:
+"The lecture was not good, but the notes were great."
+
+----------------------------------------------------------------------
+DOCUMENT-TERM MATRIX
+----------------------------------------------------------------------
+
+Rows represent documents.
+Columns represent words.
+Cells represent word counts.
+
+[Insert the complete matrix from Task 2 here.]
+
+Important example:
+
+D1:
+
+win  -> 2
+free -> 1
+now  -> 1
+
+Explanation:
+The word 'win' appears twice in D1, so its count is 2.
+
+----------------------------------------------------------------------
+WORD ORDER
+----------------------------------------------------------------------
+
+Text 1:
+"win free phone"
+
+Text 2:
+"phone free win"
+
+Explanation:
+Both texts receive the same Bag of Words representation.
+
+Why?
+BoW counts words but does not remember their original order.
+
+Conclusion:
+BoW is useful when word frequency matters more than word order.
+
+However, losing word order can be harmful when the task depends
+on sentence meaning or word relationships.
+
+
+======================================================================
+3) VOCABULARY AND WORD FREQUENCY — TASK 3
+======================================================================
+
+Total token occurrences:
+40
+
+Vocabulary size:
+26
+
+Explanation:
+Vocabulary means all unique words found in the documents.
+
+For example:
+
+The word 'win' appears more than once, but it is counted only
+once in the vocabulary.
+
+----------------------------------------------------------------------
+WORDS APPEARING IN MORE THAN ONE DOCUMENT
+----------------------------------------------------------------------
+
+Word       Document Frequency
+--------------------------------
+free       2
+win        2
+today      2
+lecture    2
+notes      2
+the        2
+
+Explanation:
+Document frequency means the number of documents containing
+a particular word.
+
+Conclusion:
+Total token occurrences count every word appearance.
+Vocabulary size counts unique words only once.
+
+
+======================================================================
+4) LOWERCASE AND STOPWORDS — TASK 4
+======================================================================
+
+Text:
+
+"Win a FREE phone now! Reply WIN to claim."
+
+----------------------------------------------------------------------
+DEFAULT COUNTVECTORIZER
+----------------------------------------------------------------------
+
+Explanation:
+The default CountVectorizer converts uppercase letters
+into lowercase.
+
+Example:
+
+'FREE' -> 'free'
+'WIN'  -> 'win'
+
+It also ignores punctuation.
+
+Important:
+The word 'a' is not included because the default token pattern
+ignores one-character words.
+
+The exclamation mark '!' is also ignored.
+
+----------------------------------------------------------------------
+LOWERCASE = FALSE
+----------------------------------------------------------------------
+
+Setting:
+
+CountVectorizer(lowercase=False)
+
+Explanation:
+This setting does not convert uppercase letters into lowercase.
+
+Example:
+
+'WIN' and 'win'
+
+are treated as different tokens.
+
+----------------------------------------------------------------------
+STOPWORD REMOVAL
+----------------------------------------------------------------------
+
+Setting:
+
+CountVectorizer(stop_words="english")
+
+Explanation:
+Stopwords are common words that can be removed from text.
+
+Examples:
+
+- the
+- is
+- a
+- to
+
+Important:
+The English stopword list also removes 'not'.
+
+Why is this a problem?
+
+'good'
+and
+'not good'
+
+have different meanings.
+
+Conclusion:
+Stopword removal can reduce unnecessary words, but important
+words such as 'not' should be preserved when they affect meaning.
+
+
+======================================================================
+5) VOCABULARY LIMITS — TASK 5
+======================================================================
+
+----------------------------------------------------------------------
+MIN_DF = 2
+----------------------------------------------------------------------
+
+Setting:
+
+CountVectorizer(min_df=2)
+
+Explanation:
+This setting keeps words that appear in at least two documents.
+
+Words appearing in only one document are removed.
+
+Why?
+It reduces the vocabulary by removing less frequent words.
+
+----------------------------------------------------------------------
+MAX_FEATURES = 5
+----------------------------------------------------------------------
+
+Setting:
+
+CountVectorizer(max_features=5)
+
+Explanation:
+This setting limits the vocabulary to a maximum of five features.
+
+Why?
+It reduces the number of features used by the model.
+
+Conclusion:
+Vocabulary limits can reduce memory use and model complexity.
+
+However, they may also remove useful words.
+
+
+======================================================================
+6) N-GRAMS — TASK 6
+======================================================================
+
+Explanation:
+An n-gram is a sequence of consecutive words.
+
+----------------------------------------------------------------------
+UNIGRAMS
+----------------------------------------------------------------------
+
+A unigram contains one word.
+
+Examples from D5:
+
+'lecture'
+'not'
+'good'
+'notes'
+'great'
+
+----------------------------------------------------------------------
+BIGRAMS
+----------------------------------------------------------------------
+
+A bigram contains two consecutive words.
+
+Examples:
+
+'not good'
+'good but'
+'but the'
+'the notes'
+
+----------------------------------------------------------------------
+TRIGRAMS
+----------------------------------------------------------------------
+
+A trigram contains three consecutive words.
+
+Examples:
+
+'not good but'
+'good but the'
+'but the notes'
+
+----------------------------------------------------------------------
+COMPARISON
+----------------------------------------------------------------------
+
+(1, 1) -> Unigrams only
+
+(1, 2) -> Unigrams and bigrams
+
+(1, 3) -> Unigrams, bigrams, and trigrams
+
+Important:
+The bigram 'not good' keeps the relationship between the words.
+
+Conclusion:
+N-grams help preserve some word-order information.
+
+However, larger n-gram ranges create more features and can
+increase memory use.
+
+
+======================================================================
+7) TF-IDF — TASK 7
+======================================================================
+
+TF-IDF means:
+
+Term Frequency - Inverse Document Frequency
+
+Explanation:
+TF-IDF gives importance to words based on:
+
+1. How often a word appears in a document.
+2. How common the word is across all documents.
+
+----------------------------------------------------------------------
+D2: COUNT AND TF-IDF COMPARISON
+----------------------------------------------------------------------
+
+[Insert the Task 7 output table here.]
+
+The table should contain:
+
+Word | Count | TF-IDF Weight
+
+Include every word in D2.
+
+----------------------------------------------------------------------
+EXPLANATION
+----------------------------------------------------------------------
+
+In D2, every word appears once.
+
+However, their TF-IDF weights are not equal.
+
+Why?
+
+Some words appear in fewer documents than others.
+
+For example:
+
+'cash' appears in only one document.
+
+'today' appears in two documents.
+
+Therefore, 'cash' receives a higher IDF value.
+
+----------------------------------------------------------------------
+WHY DOES 'WIN' GET A HIGHER WEIGHT IN D1?
+----------------------------------------------------------------------
+
+The word 'win' appears twice in D1.
+
+Its repeated occurrence increases its term frequency.
+
+This helps it receive a higher TF-IDF weight than the other
+individual terms in D1.
+
+Conclusion:
+TF-IDF gives more importance to words that are frequent in
+a document but less common across the document collection.
+
+
+======================================================================
+8) MANUAL TF-IDF CALCULATION — TASK 8
+======================================================================
+
+Textbook TF-IDF formula:
+
+TF-IDF = TF x IDF
+
+----------------------------------------------------------------------
+TERM FREQUENCY (TF)
+----------------------------------------------------------------------
+
+TF = Word count / Total words in document
+
+----------------------------------------------------------------------
+INVERSE DOCUMENT FREQUENCY (IDF)
+----------------------------------------------------------------------
+
+IDF = log(Total documents / Documents containing the word)
+
+----------------------------------------------------------------------
+CALCULATION FOR D2
+----------------------------------------------------------------------
+
+Total documents:
+
+N = 5
+
+Total tokens in D2:
+
+8
+
+----------------------------------------------------------------------
+WORD 1: CASH
+----------------------------------------------------------------------
+
+The word 'cash' appears once in D2.
+
+TF:
+
+TF = 1 / 8
+
+TF = 0.125
+
+Document frequency:
+
+df = 1
+
+IDF:
+
+IDF = log(5 / 1)
+
+IDF = 1.609
+
+TF-IDF:
+
+TF-IDF = 0.125 x 1.609
+
+TF-IDF = 0.201
+
+----------------------------------------------------------------------
+WORD 2: TODAY
+----------------------------------------------------------------------
+
+The word 'today' appears once in D2.
+
+TF:
+
+TF = 1 / 8
+
+TF = 0.125
+
+Document frequency:
+
+df = 2
+
+IDF:
+
+IDF = log(5 / 2)
+
+IDF = 0.916
+
+TF-IDF:
+
+TF-IDF = 0.125 x 0.916
+
+TF-IDF = 0.115
+
+----------------------------------------------------------------------
+COMPARISON
+----------------------------------------------------------------------
+
+Word       TF       IDF       TF-IDF
+---------------------------------------
+cash       0.125    1.609     0.201
+today      0.125    0.916     0.115
+
+Explanation:
+Both words have the same term frequency.
+
+However, 'cash' has a higher IDF because it appears in fewer
+documents.
+
+Therefore, 'cash' receives a higher manual TF-IDF score.
+
+Important:
+Scikit-learn uses smoothing and normalization by default.
+Its exact values may differ from these manual calculations.
+
+Conclusion:
+Rare words can receive higher TF-IDF weights when they are
+important in a particular document.
+
+
+======================================================================
+9) SPARSE MATRIX — TASK 9
+======================================================================
+
+Explanation:
+A sparse matrix is a matrix that contains many zero values.
+
+Document-term matrix:
+
+5 documents x 26 vocabulary features
+
+Total cells:
+
+5 x 26 = 130
+
+----------------------------------------------------------------------
+MATRIX STATISTICS
+----------------------------------------------------------------------
+
+Total cells:
+130
+
+Non-zero cells:
+[Insert the value from your Python output.]
+
+Zero cells:
+[Insert the value from your Python output.]
+
+Percentage of zeros:
+[Insert the value from your Python output.]
+
+Explanation:
+Most documents contain only a small number of words from
+the complete vocabulary.
+
+Therefore, many matrix cells contain zero.
+
+Why?
+Sparse matrix storage saves memory by storing non-zero values
+efficiently.
+
+Conclusion:
+Sparse matrices are useful when working with large text datasets.
+
+
+======================================================================
+10) OUT-OF-VOCABULARY WORDS — TASK 10
+======================================================================
+
+Explanation:
+An out-of-vocabulary (OOV) word is a word that was not included
+in the vocabulary during training.
+
+Training documents:
+
+D1, D2, D3, D4
+
+----------------------------------------------------------------------
+NEW TEXT 1
+----------------------------------------------------------------------
+
+"Claim your free prize now"
+
+Known words:
+
+claim
+free
+now
+
+OOV words:
+
+your
+prize
+
+----------------------------------------------------------------------
+NEW TEXT 2
+----------------------------------------------------------------------
+
+"Is the lunch meeting moved to tomorrow?"
+
+Known words:
+
+the
+lunch
+meeting
+to
+
+OOV words:
+
+is
+moved
+tomorrow
+
+Explanation:
+The vectorizer learns its vocabulary from the training documents.
+
+When new text contains an unknown word, the vectorizer cannot
+create a feature for that word.
+
+Example:
+
+'prize' and 'prizes' are treated as different words.
+
+Possible solution:
+Stemming or lemmatization can help connect related word forms.
+
+Conclusion:
+The vectorizer should be fitted on training data and then used
+to transform new text.
+
+
+======================================================================
+11) DATA LEAKAGE — TASK 11
+======================================================================
+
+Explanation:
+Data leakage happens when information from test data is used
+during model training.
+
+----------------------------------------------------------------------
+CORRECT APPROACH
+----------------------------------------------------------------------
+
+Fit the vectorizer using:
+
+D1, D2, D3, D4
+
+Then transform:
+
+N1, N2
+
+----------------------------------------------------------------------
+INCORRECT APPROACH
+----------------------------------------------------------------------
+
+Fit the vectorizer using:
+
+D1, D2, D3, D4, N1, N2
+
+This adds words from the test data to the training vocabulary.
+
+Examples of additional words:
+
+your
+prize
+is
+moved
+tomorrow
+
+Why is this a problem?
+
+The training process should not use information from test data.
+
+Conclusion:
+Always fit the vectorizer on training data only.
+
+Use transform() to process test data.
+
+
+======================================================================
+12) COSINE SIMILARITY — TASK 12
+======================================================================
+
+Reviews:
+
+R1: "the food was tasty"
+
+R2: "the food was delicious"
+
+R3: "the food was terrible"
+
+Explanation:
+Cosine similarity measures how similar two numerical vectors
+are by comparing their direction.
+
+----------------------------------------------------------------------
+SIMILARITY RESULTS
+----------------------------------------------------------------------
+
+Review Pair       Cosine Similarity
+------------------------------------
+R1 and R2         0.75
+R1 and R3         0.75
+R2 and R3         0.75
+
+Explanation:
+All three reviews share the words:
+
+the
+food
+was
+
+Each review also contains one different word.
+
+Why are the similarity scores equal?
+
+Bag of Words only counts shared words.
+
+It does not understand that 'tasty' and 'delicious' have similar
+meanings.
+
+It also does not understand that 'terrible' has a negative meaning.
+
+Conclusion:
+Bag of Words does not fully capture semantic similarity.
+
+
+======================================================================
+13) VECTORIZER SETTINGS FOR A SPAM DETECTOR
+======================================================================
+
+For a spam detector, I would compare CountVectorizer and
+TfidfVectorizer before choosing one.
+
+CountVectorizer preserves repeated word counts.
+
+For example:
+
+'win' appears twice in D1.
+
+This repetition may provide a useful spam signal.
+
+TF-IDF gives more importance to words that are less common
+across the documents.
+
+For example:
+
+'cash' appears in only one document and receives a higher
+IDF value than 'today'.
+
+I would test unigrams and bigrams because phrases such as
+'free entry' and 'win cash' may help identify spam messages.
+
+I would avoid removing important words such as 'not' without
+testing the effect.
+
+I would also avoid removing numbers, currency symbols, phone
+numbers, and repeated punctuation without considering their
+possible value for spam detection.
+
+Vocabulary limits such as min_df and max_features should be
+tested carefully because they may remove useful spam-related
+words.
+
+Conclusion:
+The best vectorizer settings should be selected by comparing
+model performance on separate validation data.
+
+
+======================================================================
+FINAL SUMMARY
+======================================================================
+
+Text vectorization converts text into numerical features that
+Machine Learning models can process.
+
+The main techniques covered in this practical are:
+
+1. One-Hot Encoding
+   -> Represents words using zeros and ones.
+
+2. Bag of Words
+   -> Counts word occurrences in documents.
+
+3. Vocabulary
+   -> Contains unique words from the documents.
+
+4. Stopword Removal
+   -> Removes selected common words.
+
+5. Vocabulary Limits
+   -> Controls the number of features.
+
+6. N-Grams
+   -> Represents sequences of consecutive words.
+
+7. TF-IDF
+   -> Gives importance to words based on frequency.
+
+8. Manual TF-IDF
+   -> Calculates TF-IDF using mathematical formulas.
+
+9. Sparse Matrix
+   -> Stores text features efficiently.
+
+10. OOV Words
+    -> Identifies words missing from the training vocabulary.
+
+11. Data Leakage
+    -> Prevents test information from entering training.
+
+12. Cosine Similarity
+    -> Measures similarity between numerical vectors.
