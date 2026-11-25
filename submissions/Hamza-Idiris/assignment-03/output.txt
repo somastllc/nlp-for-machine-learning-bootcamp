@@ -1,0 +1,159 @@
+
+==============================================================================
+TASK 1: Custom one-hot encoding
+==============================================================================
+Vocabulary order: ['cash', 'class', 'free', 'lunch', 'notes', 'win']
+Vector for 'free': [0, 0, 1, 0, 0, 0]
+Vector for 'cash': [1, 0, 0, 0, 0, 0]
+Vector for 'win': [0, 0, 0, 0, 0, 1]
+Sentence 'free cash': [[0, 0, 1, 0, 0, 0], [1, 0, 0, 0, 0, 0]]
+Sentence 'win free cash': [[0, 0, 0, 0, 0, 1], [0, 0, 1, 0, 0, 0], [1, 0, 0, 0, 0, 0]]
+Each word has one vector; a sentence has one vector per token.
+
+==============================================================================
+TASK 2: CountVectorizer and document-term matrix
+==============================================================================
+Columns: ['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+Rows:
+D1: [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 2]
+D2: [0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+D3: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0]
+D4: [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0]
+D5: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 0, 1, 0]
+D1 terms with count greater than 1: [('win', 2)]
+Columns: ['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+Rows:
+Q1: win free phone: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+Q2: phone free win: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+The two query rows are identical because bag-of-words ignores word order.
+
+==============================================================================
+TASK 3: Token count, vocabulary size, and document frequency
+==============================================================================
+Total word occurrences (including one-character words): 42
+CountVectorizer vocabulary size: 32
+Words appearing in more than one document: ['free', 'lecture', 'notes', 'now', 'the', 'today', 'win']
+Document frequencies: {'a': 1, 'are': 1, 'before': 1, 'but': 1, 'call': 1, 'cash': 1, 'claim': 1, 'class': 1, 'entry': 1, 'for': 1, 'free': 2, 'good': 1, 'great': 1, 'lecture': 2, 'lunch': 1, 'me': 1, 'meeting': 1, 'not': 1, 'notes': 2, 'now': 2, 'phone': 1, 'please': 1, 'prizes': 1, 'reply': 1, 'send': 1, 'still': 1, 'the': 2, 'to': 1, 'today': 2, 'was': 1, 'we': 1, 'were': 1, 'win': 2}
+
+==============================================================================
+TASK 4: Lowercasing, punctuation, and stop words
+==============================================================================
+Default D1 vocabulary: ['claim', 'free', 'now', 'phone', 'reply', 'to', 'win']
+D1 vocabulary with lowercase=False: ['FREE', 'Reply', 'WIN', 'Win', 'claim', 'now', 'phone', 'to']
+D1 vocabulary with English stop words: ['claim', 'free', 'phone', 'reply', 'win']
+'not' in stop-word-filtered vocabulary: False
+D5 tokens after English stop-word filtering: ['lecture', 'good', 'notes', 'great']
+
+==============================================================================
+TASK 5: Vocabulary limits: min_df and max_features
+==============================================================================
+Full vocabulary size: 32
+Limited vocabulary size: 5
+Limited vocabulary: ['free', 'lecture', 'now', 'the', 'win']
+
+==============================================================================
+TASK 6: Unigrams, bigrams, and trigrams
+==============================================================================
+D5 vocabulary for ngram_range=(1, 1):
+['but', 'good', 'great', 'lecture', 'not', 'notes', 'the', 'was', 'were']
+D5 vocabulary for ngram_range=(1, 2):
+['but', 'but the', 'good', 'good but', 'great', 'lecture', 'lecture was', 'not', 'not good', 'notes', 'notes were', 'the', 'the lecture', 'the notes', 'was', 'was not', 'were', 'were great']
+D5 bigram 'not good' is a useful opinion phrase.
+Vocabulary size for ngram_range=(1, 1): 32
+Vocabulary size for ngram_range=(1, 2): 67
+Vocabulary size for ngram_range=(1, 3): 98
+
+==============================================================================
+TASK 7: TF-IDF with scikit-learn
+==============================================================================
+TF-IDF feature order: ['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+TF-IDF matrix (rounded to 2 decimals):
+[[0.   0.   0.   0.   0.   0.36 0.   0.   0.   0.29 0.   0.   0.   0.
+  0.   0.   0.   0.   0.29 0.36 0.   0.   0.36 0.   0.   0.   0.36 0.
+  0.   0.   0.   0.57]
+ [0.   0.   0.   0.39 0.39 0.   0.   0.39 0.   0.31 0.   0.   0.   0.
+  0.   0.   0.   0.   0.31 0.   0.   0.39 0.   0.   0.   0.   0.   0.31
+  0.   0.   0.   0.31]
+ [0.39 0.   0.   0.   0.   0.   0.   0.   0.39 0.   0.   0.   0.   0.39
+  0.   0.39 0.   0.   0.   0.   0.   0.   0.   0.   0.39 0.   0.   0.31
+  0.   0.39 0.   0.  ]
+ [0.   0.38 0.   0.   0.   0.   0.38 0.   0.   0.   0.   0.   0.31 0.
+  0.38 0.   0.   0.31 0.   0.   0.38 0.   0.   0.38 0.   0.31 0.   0.
+  0.   0.   0.   0.  ]
+ [0.   0.   0.32 0.   0.   0.   0.   0.   0.   0.   0.32 0.32 0.26 0.
+  0.   0.   0.32 0.26 0.   0.   0.   0.   0.   0.   0.   0.51 0.   0.
+  0.32 0.   0.32 0.  ]]
+D1 and D2: count and TF-IDF weight for each term in the document
+D1:
+  claim: count=1, tfidf=0.3557
+  free: count=1, tfidf=0.2869
+  now: count=1, tfidf=0.2869
+  phone: count=1, tfidf=0.3557
+  reply: count=1, tfidf=0.3557
+  to: count=1, tfidf=0.3557
+  win: count=2, tfidf=0.5739
+D2:
+  call: count=1, tfidf=0.3891
+  cash: count=1, tfidf=0.3891
+  entry: count=1, tfidf=0.3891
+  free: count=1, tfidf=0.3140
+  now: count=1, tfidf=0.3140
+  prizes: count=1, tfidf=0.3891
+  today: count=1, tfidf=0.3140
+  win: count=1, tfidf=0.3140
+
+==============================================================================
+TASK 8: Manual TF-IDF calculation for cash and today in D2
+==============================================================================
+cash: TF=1, N=5, df=1, IDF=ln(5/1)=1.609438, TF-IDF=1.609438
+today: TF=1, N=5, df=2, IDF=ln(5/2)=0.916291, TF-IDF=0.916291
+Manual values use unsmoothed IDF and raw count TF; scikit-learn smooths IDF and L2-normalizes by default.
+
+==============================================================================
+TASK 9: Sparse matrix statistics
+==============================================================================
+DTM shape: (5, 32)
+Total cells: 160
+Non-zero cells: 39
+Zero cells: 121
+Percentage zeros: 75.62%
+
+==============================================================================
+TASK 10: Out-of-vocabulary test words
+==============================================================================
+Columns: ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+Rows:
+N1: [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+N2: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0]
+N1 OOV words: ['prize', 'your']
+N2 OOV words: ['is', 'moved', 'tomorrow']
+Porter stems: prize -> prize ; prizes -> prize
+
+==============================================================================
+TASK 11: Vocabulary leakage demonstration
+==============================================================================
+Train-only vocabulary: ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+Vocabulary after incorrectly fitting on train + test: ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'is', 'lecture', 'lunch', 'me', 'meeting', 'moved', 'notes', 'now', 'phone', 'please', 'prize', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'tomorrow', 'we', 'win', 'your']
+Words introduced from test data: ['is', 'moved', 'prize', 'tomorrow', 'your']
+Correct practice: fit preprocessing/vectorization on training data only, then transform test data.
+
+==============================================================================
+TASK 12: Cosine similarity of short reviews
+==============================================================================
+Review vocabulary: ['delicious', 'food', 'tasty', 'terrible', 'the', 'was']
+Columns: ['delicious', 'food', 'tasty', 'terrible', 'the', 'was']
+Rows:
+R1: [0, 1, 1, 0, 1, 1]
+R2: [1, 1, 0, 0, 1, 1]
+R3: [0, 1, 0, 1, 1, 1]
+Cosine similarity matrix (rounded to 3 decimals):
+[[1.   0.75 0.75]
+ [0.75 1.   0.75]
+ [0.75 0.75 1.  ]]
+Similarity R1 tasty vs R2 delicious: 0.750
+Similarity R1 tasty vs R3 terrible: 0.750
+Count-based vectors do not understand that tasty and delicious are synonyms.
+
+==============================================================================
+END OF ASSIGNMENT 3 PRACTICAL
+==============================================================================
