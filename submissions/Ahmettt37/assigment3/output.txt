@@ -1,0 +1,184 @@
+ One hot encoding================
+vocabulary:  ['cash', 'class', 'free', 'lunch', 'notes', 'win']
+free -> [0, 0, 1, 0, 0, 0]
+cash -> [1, 0, 0, 0, 0, 0]
+win -> [0, 0, 0, 0, 0, 1]
+free -> [0, 0, 1, 0, 0, 0]
+cash -> [1, 0, 0, 0, 0, 0]
+
+==========  BAG OF WORDS ==========
+
+Vocabulary:
+['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+
+Shape (rows, columns):
+(5, 32)
+
+Document-Term Matrix:
+[[0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 1 0 0 0 1 0 0 0 0 2]
+ [0 0 0 1 1 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 1 0 0 0 1]
+ [1 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 1 0 0]
+ [0 1 0 0 0 0 1 0 0 0 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 0 0 0]
+ [0 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0 0 0 0 0 0 0 2 0 0 1 0 1 0]]
+
+D1 values equal to 2:
+Word: win
+Count: 2
+
+Transform new texts:
+win free phone:
+[0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]
+
+phone free win:
+[0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]
+
+Are both vectors the same?
+True
+
+==========  tokens and vacabulary_size ==========
+Total tokens: 41
+Vocabulary size: 32
+
+Words appearing in more than one document:
+free
+lecture
+notes
+now
+the
+today
+win
+
+==========  processing ==========
+Default vocabulary:
+['claim', 'free', 'now', 'phone', 'reply', 'to', 'win']
+
+Lowercase=False vocabulary:
+['FREE', 'Reply', 'WIN', 'Win', 'claim', 'now', 'phone', 'to']
+
+English stop words vocabulary:
+['claim', 'free', 'phone', 'reply', 'win']
+
+D1-D5 vocabulary with English stop words:
+['cash', 'claim', 'class', 'entry', 'free', 'good', 'great', 'lecture', 'lunch', 'meeting', 'notes', 'phone', 'prizes', 'reply', 'send', 'today', 'win']
+
+Is 'not' in vocabulary?
+False
+
+==========  Full vocabulary size  ==========
+
+Full vocabulary:
+['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+Full vocabulary size: 32
+
+Vocabulary with min_df=2:
+['free', 'lecture', 'notes', 'now', 'the', 'today', 'win']
+Vocabulary size: 7
+
+Vocabulary with max_features=5:
+['free', 'lecture', 'now', 'the', 'win']
+Vocabulary size: 5
+
+==========  unigram and bigram  ==========
+Unigram vocabulary:
+['but', 'good', 'great', 'lecture', 'not', 'notes', 'the', 'was', 'were']
+
+Unigram + Bigram vocabulary:
+['but', 'but the', 'good', 'good but', 'great', 'lecture', 'lecture was', 'not', 'not good', 'notes', 'notes were', 'the', 'the lecture', 'the notes', 'was', 'was not', 'were', 'were great']
+
+==========  TfidfVectorizer  ==========
+
+TF-IDF Matrix:
+[[0.   0.   0.   0.   0.   0.36 0.   0.   0.   0.29 0.   0.   0.   0.   0.   0.   0.   0.   0.29 0.36 0.   0.   0.36 0.   0.   0.   0.36 0.   0.   0.   0.   0.57]
+ [0.   0.   0.   0.39 0.39 0.   0.   0.39 0.   0.31 0.   0.   0.   0.   0.   0.   0.   0.   0.31 0.   0.   0.39 0.   0.   0.   0.   0.   0.31 0.   0.   0.   0.31]
+ [0.39 0.   0.   0.   0.   0.   0.   0.   0.39 0.   0.   0.   0.   0.39 0.   0.39 0.   0.   0.   0.   0.   0.   0.   0.   0.39 0.   0.   0.31 0.   0.39 0.   0.  ]
+ [0.   0.38 0.   0.   0.   0.   0.38 0.   0.   0.   0.   0.   0.31 0.   0.38 0.   0.   0.31 0.   0.   0.38 0.   0.   0.38 0.   0.31 0.   0.   0.   0.   0.   0.  ]
+ [0.   0.   0.32 0.   0.   0.   0.   0.   0.   0.   0.32 0.32 0.26 0.   0.   0.   0.32 0.26 0.   0.   0.   0.   0.   0.   0.   0.51 0.   0.   0.32 0.   0.32 0.  ]]
+
+Document D1
+Word: claim | Count: 1 | TF-IDF: 0.36
+Word: free | Count: 1 | TF-IDF: 0.29
+Word: now | Count: 1 | TF-IDF: 0.29
+Word: phone | Count: 1 | TF-IDF: 0.36
+Word: reply | Count: 1 | TF-IDF: 0.36
+Word: to | Count: 1 | TF-IDF: 0.36
+Word: win | Count: 2 | TF-IDF: 0.57
+
+Document D2
+Word: call | Count: 1 | TF-IDF: 0.39
+Word: cash | Count: 1 | TF-IDF: 0.39
+Word: entry | Count: 1 | TF-IDF: 0.39
+Word: free | Count: 1 | TF-IDF: 0.31
+Word: now | Count: 1 | TF-IDF: 0.31
+Word: prizes | Count: 1 | TF-IDF: 0.39
+Word: today | Count: 1 | TF-IDF: 0.31
+Word: win | Count: 1 | TF-IDF: 0.31
+
+==========  TfidfVectorizer  ==========
+Total documents: 5
+Total words in D2: 8
+
+Word: cash
+Count: 1
+Total words: 8
+TF: 0.125
+N: 5
+DF: 1
+IDF: 1.6094379124341003
+TF-IDF: 0.20117973905426254
+Scikit-learn TF-IDF: 0.38914146140230915
+
+===== SPARSE MATRIX =====
+
+Word: today
+Count: 1
+Total words: 8
+TF: 0.125
+N: 5
+DF: 2
+IDF: 0.9162907318741551
+TF-IDF: 0.11453634148426939
+Scikit-learn TF-IDF: 0.31395688082549666
+
+===== SPARSE MATRIX =====
+Total cells: 160
+Non-zero cells: 39
+Zero cells: 121
+Percentage of zeros: 75.62 %
+
+===== FIT AND TRANSFORM =====
+
+Training Vocabulary:
+['are' 'before' 'call' 'cash' 'claim' 'class' 'entry' 'for' 'free' 'lecture' 'lunch' 'me' 'meeting' 'notes' 'now' 'phone' 'please' 'prizes' 'reply' 'send' 'still' 'the' 'to' 'today' 'we' 'win']
+
+N1 Vector:
+[0 0 0 0 1 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0]
+
+N2 Vector:
+[0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0]
+
+===== PART 3: DATA LEAKAGE =====
+
+Training Vocabulary (D1-D4):
+['are' 'before' 'call' 'cash' 'claim' 'class' 'entry' 'for' 'free' 'lecture' 'lunch' 'me' 'meeting' 'notes' 'now' 'phone' 'please' 'prizes' 'reply' 'send' 'still' 'the' 'to' 'today' 'we' 'win']
+
+Training + Test Vocabulary (D1-D4 + N1 + N2):
+['are' 'before' 'call' 'cash' 'claim' 'class' 'entry' 'for' 'free' 'is' 'lecture' 'lunch' 'me' 'meeting' 'moved' 'notes' 'now' 'phone' 'please' 'prize' 'prizes' 'reply' 'send' 'still' 'the' 'to'
+ 'today' 'tomorrow' 'we' 'win' 'your']
+
+Leaked Words:
+['is', 'moved', 'prize', 'tomorrow', 'your']
+
+=====  NO MEANING =====
+
+Vocabulary:
+['delicious' 'food' 'tasty' 'terrible' 'the' 'was']
+
+Review Vectors:
+[[0 1 1 0 1 1]
+ [1 1 0 0 1 1]
+ [0 1 0 1 1 1]]
+
+Cosine Similarity Matrix:
+[[1.   0.75 0.75]
+ [0.75 1.   0.75]
+ [0.75 0.75 1.  ]]
