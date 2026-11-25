@@ -1,0 +1,315 @@
+
+==============================================================================
+Task 1: One-hot encoding (own encoder, plain Python)
+==============================================================================
+Vocabulary: ['cash', 'class', 'free', 'lunch', 'notes', 'win']
+
+One-hot vectors for the sentence 'free cash':
+  free   -> [0, 0, 1, 0, 0, 0]
+  cash   -> [1, 0, 0, 0, 0, 0]
+
+One-hot vectors for the sentence 'win free cash':
+  win    -> [0, 0, 0, 0, 0, 1]
+  free   -> [0, 0, 1, 0, 0, 0]
+  cash   -> [1, 0, 0, 0, 0, 0]
+
+Number of vectors for 'free cash'     : 2
+Number of vectors for 'win free cash' : 3
+Answer: each word gets its own vector, so the number of vectors equals
+the number of words. The result is a (words x 6) table whose height
+changes with sentence length, so it is not a fixed-size description of
+the document. Words outside the vocabulary would become all-zero vectors.
+
+==============================================================================
+Task 2: Bag of Words (CountVectorizer fitted on D1-D5)
+==============================================================================
+Vocabulary (term -> column index):
+   {'are': 0, 'before': 1, 'but': 2, 'call': 3, 'cash': 4, 'claim': 5, 'class': 6, 'entry': 7, 'for': 8, 'free': 9, 'good': 10, 'great': 11, 'lecture': 12, 'lunch': 13, 'me': 14, 'meeting': 15, 'not': 16, 'notes': 17, 'now': 18, 'phone': 19, 'please': 20, 'prizes': 21, 'reply': 22, 'send': 23, 'still': 24, 'the': 25, 'to': 26, 'today': 27, 'was': 28, 'we': 29, 'were': 30, 'win': 31}
+
+Shape of the document-term matrix (documents, terms): (5, 32)
+
+Document-term matrix (counts):
+          are   before      but     call     cash    claim    class    entry      for     free     good    great  lecture    lunch       me  meeting      not    notes      now    phone   please   prizes    reply     send    still      the       to    today      was       we     were      win
+D1          0        0        0        0        0        1        0        0        0        1        0        0        0        0        0        0        0        0        1        1        0        0        1        0        0        0        1        0        0        0        0        2
+D2          0        0        0        1        1        0        0        1        0        1        0        0        0        0        0        0        0        0        1        0        0        1        0        0        0        0        0        1        0        0        0        1
+D3          1        0        0        0        0        0        0        0        1        0        0        0        0        1        0        1        0        0        0        0        0        0        0        0        1        0        0        1        0        1        0        0
+D4          0        1        0        0        0        0        1        0        0        0        0        0        1        0        1        0        0        1        0        0        1        0        0        1        0        1        0        0        0        0        0        0
+D5          0        0        1        0        0        0        0        0        0        0        1        1        1        0        0        0        1        1        0        0        0        0        0        0        0        2        0        0        1        0        1        0
+
+Cell with value 2 in D1: column 'win'
+Answer: D1 contains 'WIN' and 'Win'. CountVectorizer lowercases by
+default, so both become 'win' and the count for that word is 2.
+
+Columns: ['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+'win free phone' -> [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+'phone free win' -> [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+Are the two vectors the same? True
+Answer: yes. Bag of Words only records which words occur and how often,
+so word order is lost.
+
+==============================================================================
+Task 3: Tokens vs vocabulary size
+==============================================================================
+D1:  8 tokens -> ['win', 'free', 'phone', 'now', 'reply', 'win', 'to', 'claim']
+D2:  8 tokens -> ['free', 'entry', 'win', 'cash', 'prizes', 'today', 'call', 'now']
+D3:  7 tokens -> ['are', 'we', 'still', 'meeting', 'for', 'lunch', 'today']
+D4:  8 tokens -> ['please', 'send', 'me', 'the', 'lecture', 'notes', 'before', 'class']
+D5: 10 tokens -> ['the', 'lecture', 'was', 'not', 'good', 'but', 'the', 'notes', 'were', 'great']
+
+Total tokens (word occurrences) in D1-D5: 41
+Vocabulary size (distinct words)        : 32
+
+Words that appear in more than one document:
+  free     df=2  in ['D1', 'D2']
+  lecture  df=2  in ['D4', 'D5']
+  notes    df=2  in ['D4', 'D5']
+  now      df=2  in ['D1', 'D2']
+  the      df=2  in ['D4', 'D5']
+  today    df=2  in ['D2', 'D3']
+  win      df=2  in ['D1', 'D2']
+
+==============================================================================
+Task 4: Preprocessing inside the vectorizer (fitted on D1 only)
+==============================================================================
+D1: Win a FREE phone now! Reply WIN to claim. 
+
+Default (size 7):
+   ['claim', 'free', 'now', 'phone', 'reply', 'to', 'win']
+lowercase=False (size 8):
+   ['FREE', 'Reply', 'WIN', 'Win', 'claim', 'now', 'phone', 'to']
+stop_words='english' (size 5):
+   ['claim', 'free', 'phone', 'reply', 'win']
+
+Words removed by the stopword list: ['now', 'to']
+
+What happened to 'a'?  In default vocabulary: False -> the default token pattern keeps only tokens with 2+ characters.
+What happened to '!'?  In default vocabulary: False -> punctuation is not part of the token pattern, so it is dropped.
+Forms of 'win' with lowercase=False: ['Win', 'WIN'] -> 'WIN' and 'Win' are counted as different words.
+Forms of 'win' with default       : ['win'] -> merged into one.
+
+stop_words='english' fitted on D1-D5:
+Vocabulary (size 17):
+   ['cash', 'claim', 'class', 'entry', 'free', 'good', 'great', 'lecture', 'lunch', 'meeting', 'notes', 'phone', 'prizes', 'reply', 'send', 'today', 'win']
+Is 'not' in the vocabulary? False
+Is 'not' in sklearn's stopword list? True
+D5 as seen by this vectorizer: ['lecture', 'good', 'notes', 'great']
+Answer: 'not' was removed, so D5 ('the lecture was not good, but the notes were
+great') keeps 'good' without its negation. A classifier can no longer tell it
+apart from a review that says the lecture was good.
+
+==============================================================================
+Task 5: Limiting the vocabulary (fitted on D1-D5)
+==============================================================================
+Full vocabulary size: 32
+min_df=2 (size 7):
+   ['free', 'lecture', 'notes', 'now', 'the', 'today', 'win']
+max_features=5 (size 5):
+   ['free', 'lecture', 'now', 'the', 'win']
+
+Sizes: full=32, min_df=2 -> 7, max_features=5 -> 5
+
+Total count of each word in the corpus (what max_features ranks by):
+  the      3
+  win      3
+  free     2
+  lecture  2
+  notes    2
+  now      2
+  today    2
+  are      1
+  before   1
+  but      1
+  call     1
+  cash     1
+  claim    1
+  class    1
+  entry    1
+  for      1
+  good     1
+  great    1
+  lunch    1
+  me       1
+  meeting  1
+  not      1
+  phone    1
+  please   1
+  prizes   1
+  reply    1
+  send     1
+  still    1
+  to       1
+  was      1
+  we       1
+  were     1
+Answer: the survivors are the words used in several documents / most often
+(e.g. now, today, win, free, lecture, notes). Rare words that appear once, such as
+'phone' or 'prizes', are dropped, along with possible typos and one-off names.
+
+==============================================================================
+Task 6: N-grams
+==============================================================================
+D5: The lecture was not good, but the notes were great. 
+
+ngram_range=(1, 1) on D5 (size 9):
+   ['but', 'good', 'great', 'lecture', 'not', 'notes', 'the', 'was', 'were']
+
+ngram_range=(1, 2) on D5 (size 18):
+   ['but', 'but the', 'good', 'good but', 'great', 'lecture', 'lecture was', 'not', 'not good', 'notes', 'notes were', 'the', 'the lecture', 'the notes', 'was', 'was not', 'were', 'were great']
+
+Bigrams that contain 'not': ['was not', 'not good']
+Answer: 'not good' keeps the reviewer's opinion (negative about the lecture). With
+unigrams only, 'good' appears as a separate feature and the negation is lost.
+
+Vocabulary size on D1-D5 for different n-gram ranges:
+  ngram_range=(1, 1): 32 features
+  ngram_range=(1, 2): 67 features
+  ngram_range=(1, 3): 98 features
+Growth: (1,2) is 2.09x the unigram vocabulary; (1,3) is 3.06x.
+New features added: +35 for bigrams, +31 for trigrams.
+Bigrams/trigrams that appear in only one document: 65 of 66
+Answer: every extra n adds roughly as many new features as there are tokens, and
+almost all of them occur in a single document, so the matrix gets wider and
+sparser with little shared information.
+
+==============================================================================
+Task 7: TF-IDF (TfidfVectorizer fitted on D1-D5)
+==============================================================================
+Shape: (5, 32)
+
+TF-IDF matrix (rounded to 2 decimals):
+          are   before      but     call     cash    claim    class    entry      for     free     good    great  lecture    lunch       me  meeting      not    notes      now    phone   please   prizes    reply     send    still      the       to    today      was       we     were      win
+D1        0.0      0.0      0.0      0.0      0.0     0.36      0.0      0.0      0.0     0.29      0.0      0.0      0.0      0.0      0.0      0.0      0.0      0.0     0.29     0.36      0.0      0.0     0.36      0.0      0.0      0.0     0.36      0.0      0.0      0.0      0.0     0.57
+D2        0.0      0.0      0.0     0.39     0.39      0.0      0.0     0.39      0.0     0.31      0.0      0.0      0.0      0.0      0.0      0.0      0.0      0.0     0.31      0.0      0.0     0.39      0.0      0.0      0.0      0.0      0.0     0.31      0.0      0.0      0.0     0.31
+D3       0.39      0.0      0.0      0.0      0.0      0.0      0.0      0.0     0.39      0.0      0.0      0.0      0.0     0.39      0.0     0.39      0.0      0.0      0.0      0.0      0.0      0.0      0.0      0.0     0.39      0.0      0.0     0.31      0.0     0.39      0.0      0.0
+D4        0.0     0.38      0.0      0.0      0.0      0.0     0.38      0.0      0.0      0.0      0.0      0.0     0.31      0.0     0.38      0.0      0.0     0.31      0.0      0.0     0.38      0.0      0.0     0.38      0.0     0.31      0.0      0.0      0.0      0.0      0.0      0.0
+D5        0.0      0.0     0.32      0.0      0.0      0.0      0.0      0.0      0.0      0.0     0.32     0.32     0.26      0.0      0.0      0.0     0.32     0.26      0.0      0.0      0.0      0.0      0.0      0.0      0.0     0.51      0.0      0.0     0.32      0.0     0.32      0.0
+
+D1: Win a FREE phone now! Reply WIN to claim.
+  word       count   df     idf   tf-idf
+  claim          1    1   2.099    0.356
+  free           1    2   1.693    0.287
+  now            1    2   1.693    0.287
+  phone          1    1   2.099    0.356
+  reply          1    1   2.099    0.356
+  to             1    1   2.099    0.356
+  win            2    2   1.693    0.574
+
+D2: Free entry: win cash prizes today. Call now.
+  word       count   df     idf   tf-idf
+  call           1    1   2.099    0.389
+  cash           1    1   2.099    0.389
+  entry          1    1   2.099    0.389
+  free           1    2   1.693    0.314
+  now            1    2   1.693    0.314
+  prizes         1    1   2.099    0.389
+  today          1    2   1.693    0.314
+  win            1    2   1.693    0.314
+
+Highest TF-IDF weight in D1: 'win'
+Answer (D2): every word has count 1, so the differences come only from IDF:
+words found in fewer documents (e.g. cash, entry, prizes, call: df=1) get a
+higher IDF than words found in 2 documents (today, now, free, win: df=2).
+Answer (D1): 'win' appears twice in D1 (tf=2) and also has df=2, a moderate IDF;
+the doubled term frequency pushes its weight above the words with count 1.
+(The rows are L2-normalised, so each row has Euclidean length 1.)
+
+==============================================================================
+Task 8: TF-IDF by hand for D2 (textbook formula)
+==============================================================================
+D2 tokens (as the vectorizer sees them): ['free', 'entry', 'win', 'cash', 'prizes', 'today', 'call', 'now']
+Total tokens in D2: 8
+Number of documents N: 5
+
+Word 'cash':
+  count in D2         = 1
+  TF = count / total  = 1/8 = 0.1250
+  df                  = 1
+  IDF = ln(N/df)      = ln(5/1) = 1.6094
+  TF-IDF = TF x IDF   = 0.2012
+
+Word 'today':
+  count in D2         = 1
+  TF = count / total  = 1/8 = 0.1250
+  df                  = 2
+  IDF = ln(N/df)      = ln(5/2) = 0.9163
+  TF-IDF = TF x IDF   = 0.1145
+
+scikit-learn weights in D2: cash = 0.3891, today = 0.3140
+Textbook ranking     : cash > today
+scikit-learn ranking : cash > today
+Same ranking? True
+Note: the numbers differ because scikit-learn uses smoothed IDF ln((1+N)/(1+df)) + 1 and L2 normalisation, but the ordering agrees.
+
+==============================================================================
+Task 9: Sparsity of the count matrix from Task 2
+==============================================================================
+Matrix type          : csr_matrix
+Total cells          : 160
+Non-zero cells       : 39
+Zero cells           : 121
+Percentage of zeros  : 75.62%
+A sparse format stores only the non-zero cells (plus their positions).
+
+==============================================================================
+Task 10: fit on training text, transform new text (OOV words)
+==============================================================================
+Vocabulary learned from D1-D4 (size 26):
+   ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+
+Vectors for the new texts:
+          are   before     call     cash    claim    class    entry      for     free  lecture    lunch       me  meeting    notes      now    phone   please   prizes    reply     send    still      the       to    today       we      win
+N1          0        0        0        0        1        0        0        0        1        0        0        0        0        0        1        0        0        0        0        0        0        0        0        0        0        0
+N2          0        0        0        0        0        0        0        0        0        0        1        0        1        0        0        0        0        0        0        0        0        1        1        0        0        0
+
+N1: Claim your free prize now
+  tokens: ['claim', 'your', 'free', 'prize', 'now']
+  out-of-vocabulary words: ['your', 'prize']
+
+N2: Is the lunch meeting moved to tomorrow?
+  tokens: ['is', 'the', 'lunch', 'meeting', 'moved', 'to', 'tomorrow']
+  out-of-vocabulary words: ['is', 'moved', 'tomorrow']
+
+'prizes' in D2? True | 'prize' in vocabulary? False
+Answer: the vectorizer matches exact strings. 'prize' and 'prizes' are different
+tokens, so 'prize' has no column. Stemming or lemmatization (Assignment 2)
+would reduce both to the same form (e.g. 'prize') and fix this.
+
+==============================================================================
+Task 11: Data leakage (vocabulary)
+==============================================================================
+Fitted on D1-D4 only (correct) (size 26):
+   ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+
+Fitted on D1-D4 + N1 + N2 (leaky) (size 31):
+   ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'is', 'lecture', 'lunch', 'me', 'meeting', 'moved', 'notes', 'now', 'phone', 'please', 'prize', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'tomorrow', 'we', 'win', 'your']
+
+Words that leaked from the test set into the vocabulary: ['is', 'moved', 'prize', 'tomorrow', 'your']
+Number of leaked words: 5
+Answer: the leaky vectorizer 'knows' words that only exist in the test texts, so
+test documents look better covered than they would be on genuinely new data.
+Correct order: split first, fit on training text only, transform the test text.
+
+==============================================================================
+Task 12: Bag of Words does not capture meaning
+==============================================================================
+Vocabulary (size 6):
+   ['delicious', 'food', 'tasty', 'terrible', 'the', 'was']
+
+Count vectors:
+      delicious       food      tasty   terrible        the        was
+R1            0          1          1          0          1          1
+R2            1          1          0          0          1          1
+R3            0          1          0          1          1          1
+
+Cosine similarity matrix:
+        R1    R2    R3
+R1     1.0  0.75  0.75
+R2    0.75   1.0  0.75
+R3    0.75  0.75   1.0
+
+sim(R1, R2) [tasty vs delicious] = 0.750
+sim(R1, R3) [tasty vs terrible]  = 0.750
+Is R1 more similar to R2 than to R3? False
+Answer: no. Each review shares 3 of its 4 words with the others, and 'tasty',
+'delicious' and 'terrible' are three unrelated columns. The vectors cannot
+know that tasty and delicious are close in meaning while terrible is the opposite.
