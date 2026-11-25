@@ -1,0 +1,272 @@
+============================================================
+1. ONE-HOT ENCODING
+============================================================
+Vocabulary:
+['cash', 'class', 'free', 'lunch', 'notes', 'win']
+
+One-hot vectors for free cash:
+free -> [0, 0, 1, 0, 0, 0]
+cash -> [1, 0, 0, 0, 0, 0]
+
+One-hot vectors for win free cash:
+win -> [0, 0, 0, 0, 0, 1]
+free -> [0, 0, 1, 0, 0, 0]
+cash -> [1, 0, 0, 0, 0, 0]
+
+The number of one-hot vectors depends on the number of words
+in the sentence because each word gets its own vector.
+
+============================================================
+2. BAG OF WORDS
+============================================================
+Vocabulary:
+['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+
+Shape:
+(5, 32)
+
+Document-term matrix:
+[[0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 1 0 0 0 1 0 0 0 0 2]
+ [0 0 0 1 1 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 1 0 0 0 1]
+ [1 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 1 0 0]
+ [0 1 0 0 0 0 1 0 0 0 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 0 0 0]
+ [0 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0 0 0 0 0 0 0 2 0 0 1 0 1 0]]
+
+D1 has value 2 for 'win' because WIN appears twice in D1.
+
+'win free phone':
+[[0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]]
+
+'phone free win':
+[[0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]]
+
+The two vectors are the same because Bag of Words does not keep word order.
+
+============================================================
+3. TOKENS VS VOCABULARY SIZE
+============================================================
+Total tokens: 41
+Vocabulary size: 32
+
+Words appearing in more than one document:
+free -> 2 documents
+lecture -> 2 documents
+notes -> 2 documents
+now -> 2 documents
+the -> 2 documents
+today -> 2 documents
+win -> 2 documents
+
+============================================================
+4. PREPROCESSING INSIDE THE VECTORIZER
+============================================================
+D1:
+Win a FREE phone now! Reply WIN to claim.
+
+Default:
+['claim', 'free', 'now', 'phone', 'reply', 'to', 'win']
+
+lowercase=False:
+['FREE', 'Reply', 'WIN', 'Win', 'claim', 'now', 'phone', 'to']
+
+stop_words='english':
+['claim', 'free', 'phone', 'reply', 'win']
+
+The punctuation ! is removed by the default tokenization.
+The one-letter word 'a' is not included.
+With lowercase=False, WIN and Win remain different.
+With the default settings, WIN and Win become the same word: win.
+
+Words removed by the English stopword list:
+a, now, to
+
+D1-D5 with stop_words='english':
+['cash', 'claim', 'class', 'entry', 'free', 'good', 'great', 'lecture', 'lunch', 'meeting', 'notes', 'phone', 'prizes', 'reply', 'send', 'today', 'win']
+
+'not' was removed.
+This means the negative meaning in D5 can be lost if English stopwords are used.
+
+============================================================
+5. LIMITING THE VOCABULARY
+============================================================
+Full vocabulary:
+['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+Full vocabulary size:
+32
+
+min_df=2:
+['free', 'lecture', 'notes', 'now', 'the', 'today', 'win']
+min_df=2 size:
+7
+
+max_features=5:
+['free', 'lecture', 'now', 'the', 'win']
+max_features=5 size:
+5
+
+============================================================
+6. N-GRAMS
+============================================================
+D5:
+The lecture was not good, but the notes were great.
+
+Unigrams:
+['but', 'good', 'great', 'lecture', 'not', 'notes', 'the', 'was', 'were']
+
+Unigrams and bigrams:
+['but', 'but the', 'good', 'good but', 'great', 'lecture', 'lecture was', 'not', 'not good', 'notes', 'notes were', 'the', 'the lecture', 'the notes', 'was', 'was not', 'were', 'were great']
+
+The bigram 'not good' keeps the reviewer's negative opinion.
+
+Vocabulary sizes on D1-D5:
+Unigrams: 32
+Unigrams + bigrams: 67
+Unigrams + bigrams + trigrams: 98
+
+============================================================
+7. TF-IDF
+============================================================
+TF-IDF matrix:
+[[0.   0.   0.   0.   0.   0.36 0.   0.   0.   0.29 0.   0.   0.   0.
+  0.   0.   0.   0.   0.29 0.36 0.   0.   0.36 0.   0.   0.   0.36 0.
+  0.   0.   0.   0.57]
+ [0.   0.   0.   0.39 0.39 0.   0.   0.39 0.   0.31 0.   0.   0.   0.
+  0.   0.   0.   0.   0.31 0.   0.   0.39 0.   0.   0.   0.   0.   0.31
+  0.   0.   0.   0.31]
+ [0.39 0.   0.   0.   0.   0.   0.   0.   0.39 0.   0.   0.   0.   0.39
+  0.   0.39 0.   0.   0.   0.   0.   0.   0.   0.   0.39 0.   0.   0.31
+  0.   0.39 0.   0.  ]
+ [0.   0.38 0.   0.   0.   0.   0.38 0.   0.   0.   0.   0.   0.31 0.
+  0.38 0.   0.   0.31 0.   0.   0.38 0.   0.   0.38 0.   0.31 0.   0.
+  0.   0.   0.   0.  ]
+ [0.   0.   0.32 0.   0.   0.   0.   0.   0.   0.   0.32 0.32 0.26 0.
+  0.   0.   0.32 0.26 0.   0.   0.   0.   0.   0.   0.   0.51 0.   0.
+  0.32 0.   0.32 0.  ]]
+
+D1 counts and TF-IDF:
+claim -> count: 1 | tf-idf: 0.356
+free -> count: 1 | tf-idf: 0.287
+now -> count: 1 | tf-idf: 0.287
+phone -> count: 1 | tf-idf: 0.356
+reply -> count: 1 | tf-idf: 0.356
+to -> count: 1 | tf-idf: 0.356
+win -> count: 2 | tf-idf: 0.574
+
+D2 counts and TF-IDF:
+call -> count: 1 | tf-idf: 0.389
+cash -> count: 1 | tf-idf: 0.389
+entry -> count: 1 | tf-idf: 0.389
+free -> count: 1 | tf-idf: 0.314
+now -> count: 1 | tf-idf: 0.314
+prizes -> count: 1 | tf-idf: 0.389
+today -> count: 1 | tf-idf: 0.314
+win -> count: 1 | tf-idf: 0.314
+
+In D2 every word appears once, but words that occur in fewer
+documents receive higher TF-IDF weights.
+
+In D1, win appears twice, which gives it a higher TF component.
+It therefore receives the highest TF-IDF weight in D1.
+
+============================================================
+8. TF-IDF BY HAND
+============================================================
+D2 tokens:
+['free', 'entry', 'win', 'cash', 'prizes', 'today', 'call', 'now']
+
+Number of words in D2: 8
+
+cash
+Count: 1
+df: 1
+TF: 0.125
+IDF: 1.6094379124341003
+TF-IDF: 0.20117973905426254
+
+today
+Count: 1
+df: 2
+TF: 0.125
+IDF: 0.9162907318741551
+TF-IDF: 0.11453634148426939
+
+The hand calculation gives the same ranking for cash and today
+because both have the same count and the same document frequency.
+
+============================================================
+9. SPARSE MATRIX
+============================================================
+Rows: 5
+Columns: 32
+Total cells: 160
+Non-zero cells: 39
+Zero cells: 121
+Percentage of zeros: 75.62 %
+
+============================================================
+10. FIT AND TRANSFORM
+============================================================
+Training vocabulary:
+['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+
+N1:
+Claim your free prize now
+[[0 0 0 0 1 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0]]
+
+N2:
+Is the lunch meeting moved to tomorrow?
+[[0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0]]
+
+Out-of-vocabulary words in N1:
+your
+prize
+
+Out-of-vocabulary words in N2:
+is
+moved
+tomorrow
+
+'prize' is unknown because the training data contains 'prizes',
+which is a different token.
+
+Stemming or lemmatization from Assignment 2 could help combine
+related word forms before vectorization.
+
+============================================================
+11. DATA LEAKAGE
+============================================================
+Training vocabulary:
+['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+
+Vocabulary after including test data:
+['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'is', 'lecture', 'lunch', 'me', 'meeting', 'moved', 'notes', 'now', 'phone', 'please', 'prize', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'tomorrow', 'we', 'win', 'your']
+
+Words leaked from test data:
+is
+moved
+prize
+tomorrow
+your
+
+============================================================
+12. NO MEANING
+============================================================
+Vocabulary:
+['delicious', 'food', 'tasty', 'terrisble', 'the', 'was']
+
+R1:
+[0 1 1 0 1 1]
+R2:
+[1 1 0 0 1 1]
+R3:
+[0 1 0 1 1 1]
+
+Cosine similarity matrix:
+[[1.   0.75 0.75]
+ [0.75 1.   0.75]
+ [0.75 0.75 1.  ]]
+
+R1 is not more similar to R2 than to R3.
+Both pairs share the same words: the, food, and was.
+CountVectorizer does not understand that tasty and delicious
+have similar meanings, or that terrible has an opposite meaning.
