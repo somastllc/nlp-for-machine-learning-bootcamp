@@ -1,0 +1,95 @@
+=== Step 1: One-hot encoding ===
+free: [0, 0, 1, 0, 0, 0]
+cash: [1, 0, 0, 0, 0, 0]
+win free cash -> [[0, 0, 0, 0, 0, 1], [0, 0, 1, 0, 0, 0], [1, 0, 0, 0, 0, 0]]
+
+=== Step 2: Bag of Words ===
+Vocabulary: ['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+Shape: (5, 32)
+Document-Term Matrix:
+ [[0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 1 0 0 0 1 0 0 0 0 2]
+ [0 0 0 1 1 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 1 0 0 0 1]
+ [1 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 1 0 0]
+ [0 1 0 0 0 0 1 0 0 0 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 0 0 0]
+ [0 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0 0 0 0 0 0 0 2 0 0 1 0 1 0]]
+Transform 'win free phone': [0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]
+Transform 'phone free win': [0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]
+
+=== Step 3: Tokens vs vocabulary size ===
+Total tokens (word occurrences) in D1-D5: 41
+Vocabulary size: 32
+Words appearing in >1 document: ['free', 'lecture', 'notes', 'now', 'the', 'today', 'win']
+
+=== Step 4: Preprocessing inside the vectorizer ===
+D1 vocab (default): ['claim', 'free', 'now', 'phone', 'reply', 'to', 'win']
+D1 vocab (lowercase=False): ['FREE', 'WIN', 'Win', 'claim', 'now', 'phone', 'reply', 'to']
+D1 vocab (stop_words='english'): ['claim', 'free', 'phone', 'reply', 'win']
+'not' in D1-D5 vocabulary with stop_words='english'? True
+
+=== Step 5: Limiting the vocabulary ===
+Full vocab size: 32
+min_df=2 vocab (size 7): ['free', 'lecture', 'notes', 'now', 'the', 'today', 'win']
+max_features=5 vocab (size 5): ['free', 'lecture', 'notes', 'the', 'win']
+
+=== Step 6: N-grams ===
+D5 vocab ngram_range=(1, 1): ['but', 'good', 'great', 'lecture', 'not', 'notes', 'the', 'was', 'were']
+D5 vocab ngram_range=(1, 2): ['but', 'but the', 'good', 'good but', 'great', 'lecture', 'lecture was', 'not', 'not good', 'notes', 'notes were', 'the', 'the lecture', 'the notes', 'was', 'was not', 'were', 'were great']
+D1-D5 vocab size for ngram_range=(1, 1): 32
+D1-D5 vocab size for ngram_range=(1, 2): 75
+D1-D5 vocab size for ngram_range=(1, 3): 117
+
+=== Step 7: TF-IDF ===
+TF-IDF matrix (rounded to 2 decimals):
+ [[0.   0.   0.   0.   0.   0.36 0.   0.   0.   0.29 0.   0.   0.   0.   0.   0.   0.   0.   0.29 0.36 0.   0.   0.36 0.   0.   0.   0.36 0.   0.   0.   0.   0.57]
+ [0.   0.   0.   0.39 0.39 0.   0.   0.39 0.   0.31 0.   0.   0.   0.   0.   0.   0.   0.   0.31 0.   0.   0.39 0.   0.   0.   0.   0.   0.31 0.   0.   0.   0.31]
+ [0.4  0.   0.   0.   0.   0.   0.   0.   0.4  0.   0.   0.   0.   0.4  0.   0.4  0.   0.   0.   0.   0.   0.   0.   0.   0.4  0.   0.   0.32 0.   0.4  0.   0.  ]
+ [0.   0.36 0.   0.   0.   0.   0.36 0.   0.   0.   0.   0.   0.29 0.   0.36 0.   0.   0.29 0.   0.   0.36 0.   0.   0.36 0.   0.29 0.   0.   0.   0.   0.   0.  ]
+ [0.   0.   0.34 0.   0.   0.   0.   0.   0.   0.   0.34 0.34 0.28 0.   0.   0.   0.34 0.28 0.   0.   0.   0.   0.   0.   0.   0.55 0.   0.   0.34 0.   0.34 0.  ]]
+
+D1 terms (count, tfidf):
+  claim: count=1, tfidf=0.3612 (round=0.36)
+  free: count=1, tfidf=0.2914 (round=0.29)
+  now: count=1, tfidf=0.2914 (round=0.29)
+  phone: count=1, tfidf=0.3612 (round=0.36)
+  reply: count=1, tfidf=0.3612 (round=0.36)
+  to: count=1, tfidf=0.3612 (round=0.36)
+  win: count=2, tfidf=0.5829 (round=0.58)
+
+D2 terms (count, tfidf):
+  call: count=1, tfidf=0.3910 (round=0.39)
+  cash: count=1, tfidf=0.3910 (round=0.39)
+  entry: count=1, tfidf=0.3910 (round=0.39)
+  free: count=1, tfidf=0.3155 (round=0.32)
+  now: count=1, tfidf=0.3155 (round=0.32)
+  prizes: count=1, tfidf=0.3910 (round=0.39)
+  today: count=1, tfidf=0.3155 (round=0.32)
+  win: count=1, tfidf=0.3155 (round=0.32)
+
+=== Step 8: TF-IDF by hand ===
+cash: tf(D2)=1, df=1, N=5, IDF=ln(5/1)=1.6094, TF-IDF=1.6094, sklearn_round2=0.39
+today: tf(D2)=1, df=2, N=5, IDF=ln(5/2)=0.9163, TF-IDF=0.9163, sklearn_round2=0.32
+
+=== Step 9: Sparse matrix ===
+Total cells: 160, Non-zero: 41, Zeros: 119, Zeros %: 74.38%
+
+=== Step 10: Fit and transform ===
+N1 vector: [0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0]
+N1 OOV words: ['your', 'prize']
+N2 vector: [0 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0]
+N2 OOV words: ['is', 'moved', 'tomorrow']
+
+=== Step 11: Data leakage ===
+Vocab D1-D4 only (sorted): ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+Vocab D1-D4 + N1 + N2 (sorted): ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'is', 'lecture', 'lunch', 'me', 'meeting', 'moved', 'notes', 'now', 'phone', 'please', 'prize', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'tomorrow', 'we', 'win', 'your']
+Leaked words from test set: ['is', 'moved', 'prize', 'tomorrow', 'your']
+
+=== Step 12: No meaning ===
+Reviews vocabulary: ['delicious', 'food', 'tasty', 'terrible', 'the', 'was']
+R1, R2, R3 vectors:
+ [[0 1 1 0 1 1]
+ [1 1 0 0 1 1]
+ [0 1 0 1 1 1]]
+Cosine similarity matrix:
+ [[1.   0.75 0.75]
+ [0.75 1.   0.75]
+ [0.75 0.75 1.  ]]
