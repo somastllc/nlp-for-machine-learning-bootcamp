@@ -1,0 +1,178 @@
+=================================================================
+TASK 1: ONE-HOT ENCODING
+=================================================================
+Vocabulary: ['cash', 'class', 'free', 'lunch', 'notes', 'win']
+
+Vectors for 'free cash':
+free [0, 0, 1, 0, 0, 0]
+cash [1, 0, 0, 0, 0, 0]
+
+Vectors for 'win free cash':
+win [0, 0, 0, 0, 0, 1]
+free [0, 0, 1, 0, 0, 0]
+cash [1, 0, 0, 0, 0, 0]
+
+=================================================================
+TASK 2: BAG OF WORDS AND DOCUMENT-TERM MATRIX
+=================================================================
+Vocabulary: ['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+Shape: (5, 32)
+
+Document-Term Matrix:
+D1: [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 2]
+D2: [0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+D3: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0]
+D4: [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0]
+D5: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 0, 1, 0]
+
+D1 win count: 2
+
+Vector for 'win free phone': [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+Vector for 'phone free win': [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+Are vectors equal: True
+
+=================================================================
+TASK 3: TOKENS VS VOCABULARY SIZE
+=================================================================
+Tokens per document: [8, 8, 7, 8, 10]
+Total tokens: 41
+Vocabulary size: 32
+Words appearing in more than one document: ['free', 'lecture', 'notes', 'now', 'the', 'today', 'win']
+
+=================================================================
+TASK 4: PREPROCESSING INSIDE THE VECTORIZER
+=================================================================
+Default vocabulary: ['claim', 'free', 'now', 'phone', 'reply', 'to', 'win']
+Lowercase=False vocabulary: ['FREE', 'Reply', 'WIN', 'Win', 'claim', 'now', 'phone', 'to']
+Stop words vocabulary: ['claim', 'free', 'phone', 'reply', 'win']
+
+D1-D5 stop words vocabulary: ['cash', 'claim', 'class', 'entry', 'free', 'good', 'great', 'lecture', 'lunch', 'meeting', 'notes', 'phone', 'prizes', 'reply', 'send', 'today', 'win']
+'not' retained: False
+
+=================================================================
+TASK 5: LIMITING THE VOCABULARY
+=================================================================
+Full vocabulary size: 32
+
+min_df=2 vocabulary: ['free', 'lecture', 'notes', 'now', 'the', 'today', 'win']
+min_df=2 size: 7
+
+max_features=5 vocabulary: ['free', 'lecture', 'now', 'the', 'win']
+max_features=5 size: 5
+
+=================================================================
+TASK 6: N-GRAMS
+=================================================================
+
+D5 vocabulary for (1, 1):
+['but', 'good', 'great', 'lecture', 'not', 'notes', 'the', 'was', 'were']
+
+D5 vocabulary for (1, 2):
+['but', 'but the', 'good', 'good but', 'great', 'lecture', 'lecture was', 'not', 'not good', 'notes', 'notes were', 'the', 'the lecture', 'the notes', 'was', 'was not', 'were', 'were great']
+Corpus (1, 1) vocabulary size: 32
+Corpus (1, 2) vocabulary size: 67
+Corpus (1, 3) vocabulary size: 98
+
+=================================================================
+TASK 7: TF-IDF
+=================================================================
+TF-IDF Matrix (rounded to 2 decimals):
+D1: [0.0, 0.0, 0.0, 0.0, 0.0, 0.36, 0.0, 0.0, 0.0, 0.29, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.29, 0.36, 0.0, 0.0, 0.36, 0.0, 0.0, 0.0, 0.36, 0.0, 0.0, 0.0, 0.0, 0.57]
+D2: [0.0, 0.0, 0.0, 0.39, 0.39, 0.0, 0.0, 0.39, 0.0, 0.31, 0.0, 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.31, 0.0, 0.0, 0.39, 0.0, 0.0, 0.0, 0.0, 0.0, 0.31, 0.0, 0.0, 0.0, 0.31]
+D3: [0.39, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.39, 0.0, 0.0, 0.0, 0.0, 0.39, 0.0, 0.39, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.39, 0.0, 0.0, 0.31, 0.0, 0.39, 0.0, 0.0]
+D4: [0.0, 0.38, 0.0, 0.0, 0.0, 0.0, 0.38, 0.0, 0.0, 0.0, 0.0, 0.0, 0.31, 0.0, 0.38,0.0, 0.0, 0.31, 0.0, 0.0, 0.38, 0.0, 0.0, 0.38, 0.0, 0.31, 0.0, 0.0, 0.0, 0.0, 0.0,0.0]
+D5: [0.0, 0.0, 0.32, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.32, 0.32, 0.26, 0.0, 0.0,0.0, 0.32, 0.26, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.51, 0.0, 0.0, 0.32, 0.0, 0.32, 0.0]
+
+D1 Word Counts and TF-IDF:
+claim: count=1, tfidf=0.355660
+free: count=1, tfidf=0.286945
+now: count=1, tfidf=0.286945
+phone: count=1, tfidf=0.355660
+reply: count=1, tfidf=0.355660
+to: count=1, tfidf=0.355660
+win: count=2, tfidf=0.573889
+
+D2 Word Counts and TF-IDF:
+call: count=1, tfidf=0.389141
+cash: count=1, tfidf=0.389141
+entry: count=1, tfidf=0.389141
+free: count=1, tfidf=0.313957
+now: count=1, tfidf=0.313957
+prizes: count=1, tfidf=0.389141
+today: count=1, tfidf=0.313957
+win: count=1, tfidf=0.313957
+
+=================================================================
+TASK 8: TF-IDF BY HAND
+=================================================================
+D2 tokens: ['free', 'entry', 'win', 'cash', 'prizes', 'today', 'call', 'now']
+D2 total token count: 8
+
+Word: cash
+Count: 1
+TF: 0.125
+DF: 1
+N: 5
+IDF: 1.609438
+TF-IDF: 0.20118
+
+Word: today
+Count: 1
+TF: 0.125
+DF: 2
+N: 5
+IDF: 0.916291
+TF-IDF: 0.114536
+
+=================================================================
+TASK 9: SPARSE MATRIX
+=================================================================
+Total cells: 160
+Non-zero cells: 39
+Zero cells: 121
+Percentage of zeros: 75.62%
+
+=================================================================
+TASK 10: FIT AND TRANSFORM
+=================================================================
+Training vocabulary: ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+
+N1 vector: [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0]
+N2 vector: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0,0, 0]
+
+N1 tokens: ['claim', 'your', 'free', 'prize', 'now']
+N1 OOV words: ['your', 'prize']
+
+N2 tokens: ['is', 'the', 'lunch', 'meeting', 'moved', 'to', 'tomorrow']
+N2 OOV words: ['is', 'moved', 'tomorrow']
+
+=================================================================
+TASK 11: DATA LEAKAGE
+=================================================================
+Training-only vocabulary: ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+
+Combined vocabulary: ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'is', 'lecture', 'lunch', 'me', 'meeting', 'moved', 'notes', 'now', 'phone', 'please', 'prize', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'tomorrow', 'we', 'win', 'your']
+
+Words leaked from test set: ['is', 'moved', 'prize', 'tomorrow', 'your']
+
+=================================================================
+TASK 12: NO MEANING
+=================================================================
+Review vocabulary: ['delicious', 'food', 'tasty', 'terrible', 'the', 'was']
+
+Review vectors:
+R1: [0, 1, 1, 0, 1, 1]
+R2: [1, 1, 0, 0, 1, 1]
+R3: [0, 1, 0, 1, 1, 1]
+
+Cosine Similarity Matrix:
+[1.0, 0.75, 0.75]
+[0.75, 1.0, 0.75]
+[0.75, 0.75, 1.0]
+
+R1-R2 similarity: 0.75
+R1-R3 similarity: 0.75
+
+=================================================================
+END OF ASSIGNMENT 3 - PART B
+=================================================================
