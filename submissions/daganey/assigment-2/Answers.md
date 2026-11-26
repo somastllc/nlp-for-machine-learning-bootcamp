@@ -10,7 +10,7 @@ NLP systems need preprocessing because human language contains spelling variatio
 
 However, excessive cleaning can remove important information. For example, in a customer review, the sentence "I am not happy with this product" has a negative meaning. If preprocessing removes the word "not", the remaining words may suggest a positive meaning.
 
-Therefore, preprocessing should depend on the purpose of the NLP task rather than removing everything that appears unnecessary.
+Therefore, preprocessing should depend on the purpose of the NLP task rather than removing ev erything that appears unnecessary.
 
 ### 2. Text Normalization
 
