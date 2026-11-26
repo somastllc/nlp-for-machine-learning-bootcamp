@@ -1,0 +1,121 @@
+Vectorization practice | scikit-learn 1.8.0 | NumPy 2.3.5
+
+1. One-hot encoding
+------------------------------------------------------------
+Vocabulary: ['cash', 'class', 'free', 'lunch', 'notes', 'win']
+free cash
+free [0, 0, 1, 0, 0, 0]
+cash [1, 0, 0, 0, 0, 0]
+Number of vectors: 2
+win free cash
+win [0, 0, 0, 0, 0, 1]
+free [0, 0, 1, 0, 0, 0]
+cash [1, 0, 0, 0, 0, 0]
+Number of vectors: 3
+
+2. Bag of Words
+------------------------------------------------------------
+Vocabulary: {'win': 31, 'free': 9, 'phone': 19, 'now': 18, 'reply': 22, 'to': 26, 'claim': 5, 'entry': 7, 'cash': 4, 'prizes': 21, 'today': 27, 'call': 3, 'are': 0, 'we': 29, 'still': 24, 'meeting': 15, 'for': 8, 'lunch': 13, 'please': 20, 'send': 23, 'me': 14, 'the': 25, 'lecture': 12, 'notes': 17, 'before': 1, 'class': 6, 'was': 28, 'not': 16, 'good': 10, 'but': 2, 'were': 30, 'great': 11}
+Column order: ['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+Shape: (5, 32)
+[[0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 1 0 0 0 1 0 0 0 0 2]
+ [0 0 0 1 1 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 1 0 0 0 1]
+ [1 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 1 0 0]
+ [0 1 0 0 0 0 1 0 0 0 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 0 0 0]
+ [0 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0 0 0 0 0 0 0 2 0 0 1 0 1 0]]
+D1 win count: 2
+Reordered sentences:
+ [[0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]
+ [0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]]
+Equal: True
+
+3. Tokens and vocabulary
+------------------------------------------------------------
+Total tokens: 41 | Vocabulary size: 32
+Words in multiple documents: ['free', 'lecture', 'notes', 'now', 'the', 'today', 'win']
+
+4. Preprocessing
+------------------------------------------------------------
+Default ['claim', 'free', 'now', 'phone', 'reply', 'to', 'win']
+Case sensitive ['FREE', 'Reply', 'WIN', 'Win', 'claim', 'now', 'phone', 'to']
+English stopwords ['claim', 'free', 'phone', 'reply', 'win']
+Removed stopwords: ['now', 'to']
+Full stopword vocabulary: ['cash', 'claim', 'class', 'entry', 'free', 'good', 'great', 'lecture', 'lunch', 'meeting', 'notes', 'phone', 'prizes', 'reply', 'send', 'today', 'win']
+Is not removed? True
+
+5. Vocabulary limits
+------------------------------------------------------------
+Full size: 32
+min_df=2 7 ['free', 'lecture', 'notes', 'now', 'the', 'today', 'win']
+max_features=5 5 ['free', 'lecture', 'now', 'the', 'win']
+
+6. N-grams
+------------------------------------------------------------
+D5 range (1, 1) ['but', 'good', 'great', 'lecture', 'not', 'notes', 'the', 'was', 'were']
+D5 range (1, 2) ['but', 'but the', 'good', 'good but', 'great', 'lecture', 'lecture was', 'not', 'not good', 'notes', 'notes were', 'the', 'the lecture', 'the notes', 'was', 'was not', 'were', 'were great']
+Full corpus range (1, 1) size: 32
+Full corpus range (1, 2) size: 67
+Full corpus range (1, 3) size: 98
+
+7. TF-IDF
+------------------------------------------------------------
+Column order: ['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+[[0.   0.   0.   0.   0.   0.36 0.   0.   0.   0.29 0.   0.   0.   0.   0.   0.   0.   0.   0.29 0.36 0.   0.   0.36 0.   0.   0.   0.36 0.   0.   0.   0.   0.57]
+ [0.   0.   0.   0.39 0.39 0.   0.   0.39 0.   0.31 0.   0.   0.   0.   0.   0.   0.   0.   0.31 0.   0.   0.39 0.   0.   0.   0.   0.   0.31 0.   0.   0.   0.31]
+ [0.39 0.   0.   0.   0.   0.   0.   0.   0.39 0.   0.   0.   0.   0.39 0.   0.39 0.   0.   0.   0.   0.   0.   0.   0.   0.39 0.   0.   0.31 0.   0.39 0.   0.  ]
+ [0.   0.38 0.   0.   0.   0.   0.38 0.   0.   0.   0.   0.   0.31 0.   0.38 0.   0.   0.31 0.   0.   0.38 0.   0.   0.38 0.   0.31 0.   0.   0.   0.   0.   0.  ]
+ [0.   0.   0.32 0.   0.   0.   0.   0.   0.   0.   0.32 0.32 0.26 0.   0.   0.   0.32 0.26 0.   0.   0.   0.   0.   0.   0.   0.51 0.   0.   0.32 0.   0.32 0.  ]]
+D1: word | count | weight
+claim | 1 | 0.355660
+free | 1 | 0.286945
+now | 1 | 0.286945
+phone | 1 | 0.355660
+reply | 1 | 0.355660
+to | 1 | 0.355660
+win | 2 | 0.573889
+D2: word | count | weight
+call | 1 | 0.389141
+cash | 1 | 0.389141
+entry | 1 | 0.389141
+free | 1 | 0.313957
+now | 1 | 0.313957
+prizes | 1 | 0.389141
+today | 1 | 0.313957
+win | 1 | 0.313957
+
+8. Textbook TF-IDF calculation
+------------------------------------------------------------
+N: 5 | D2 tokens: 8
+cash: count=1, df=1, TF=0.125000, IDF=1.609438, TF-IDF=0.201180, raw-count TF-IDF=1.609438
+today: count=1, df=2, TF=0.125000, IDF=0.916291, TF-IDF=0.114536, raw-count TF-IDF=0.916291
+
+9. Sparse matrix
+------------------------------------------------------------
+Total cells: 160 | Nonzero: 39 | Zero: 121
+Percentage zeros: 75.62%
+
+10. Fit and transform
+------------------------------------------------------------
+Training column order: ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+Test vectors:
+ [[0 0 0 0 1 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0]
+ [0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0]]
+N1 OOV: ['prize', 'your']
+N2 OOV: ['is', 'moved', 'tomorrow']
+
+11. Data leakage
+------------------------------------------------------------
+Training only: ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+Training plus test: ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'is', 'lecture', 'lunch', 'me', 'meeting', 'moved', 'notes', 'now', 'phone', 'please', 'prize', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'tomorrow', 'we', 'win', 'your']
+Leaked words: ['is', 'moved', 'prize', 'tomorrow', 'your']
+
+12. No meaning
+------------------------------------------------------------
+Vocabulary: ['delicious', 'food', 'tasty', 'terrible', 'the', 'was']
+[[0 1 1 0 1 1]
+ [1 1 0 0 1 1]
+ [0 1 0 1 1 1]]
+Cosine similarity:
+ [[1.   0.75 0.75]
+ [0.75 1.   0.75]
+ [0.75 0.75 1.  ]]
