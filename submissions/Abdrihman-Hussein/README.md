@@ -12,6 +12,7 @@
 |---|---|---|
 | Assignment 1 | NLP Foundations | [answers.md](assignment-01/answers.md) |
 | Assignment 2 | Preprocessing | [answers.md](assignment-02/answers.md) |
+| Assignment 3 | Vectorization | [answers.md](assignment-03/answers.md) |
 
 ---
 
