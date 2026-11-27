@@ -1,0 +1,249 @@
+
+TASK 1: One-hot encoding (own encoder, plain Python)
+====================================================
+Vocabulary: ['cash', 'class', 'free', 'lunch', 'notes', 'win']
+
+-- 'free cash' --
+free   -> [0, 0, 1, 0, 0, 0]
+cash   -> [1, 0, 0, 0, 0, 0]
+
+-- 'win free cash' --
+win    -> [0, 0, 0, 0, 0, 1]
+free   -> [0, 0, 1, 0, 0, 0]
+cash   -> [1, 0, 0, 0, 0, 0]
+
+Number of vectors for 'free cash': 2
+Number of vectors for 'win free cash': 3
+
+TASK 2: Bag of Words (CountVectorizer on D1-D5)
+===============================================
+Vocabulary (word -> column index):
+{'are': 0, 'before': 1, 'but': 2, 'call': 3, 'cash': 4, 'claim': 5, 'class': 6, 'entry': 7, 'for': 8, 'free': 9, 'good': 10, 'great': 11, 'lecture': 12, 'lunch': 13, 'me': 14, 'meeting': 15, 'not': 16, 'notes': 17, 'now': 18, 'phone': 19, 'please': 20, 'prizes': 21, 'reply': 22, 'send': 23, 'still': 24, 'the': 25, 'to': 26, 'today': 27, 'was': 28, 'we': 29, 'were': 30, 'win': 31}
+
+Shape (documents x vocabulary): (5, 32)
+
+Columns: ['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+
+Document-term matrix:
+D1 [0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 1 0 0 0 1 0 0 0 0 2]
+D2 [0 0 0 1 1 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 1 0 0 0 1]
+D3 [1 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0 0 1 0 1 0 0]
+D4 [0 1 0 0 0 0 1 0 0 0 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 0 0 0]
+D5 [0 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0 0 0 0 0 0 0 2 0 0 1 0 1 0]
+
+Words with count 2 in D1: ['win']
+
+Transform 'win free phone' and 'phone free win':
+win free phone : [0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]
+phone free win : [0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1]
+Same vector? True
+
+TASK 3: Tokens vs vocabulary size
+=================================
+D1 ['win', 'free', 'phone', 'now', 'reply', 'win', 'to', 'claim']
+D2 ['free', 'entry', 'win', 'cash', 'prizes', 'today', 'call', 'now']
+D3 ['are', 'we', 'still', 'meeting', 'for', 'lunch', 'today']
+D4 ['please', 'send', 'me', 'the', 'lecture', 'notes', 'before', 'class']
+D5 ['the', 'lecture', 'was', 'not', 'good', 'but', 'the', 'notes', 'were', 'great']
+
+Total tokens (word occurrences): 41
+Vocabulary size: 32
+Words appearing in more than one document (word, df): [('free', 2), ('lecture', 2), ('notes', 2), ('now', 2), ('the', 2), ('today', 2), ('win', 2)]
+
+TASK 4: Preprocessing inside the vectorizer
+===========================================
+Default            : ['claim', 'free', 'now', 'phone', 'reply', 'to', 'win']
+lowercase=False    : ['FREE', 'Reply', 'WIN', 'Win', 'claim', 'now', 'phone', 'to']
+stop_words=english : ['claim', 'free', 'phone', 'reply', 'win']
+
+Words removed by the stopword list: ['now', 'to']
+
+stop_words='english' fit on D1-D5: ['cash', 'claim', 'class', 'entry', 'free', 'good', 'great', 'lecture', 'lunch', 'meeting', 'notes', 'phone', 'prizes', 'reply', 'send', 'today', 'win']
+Is 'not' in the vocabulary? False
+D5 after stopword removal: ['lecture', 'good', 'notes', 'great']
+
+TASK 5: Limiting the vocabulary
+===============================
+Full vocabulary size: 32
+
+min_df=2 -> size 7 ['free', 'lecture', 'notes', 'now', 'the', 'today', 'win']
+
+max_features=5 -> size 5 ['free', 'lecture', 'now', 'the', 'win']
+
+TASK 6: N-grams
+===============
+D5 (1,1): ['but', 'good', 'great', 'lecture', 'not', 'notes', 'the', 'was', 'were']
+
+D5 (1,2): ['but', 'but the', 'good', 'good but', 'great', 'lecture', 'lecture was', 'not', 'not good', 'notes', 'notes were', 'the', 'the lecture', 'the notes', 'was', 'was not', 'were', 'were great']
+
+Bigrams containing 'not': ['not', 'not good', 'was not']
+
+Vocabulary size on D1-D5 for different ngram_range:
+ngram_range=(1, 1): 32
+ngram_range=(1, 2): 67
+ngram_range=(1, 3): 98
+
+TASK 7: TF-IDF (TfidfVectorizer on D1-D5)
+=========================================
+Columns: ['are', 'before', 'but', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'good', 'great', 'lecture', 'lunch', 'me', 'meeting', 'not', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'was', 'we', 'were', 'win']
+
+TF-IDF matrix (word rows, document columns; rounded to 2 decimals):
+Word              D1      D2      D3      D4      D5
+are             0.00    0.00    0.39    0.00    0.00
+before          0.00    0.00    0.00    0.38    0.00
+but             0.00    0.00    0.00    0.00    0.32
+call            0.00    0.39    0.00    0.00    0.00
+cash            0.00    0.39    0.00    0.00    0.00
+claim           0.36    0.00    0.00    0.00    0.00
+class           0.00    0.00    0.00    0.38    0.00
+entry           0.00    0.39    0.00    0.00    0.00
+for             0.00    0.00    0.39    0.00    0.00
+free            0.29    0.31    0.00    0.00    0.00
+good            0.00    0.00    0.00    0.00    0.32
+great           0.00    0.00    0.00    0.00    0.32
+lecture         0.00    0.00    0.00    0.31    0.26
+lunch           0.00    0.00    0.39    0.00    0.00
+me              0.00    0.00    0.00    0.38    0.00
+meeting         0.00    0.00    0.39    0.00    0.00
+not             0.00    0.00    0.00    0.00    0.32
+notes           0.00    0.00    0.00    0.31    0.26
+now             0.29    0.31    0.00    0.00    0.00
+phone           0.36    0.00    0.00    0.00    0.00
+please          0.00    0.00    0.00    0.38    0.00
+prizes          0.00    0.39    0.00    0.00    0.00
+reply           0.36    0.00    0.00    0.00    0.00
+send            0.00    0.00    0.00    0.38    0.00
+still           0.00    0.00    0.39    0.00    0.00
+the             0.00    0.00    0.00    0.31    0.51
+to              0.36    0.00    0.00    0.00    0.00
+today           0.00    0.31    0.31    0.00    0.00
+was             0.00    0.00    0.00    0.00    0.32
+we              0.00    0.00    0.39    0.00    0.00
+were            0.00    0.00    0.00    0.00    0.32
+win             0.57    0.31    0.00    0.00    0.00
+
+D1: word | count | tf-idf
+  claim    count=1  tfidf=0.3557
+  free     count=1  tfidf=0.2869
+  now      count=1  tfidf=0.2869
+  phone    count=1  tfidf=0.3557
+  reply    count=1  tfidf=0.3557
+  to       count=1  tfidf=0.3557
+  win      count=2  tfidf=0.5739
+
+D2: word | count | tf-idf
+  call     count=1  tfidf=0.3891
+  cash     count=1  tfidf=0.3891
+  entry    count=1  tfidf=0.3891
+  free     count=1  tfidf=0.3140
+  now      count=1  tfidf=0.3140
+  prizes   count=1  tfidf=0.3891
+  today    count=1  tfidf=0.3140
+  win      count=1  tfidf=0.3140
+
+IDF values used by scikit-learn (smooth):
+  are      2.0986
+  before   2.0986
+  but      2.0986
+  call     2.0986
+  cash     2.0986
+  claim    2.0986
+  class    2.0986
+  entry    2.0986
+  for      2.0986
+  free     1.6931
+  good     2.0986
+  great    2.0986
+  lecture  1.6931
+  lunch    2.0986
+  me       2.0986
+  meeting  2.0986
+  not      2.0986
+  notes    1.6931
+  now      1.6931
+  phone    2.0986
+  please   2.0986
+  prizes   2.0986
+  reply    2.0986
+  send     2.0986
+  still    2.0986
+  the      1.6931
+  to       2.0986
+  today    1.6931
+  was      2.0986
+  we       2.0986
+  were     2.0986
+  win      1.6931
+
+TASK 8: TF-IDF by hand for D2 (cash, today)
+===========================================
+D2 tokens: ['free', 'entry', 'win', 'cash', 'prizes', 'today', 'call', 'now'] -> length 8
+Number of documents N = 5
+
+Word: cash
+  count in D2 = 1
+  df          = 1
+  TF  = 1/8 = 0.1250
+  IDF = ln(5/1) = 1.6094
+  TF-IDF = 0.1250 * 1.6094 = 0.2012
+
+Word: today
+  count in D2 = 1
+  df          = 2
+  TF  = 1/8 = 0.1250
+  IDF = ln(5/2) = 0.9163
+  TF-IDF = 0.1250 * 0.9163 = 0.1145
+
+Textbook ranking: ['cash', 'today']
+scikit-learn values: {'cash': 0.3891, 'today': 0.314}
+scikit-learn ranking: ['cash', 'today']
+Same ranking? True
+
+TASK 9: Sparse matrix statistics (count matrix from task 2)
+===========================================================
+Total cells : 160
+Non-zero    : 39
+Zero cells  : 121
+Percentage of zeros: 75.6%
+
+TASK 10: Fit and transform (fit on D1-D4, transform N1, N2)
+===========================================================
+Vocabulary (fit on D1-D4): ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win']
+Size: 26
+
+N1: Claim your free prize now
+  tokens: ['claim', 'your', 'free', 'prize', 'now']
+  vector: [0 0 0 0 1 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0]
+  out-of-vocabulary words: ['your', 'prize']
+
+N2: Is the lunch meeting moved to tomorrow?
+  tokens: ['is', 'the', 'lunch', 'meeting', 'moved', 'to', 'tomorrow']
+  vector: [0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0]
+  out-of-vocabulary words: ['is', 'moved', 'tomorrow']
+
+'prize' in vocabulary? False
+'prizes' in vocabulary? True
+
+TASK 11: Data leakage
+=====================
+Fit on D1-D4 only       : ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'lecture', 'lunch', 'me', 'meeting', 'notes', 'now', 'phone', 'please', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'we', 'win'] -> size 26
+
+Fit on D1-D4 + N1 + N2  : ['are', 'before', 'call', 'cash', 'claim', 'class', 'entry', 'for', 'free', 'is', 'lecture', 'lunch', 'me', 'meeting', 'moved', 'notes', 'now', 'phone', 'please', 'prize', 'prizes', 'reply', 'send', 'still', 'the', 'to', 'today', 'tomorrow', 'we', 'win', 'your'] -> size 31
+
+Words leaked from the test set: ['is', 'moved', 'prize', 'tomorrow', 'your']
+
+TASK 12: No meaning (R1-R3)
+===========================
+Vocabulary: ['delicious', 'food', 'tasty', 'terrible', 'the', 'was']
+R1 [0 1 1 0 1 1]
+R2 [1 1 0 0 1 1]
+R3 [0 1 0 1 1 1]
+
+Cosine similarity matrix (rows/cols = R1, R2, R3):
+[[1.   0.75 0.75]
+ [0.75 1.   0.75]
+ [0.75 0.75 1.  ]]
+
+sim(R1,R2) tasty vs delicious = 0.750
+sim(R1,R3) tasty vs terrible  = 0.750
+Is R1 more similar to R2 than to R3? False
