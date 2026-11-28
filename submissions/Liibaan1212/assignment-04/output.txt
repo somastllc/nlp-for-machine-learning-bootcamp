@@ -1,0 +1,225 @@
+========================================================================
+STEP 1 — LOAD AND EXPLORE SMS DATA
+========================================================================
+Input file: dataset/sms_spam.csv
+Original shape: (5582, 2)
+Detected label column: 'label'
+Detected text column: 'text'
+Rows: 5582
+Missing text rows: 20
+Duplicate text rows (including repeated copies): 430
+
+Original label counts:
+label
+ham     4832
+spam     747
+ham.       3
+Original spam share (all rows): 13.3823%
+
+========================================================================
+STEP 2 — STANDARDIZE AND CLEAN
+========================================================================
+Rows after dropping missing/blank text and labels: 5562
+Duplicate messages removed: 422
+Clean rows: 5140
+
+Clean label counts:
+label
+ham     4498
+spam     642
+Spam share after cleaning: 12.4903%
+
+Saved cleaned dataset to: dataset/clean_sms_spam_practice.csv
+========================================================================
+
+==============================================================================
+STEP 1 — LOAD CLEANED DATA
+==============================================================================
+Rows loaded: 5140
+Label counts:
+label
+ham     4498
+spam     642
+
+==============================================================================
+STEP 2 — STRATIFIED TRAIN/TEST SPLIT
+==============================================================================
+Training rows: 4112
+Training spam count: 514
+Training spam share: 12.5000%
+Test rows: 1028
+Test spam count: 128
+Test spam share: 12.4514%
+
+==============================================================================
+STEP 3 — TRAIN FIVE PIPELINES AND CLASSIFICATION REPORTS
+==============================================================================
+
+1. CountVectorizer + MultinomialNB
+              precision    recall  f1-score   support
+
+         ham       0.99      1.00      0.99       900
+        spam       0.97      0.91      0.94       128
+
+    accuracy                           0.99      1028
+   macro avg       0.98      0.95      0.97      1028
+weighted avg       0.99      0.99      0.99      1028
+
+
+2. TfidfVectorizer + MultinomialNB
+              precision    recall  f1-score   support
+
+         ham       0.95      1.00      0.98       900
+        spam       1.00      0.65      0.79       128
+
+    accuracy                           0.96      1028
+   macro avg       0.98      0.82      0.88      1028
+weighted avg       0.96      0.96      0.95      1028
+
+
+3. TF-IDF + LogisticRegression
+              precision    recall  f1-score   support
+
+         ham       0.96      1.00      0.98       900
+        spam       0.99      0.73      0.84       128
+
+    accuracy                           0.96      1028
+   macro avg       0.98      0.86      0.91      1028
+weighted avg       0.97      0.96      0.96      1028
+
+
+4. TF-IDF + balanced LogisticRegression
+              precision    recall  f1-score   support
+
+         ham       0.99      0.99      0.99       900
+        spam       0.92      0.93      0.93       128
+
+    accuracy                           0.98      1028
+   macro avg       0.96      0.96      0.96      1028
+weighted avg       0.98      0.98      0.98      1028
+
+
+5. TF-IDF English stop words + balanced LogisticRegression
+              precision    recall  f1-score   support
+
+         ham       0.99      0.99      0.99       900
+        spam       0.92      0.92      0.92       128
+
+    accuracy                           0.98      1028
+   macro avg       0.96      0.96      0.96      1028
+weighted avg       0.98      0.98      0.98      1028
+
+
+==============================================================================
+STEP 4 — MODEL COMPARISON
+==============================================================================
+                                                            Accuracy  Spam precision  Spam recall  Spam F1
+Model                                                                                                     
+1. CountVectorizer + MultinomialNB                            0.9854          0.9748       0.9062   0.9393
+2. TfidfVectorizer + MultinomialNB                            0.9562          1.0000       0.6484   0.7867
+3. TF-IDF + LogisticRegression                                0.9650          0.9894       0.7266   0.8378
+4. TF-IDF + balanced LogisticRegression                       0.9815          0.9225       0.9297   0.9261
+5. TF-IDF English stop words + balanced LogisticRegression    0.9805          0.9219       0.9219   0.9219
+
+Best spam recall: 4. TF-IDF + balanced LogisticRegression (0.9297)
+Naive Bayes comparison:
+Count NB spam F1: 0.9393
+TF-IDF NB spam F1: 0.7867
+
+==============================================================================
+STEP 5 — CONFUSION MATRICES: MODELS 3 AND 4
+==============================================================================
+
+3. TF-IDF + LogisticRegression — rows=true [ham, spam], columns=predicted [ham, spam]
+[[899   1]
+ [ 35  93]]
+TN=899, FP=1, FN=35, TP=93
+
+4. TF-IDF + balanced LogisticRegression — rows=true [ham, spam], columns=predicted [ham, spam]
+[[890  10]
+ [  9 119]]
+TN=890, FP=10, FN=9, TP=119
+
+==============================================================================
+STEP 6 — HAND CALCULATION FOR MODEL 4
+==============================================================================
+Precision = TP / (TP + FP) = 119 / (119 + 10) = 0.922481
+Recall    = TP / (TP + FN) = 119 / (119 + 9) = 0.929688
+F1        = 2PR / (P + R) = 2*0.922481*0.929688/(0.922481+0.929688) = 0.926070
+Classification report spam precision/recall/F1: 0.922481 / 0.929688 / 0.926070
+
+==============================================================================
+STEP 7 — EFFECT OF CLASS WEIGHTING
+==============================================================================
+Additional spam messages caught by balanced model (TP increase): 26
+Additional false alarms caused (FP increase): 9
+Missed spam change (FN): -26
+
+==============================================================================
+STEP 8 — WHAT MODEL 4 LEARNED: LOGISTIC REGRESSION WEIGHTS
+==============================================================================
+10 largest positive weights (push toward spam):
+call                      5.000882
+txt                       4.753078
+text                      3.737568
+uk                        3.356629
+reply                     3.330668
+www                       3.307647
+free                      3.207431
+stop                      3.169767
+150p                      3.134792
+claim                     3.085887
+
+10 most negative weights (push toward ham):
+me                       -2.996577
+my                       -2.525139
+ok                       -2.091059
+that                     -2.016403
+it                       -1.944507
+lt                       -1.889226
+gt                       -1.883943
+am                       -1.672724
+come                     -1.591744
+but                      -1.580930
+
+==============================================================================
+STEP 9 — ERROR ANALYSIS FOR MODEL 4
+==============================================================================
+
+Five missed spam messages (false negatives):
+- 'Goal! Arsenal 4 (Henry, 7 v Liverpool 2 Henry scores with a simple shot from 6 yards from a pass by Bergkamp to give Arsenal a 2 goal margin after 78 mins.'
+- 'http//tms. widelive.com/index. wml?id=820554ad0a1705572711&first=trueåÁC C RingtoneåÁ'
+- 'In The Simpsons Movie released in July 2007 name the band that died at the start of the film? A-Green Day, B-Blue Day, C-Red Day. (Send A, B or C)'
+- 'ASKED 3MOBILE IF 0870 CHATLINES INCLU IN FREE MINS. INDIA CUST SERVs SED YES. L8ER GOT MEGA BILL. 3 DONT GIV A SHIT. BAILIFF DUE IN DAYS. I O å£250 3 WANT å£800'
+- "You will be receiving this week's Triple Echo ringtone shortly. Enjoy it!"
+
+Five false alarms (false positives):
+- 'Have you heard from this week?'
+- '\\Hi missed your Call and my mumHas beendropping red wine all over theplace! what is your adress?\\""'
+- 'Host-based IDPS for linux systems.'
+- "Why didn't u call on your lunch?"
+- 'I liked the new mobile'
+
+==============================================================================
+STEP 10 — PREDICT FIVE NEW MESSAGES
+==============================================================================
+Message: URGENT! You have won a free prize. Call now to claim your reward.
+Prediction: spam; spam probability: 0.9960
+--------------------------------------------------
+Message: Congratulations! Claim your cash bonus today by clicking this link.
+Prediction: spam; spam probability: 0.8591
+--------------------------------------------------
+Message: FREE entry in our weekly draw. Text WIN to 80000 now.
+Prediction: spam; spam probability: 0.9749
+--------------------------------------------------
+Message: Hi, are we still meeting for lunch at 1 pm?
+Prediction: ham; spam probability: 0.0854
+--------------------------------------------------
+Message: I am on the bus now. I will reach your house in ten minutes.
+Prediction: ham; spam probability: 0.1472
+--------------------------------------------------
+
+==============================================================================
+END OF CLASSIFICATION PRACTICE
+==============================================================================
+All figures above were generated from this dataset and this fixed split.
