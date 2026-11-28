@@ -1,0 +1,208 @@
+Rows: 5582
+Columns: ['label', 'text']
+Missing text: 20
+Duplicate text: 430
+Label counts:
+label
+ham      4822
+spam      745
+HAM         5
+Ham         4
+ham.        3
+Spam        1
+ ham        1
+Spam        1
+Name: count, dtype: int64
+
+
+Drop rows with missing text
+
+Rows: 5582  after 5562
+
+3) Normalize the labels
+"Spam", "HAM ", "spam." and " ham" all mean the same two classes.
+
+label
+ham     4815
+spam     747
+Name: count, dtype: int64
+
+
+
+
+
+
+Decode HTML entities
+tml messages: 307
+Before: Get down in gandhipuram and walk to cross cut road. Right side &lt;#&gt; street road and turn at first right.
+After:  Get down in gandhipuram and walk to cross cut road. Right side <#> street road and turn at first right.
+
+
+Normalize whitespac
+Messages with extra spaces : 428
+
+
+
+
+
+
+Remove duplicates
+
+
+Rows: 5562 after 5140
+
+
+
+
+Final snapshot
+
+Rows: 5140
+Missing : 0
+Labels: {'ham': 4498, 'spam': 642}
+Spam share: 12.5 %
+Example ham:  Watching tv lor. Nice one then i like lor.
+Example spam: U are subscribed to the best Mobile Content Service in the UK for å£3 per 10 days until you send STOP to 82324. Helpline 08706091795
+
+
+classfiction file
+
+
+Rows: 5140 | Columns: ['Unnamed: 0', 'label', 'text']
+Missing : 0 | Duplicate text: 0
+Median words per message: 12.0
+Labels: {'ham': 4498, 'spam': 642}
+Spam share: 12.5 %
+Example ham:  Watching tv lor. Nice one then i like lor.
+Example spam: U are subscribed to the best Mobile Content Service in the UK for å£3 per 10 days until you send STOP to 82324. Helpline 08706091795
+
+
+
+
+
+
+train/test split 70% training, 30% test
+Training messages: 3598 | spam share: 12.5 %
+Test messages:     1542 | spam share: 12.5 %
+
+Model 1 | Accuracy: 0.977 | Precision: 0.97 | Recall: 0.845 | F1: 0.903
+Model 2 | Accuracy: 0.93 | Precision: 1.0 | Recall: 0.44 | F1: 0.612
+Model 3 | Accuracy: 0.946 | Precision: 0.991 | Recall: 0.57 | F1: 0.724
+Model 4 | Accuracy: 0.977 | Precision: 0.924 | Recall: 0.886 | F1: 0.905
+Model 5 | Accuracy: 0.975 | Precision: 0.923 | Recall: 0.87 | F1: 0.896
+
+Model comparison
+Model	Accuracy	Spam Precision	Spam Recall	Spam F1
+0	Model 1 - CountVectorizer + NB	0.977	0.970	0.845	0.903
+1	Model 2 - TF-IDF + NB	0.930	1.000	0.440	0.612
+2	Model 3 - TF-IDF + Logistic Regression	0.946	0.991	0.570	0.724
+3	Model 4 - TF-IDF + Balanced Logistic Regression	0.977	0.924	0.886	0.905
+4	Model 5 - TF-IDF + Stopwords + Balanced Logist...	0.975	0.923	0.870	0.896
+
+Confusion matrix
+Model 3 Confusion Matrix:
+[[1348    1]
+ [  83  110]]
+TN: 1348
+FP: 1
+FN: 83
+TP: 110
+
+Model 4 Confusion Matrix:
+[[1335   14]
+ [  22  171]]
+TN: 1335
+FP: 14
+FN: 22
+TP: 171
+
+
+
+
+
+
+Task 6 — Hand Calculation
+Hand-calculated Precision: 0.924
+Hand-calculated Recall: 0.886
+Hand-calculated F1: 0.905
+
+# Model 3 vs Model 4
+Additional spam caught: 61
+Extra false alarms: 13
+
+
+
+
+
+
+Task 8: Feature Weights
+Top 10 Positive Features:
+      feature    weight
+5922     call  5.649560
+33273     txt  4.468106
+11618    free  4.378961
+32107      to  3.972732
+30242    text  3.963546
+29291    stop  3.503293
+37375    your  3.264882
+6964    claim  3.145137
+20157  mobile  3.052044
+23372      or  3.012214
+
+Top 10 Negative Features:
+      feature    weight
+20823      my -2.438815
+19374      me -2.294871
+16363      it -2.140741
+30435    that -1.726157
+22776      ok -1.708764
+5598      but -1.523638
+7284     come -1.481953
+14987     how -1.385083
+6203      can -1.377699
+18341      ll -1.312271
+
+
+=== 9) DOES PREPROCESSING HELP? ===
+Example message: Call 08712345678 to claim your £1000 prize! www.win.com
+Letters only: call to claim your prize www win com
+Markers:      call phonenumber to claim your money prize ! url
+
+=== Preprocessing Comparison ===
+Raw text     | Accuracy: 0.975 | Precision: 0.923 | Recall: 0.87 | F1: 0.896
+Letters only | Accuracy: 0.971 | Precision: 0.898 | Recall: 0.87 | F1: 0.884
+Markers      | Accuracy: 0.981 | Precision: 0.941 | Recall: 0.907 | F1: 0.923
+
+Balanced predictions created: 1542
+
+
+=== 10) ERROR ANALYSIS (Balanced Logistic Regression) ===
+Missed spam: 25
+False alarms: 14
+
+--- 5 MISSED SPAM MESSAGES ---
+1. INTERFLORA - åÒIt's not too late to order Interflora flowers for christmas call 0800 505060 to place your order before Midnight tomorrow.
+2. Did you hear about the new \Divorce Barbie\"? It comes with all of Ken's stuff!"
+3. How come it takes so little time for a child who is afraid of the dark to become a teenager who wants to stay out all night?
+4. Santa Calling! Would your little ones like a call from Santa Xmas eve? Call 09058094583 to book your time.
+5. Dorothy@kiefer.com (Bank of Granite issues Strong-Buy) EXPLOSIVE PICK FOR OUR MEMBERS *****UP OVER 300% *********** Nasdaq Symbol CDGT That is a $5.00 per..
+
+--- 5 FALSE ALARM MESSAGES ---
+1. Send me the new number
+2. On the road so cant txt
+3. Text her. If she doesnt reply let me know so i can have her log in
+4. Now am free call me pa.
+5. Then get some cash together and I'll text jason
+
+=== 11) SINGLE-MESSAGE CHECK ===
+Message             : Bought one ringtone and now getting texts costing 3 pound offering more tones etc
+Actual label        : spam
+Model 3 - Logistic Regression: ham
+Model 1 - Naive Bayes: spam
+Model 4 - Balanced Logistic Regression: ham
+
+=== NEW MESSAGES (Balanced Logistic Regression) ===
+  spam | spam probability: 0.96 | URGENT! You have won a free reward, claim now
+  ham | spam probability: 0.12 | Are we still meeting for lunch tomorrow?
+  spam | spam probability: 0.79 | Call this number to get your prize today
+  ham | spam probability: 0.16 | Can you send me the notes from class?
+  spam | spam probability: 0.98 | Congratulations! You have won a cash prize. Call now to claim.
