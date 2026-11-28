@@ -1,0 +1,253 @@
+=== SMS DATASET LOADED ===
+  label                                               text
+0   ham         Watching tv lor. Nice one then i like lor.
+1   ham                        I want to go to perumbavoor
+2   ham  Its not the same here. Still looking for a job...
+3   ham  Hi frnd, which is best way to avoid missunders...
+4   ham  Ok i will tell her to stay out. Yeah its been ...
+
+Dataset shape: (5582, 2)
+
+Column names: ['label', 'text']
+
+=== MISSING VALUES ===
+label     0
+text     20
+dtype: int64
+
+Missing SMS messages: 20
+
+=== DUPLICATE MESSAGES ===
+Duplicate SMS messages: 430
+
+=== LABEL DISTRIBUTION ===
+label
+ham      4822
+spam      745
+HAM         5
+Ham         4
+ham.        3
+Spam        1
+ ham        1
+Spam        1
+Name: count, dtype: int64
+
+=== SPAM PERCENTAGE ===
+Total labeled messages: 5582
+Spam messages: 747
+Spam percentage: 13.38%
+
+=== DATA CLEANING ===
+Rows before cleaning: 5582
+Rows after removing missing/empty messages: 5562
+Duplicate messages removed: 422
+Rows after cleaning: 5140
+
+Cleaned label distribution:
+label
+ham     4498
+spam     642
+Name: count, dtype: int64
+
+=== CLEANED DATASET SAVED ===
+Saved to: dataset/clean_sms_spam_practice.csv
+Final dataset shape: (5140, 2)
+=== CLEANED SMS DATASET LOADED ===
+  label                                               text
+0   ham         Watching tv lor. Nice one then i like lor.
+1   ham                        I want to go to perumbavoor
+2   ham  Its not the same here. Still looking for a job...
+3   ham  Hi frnd, which is best way to avoid missunders...
+4   ham  Ok i will tell her to stay out. Yeah its been ...
+
+Dataset shape: (5140, 2)
+
+Label distribution:
+label
+ham     4498
+spam     642
+Name: count, dtype: int64
+
+=== FEATURES AND LABELS ===
+Number of SMS messages (X): 5140
+Number of labels (y): 5140
+
+Example message:
+Watching tv lor. Nice one then i like lor.
+
+Correct label:
+ham
+
+=== TRAINING AND TESTING SPLIT ===
+Training messages: 4112
+Testing messages: 1028
+
+Training label distribution:
+label
+ham     3598
+spam     514
+Name: count, dtype: int64
+
+Testing label distribution:
+label
+ham     900
+spam    128
+Name: count, dtype: int64
+
+=== MODEL 1: COUNT VECTORIZER + NAIVE BAYES ===
+Accuracy: 0.9854085603112841
+
+Classification Report:
+              precision    recall  f1-score   support
+
+         ham       0.99      1.00      0.99       900
+        spam       0.97      0.91      0.94       128
+
+    accuracy                           0.99      1028
+   macro avg       0.98      0.95      0.97      1028
+weighted avg       0.99      0.99      0.99      1028
+
+
+=== MODEL 2: TF-IDF + NAIVE BAYES ===
+Accuracy: 0.9562256809338522
+
+Classification Report:
+              precision    recall  f1-score   support
+
+         ham       0.95      1.00      0.98       900
+        spam       1.00      0.65      0.79       128
+
+    accuracy                           0.96      1028
+   macro avg       0.98      0.82      0.88      1028
+weighted avg       0.96      0.96      0.95      1028
+
+
+=== MODEL 3: TF-IDF + LOGISTIC REGRESSION ===
+Accuracy: 0.9649805447470817
+
+Classification Report:
+              precision    recall  f1-score   support
+
+         ham       0.96      1.00      0.98       900
+        spam       0.99      0.73      0.84       128
+
+    accuracy                           0.96      1028
+   macro avg       0.98      0.86      0.91      1028
+weighted avg       0.97      0.96      0.96      1028
+
+
+=== MODEL 4: TF-IDF + BALANCED LOGISTIC REGRESSION ===
+Accuracy: 0.9815175097276264
+
+Classification Report:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.99      0.99       900
+        spam       0.92      0.93      0.93       128
+
+    accuracy                           0.98      1028
+   macro avg       0.96      0.96      0.96      1028
+weighted avg       0.98      0.98      0.98      1028
+
+
+=== MODEL 5: TF-IDF + BALANCED LOGISTIC REGRESSION + STOP WORDS ===
+Accuracy: 0.980544747081712
+
+Classification Report:
+              precision    recall  f1-score   support
+
+         ham       0.99      0.99      0.99       900
+        spam       0.92      0.92      0.92       128
+
+    accuracy                           0.98      1028
+   macro avg       0.96      0.96      0.96      1028
+weighted avg       0.98      0.98      0.98      1028
+
+
+=== COMPARISON OF ALL FIVE MODELS ===
+                   Model  Accuracy  Spam Precision  Spam Recall  Spam F1
+              Count + NB    0.9854          0.9748       0.9062   0.9393
+             TF-IDF + NB    0.9562          1.0000       0.6484   0.7867
+             TF-IDF + LR    0.9650          0.9894       0.7266   0.8378
+             Balanced LR    0.9815          0.9225       0.9297   0.9261
+Balanced LR + Stop Words    0.9805          0.9219       0.9219   0.9219
+
+=== CONFUSION MATRIX: MODEL 3 ===
+[[899   1]
+ [ 35  93]]
+
+=== CONFUSION MATRIX: MODEL 4 ===
+[[890  10]
+ [  9 119]]
+
+=== MANUAL METRIC CALCULATIONS: MODEL 4 ===
+Precision: 0.9225
+Recall: 0.9297
+F1-score: 0.9261
+
+=== TOP 10 WORDS ASSOCIATED WITH SPAM ===
+call: 5.0009
+txt: 4.7531
+text: 3.7376
+uk: 3.3566
+reply: 3.3307
+www: 3.3076
+free: 3.2074
+stop: 3.1698
+150p: 3.1348
+claim: 3.0859
+
+=== TOP 10 WORDS ASSOCIATED WITH HAM ===
+me: -2.9966
+my: -2.5251
+ok: -2.0911
+that: -2.0164
+it: -1.9445
+lt: -1.8892
+gt: -1.8839
+am: -1.6727
+come: -1.5917
+but: -1.5809
+
+=== 5 MISSED SPAM MESSAGES ===
+                                                                                                                                                         message actual predicted
+     Goal! Arsenal 4 (Henry, 7 v Liverpool 2 Henry scores with a simple shot from 6 yards from a pass by Bergkamp to give Arsenal a 2 goal margin after 78 mins.   spam       ham
+                                                                           http//tms. widelive.com/index. wml?id=820554ad0a1705572711&first=trueåÁC C RingtoneåÁ   spam       ham
+              In The Simpsons Movie released in July 2007 name the band that died at the start of the film? A-Green Day, B-Blue Day, C-Red Day. (Send A, B or C)   spam       ham
+ASKED 3MOBILE IF 0870 CHATLINES INCLU IN FREE MINS. INDIA CUST SERVs SED YES. L8ER GOT MEGA BILL. 3 DONT GIV A SHIT. BAILIFF DUE IN DAYS. I O å£250 3 WANT å£800   spam       ham
+                                                                                       You will be receiving this week's Triple Echo ringtone shortly. Enjoy it!   spam       ham
+
+=== 5 FALSE ALARM MESSAGES ===
+                                                                                            message actual predicted
+                                                                     Have you heard from this week?    ham      spam
+\Hi missed your Call and my mumHas beendropping red wine all over theplace! what is your adress?\""    ham      spam
+                                                                 Host-based IDPS for linux systems.    ham      spam
+                                                                   Why didn't u call on your lunch?    ham      spam
+                                                                             I liked the new mobile    ham      spam
+
+=== TESTING FIVE ORIGINAL SMS MESSAGES ===
+
+Message: Ur ringtone service has changed! 25 Free credits! Go to club4mobiles.com to choose content now! Stop? txt CLUB STOP to 87070. 150p/wk Club4 PO Box1146 MK45 2WT
+Actual label: spam
+Predicted label: spam
+Spam probability: 0.9847
+
+Message: Phony å£350 award - Todays Voda numbers ending XXXX are selected to receive a å£350 award. If you have a match please call 08712300220 quoting claim code 3100 standard rates app
+Actual label: spam
+Predicted label: spam
+Spam probability: 0.8998
+
+Message: 74355 XMAS iscoming & ur awarded either å£500 CD gift vouchers & free entry 2 r å£100 weekly draw txt MUSIC to 87066 TnC
+Actual label: spam
+Predicted label: spam
+Spam probability: 0.9371
+
+Message: Ok..
+Actual label: ham
+Predicted label: ham
+Spam probability: 0.0289
+
+Message: Don know..wait i will check it.
+Actual label: ham
+Predicted label: ham
+Spam probability: 0.0452
