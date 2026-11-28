@@ -27,20 +27,25 @@
 
 ## Part B – Practical
 
-Now apply what you researched. Write your own Python script, `classification_practice.py`, that builds and evaluates spam classifiers on the included SMS dataset and **prints** the result of every step (like the class teaching script: one heading per step, then the result).
+Write two Python scripts. Use `data_processing_practice.py` to explore and clean the SMS dataset, then use `classification_practice.py` to load the cleaned data and build and evaluate the classifiers. Both scripts should print a heading and the results for each step.
 
 ### Setup
+
 - Install the course requirements.
-- Use `dataset/sms_spam.csv`, pandas and scikit-learn.
+- Use `dataset/sms_spam.csv` as the input to the processing script. Save the processed messages to `dataset/clean_sms_spam_practice.csv` and load that file in the classifier script.
 - Use **your own split**: `test_size=0.2`, `random_state=7`, `stratify` on the label. Your numbers will therefore differ from the class results.
-- Save the full printed output to `output.txt` (for example: `python classification_practice.py > output.txt`).
-- **Do not type outputs by hand.** Every result in your report must come from your own script.
+- Save the full printed output of both scripts in `output.txt`. Generate every result in your report from your own scripts.
+
+```bash
+python data_processing_practice.py > output.txt
+python classification_practice.py >> output.txt
+```
 
 ### Tasks
 
-1. **Explore:** print the number of rows, missing text, duplicate text and the label counts. What share of messages is spam?
+1. **Explore.** In the processing script, print the number of rows, missing text, duplicate text and the label counts. What share of messages is spam?
 
-2. **Duplicates and split:** remove duplicate messages, then split with the settings above. Print the size and spam share of the training and test sets. Explain why the spam shares match.
+2. **Clean and split.** Remove rows with missing text and duplicate messages in the processing script, then save the cleaned CSV. In the classifier script, load the cleaned CSV and split it with the settings above. Print the size and spam share of the training and test sets. Explain why the spam shares are close.
 
 3. **Five pipelines:** train these five models on the same split and print a classification report for each:
    1. `CountVectorizer` + `MultinomialNB`
@@ -75,5 +80,6 @@ Add a **Practical** section to `answers.md` with:
 Submit everything in `submissions/<github-username>/assignment-04/` when submissions open:
 
 - `answers.md` – Part A research answers and the Part B practical report
-- `classification_practice.py` – your script
-- `output.txt` – the full printed output of your script
+- `data_processing_practice.py` – your data exploration and cleaning script
+- `classification_practice.py` – your model training and evaluation script
+- `output.txt` – the full printed output of both scripts
