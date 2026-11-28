@@ -1,0 +1,271 @@
+﻿Dataset loaded successfully!
+
+Dataset Shape:
+(5572, 5)
+
+First 5 Rows:
+     v1  ... Unnamed: 4
+0   ham  ...        NaN
+1   ham  ...        NaN
+2  spam  ...        NaN
+3   ham  ...        NaN
+4   ham  ...        NaN
+
+[5 rows x 5 columns]
+
+Missing Values:
+v1               0
+v2               0
+Unnamed: 2    5522
+Unnamed: 3    5560
+Unnamed: 4    5566
+dtype: int64
+
+Dataset Information:
+<class 'pandas.DataFrame'>
+RangeIndex: 5572 entries, 0 to 5571
+Data columns (total 5 columns):
+ #   Column      Non-Null Count  Dtype
+---  ------      --------------  -----
+ 0   v1          5572 non-null   str  
+ 1   v2          5572 non-null   str  
+ 2   Unnamed: 2  50 non-null     str  
+ 3   Unnamed: 3  12 non-null     str  
+ 4   Unnamed: 4  6 non-null      str  
+dtypes: str(5)
+memory usage: 217.8 KB
+
+After Removing Unnecessary Columns:
+     v1                                                 v2
+0   ham  Go until jurong point, crazy.. Available only ...
+1   ham                      Ok lar... Joking wif u oni...
+2  spam  Free entry in 2 a wkly comp to win FA Cup fina...
+3   ham  U dun say so early hor... U c already then say...
+4   ham  Nah I don't think he goes to usf, he lives aro...
+
+New Dataset Shape:
+(5572, 2)
+  label                                               text
+0   ham  Go until jurong point, crazy.. Available only ...
+1   ham                      Ok lar... Joking wif u oni...
+2  spam  Free entry in 2 a wkly comp to win FA Cup fina...
+3   ham  U dun say so early hor... U c already then say...
+4   ham  Nah I don't think he goes to usf, he lives aro...
+['label', 'text']
+
+Duplicate Messages:
+403
+
+After Removing Duplicates:
+New Shape: (5169, 2)
+Remaining Duplicates: 0
+
+Missing Values:
+label    0
+text     0
+dtype: int64
+
+Label Distribution:
+label
+ham     4516
+spam     653
+Name: count, dtype: int64
+
+Label Percentages:
+label
+ham     87.366996
+spam    12.633004
+Name: proportion, dtype: float64
+
+Empty Messages:
+0
+
+Average Message Length:
+15.34068485200232
+
+Clean Dataset Saved Successfully!
+Final Shape: (5169, 2)
+Saved To: D:\aliadirie7-jpg\Assignment_04\dataset\clean_sms_spam_practice.csv
+
+
+
+Dataset Loaded Successfully!
+Shape: (5169, 2)
+  label                                               text
+0   ham  Go until jurong point, crazy.. Available only ...
+1   ham                      Ok lar... Joking wif u oni...
+2  spam  Free entry in 2 a wkly comp to win FA Cup fina...
+3   ham  U dun say so early hor... U c already then say...
+4   ham  Nah I don't think he goes to usf, he lives aro...
+
+=== TRAIN TEST SPLIT ===
+Training samples: 4135
+Testing samples: 1034
+
+Training labels:
+label
+ham     3613
+spam     522
+Name: count, dtype: int64
+
+Testing labels:
+label
+ham     903
+spam    131
+Name: count, dtype: int64
+Model 1 - Count + Naive Bayes: Training completed!
+Model 2 - TF-IDF + Naive Bayes: Training completed!
+Model 3 - TF-IDF + Logistic Regression: Training completed!
+Model 4 - Balanced Logistic Regression: Training completed!
+Model 5 - TF-IDF + Stop Words + Balanced LR: Training completed!
+
+==================================================
+Model 1 - Count + Naive Bayes
+==================================================
+              precision    recall  f1-score   support
+
+         ham       0.98      1.00      0.99       903
+        spam       0.97      0.89      0.93       131
+
+    accuracy                           0.98      1034
+   macro avg       0.98      0.94      0.96      1034
+weighted avg       0.98      0.98      0.98      1034
+
+
+==================================================
+Model 2 - TF-IDF + Naive Bayes
+==================================================
+              precision    recall  f1-score   support
+
+         ham       0.95      1.00      0.97       903
+        spam       1.00      0.61      0.76       131
+
+    accuracy                           0.95      1034
+   macro avg       0.97      0.81      0.87      1034
+weighted avg       0.95      0.95      0.95      1034
+
+
+==================================================
+Model 3 - TF-IDF + Logistic Regression
+==================================================
+              precision    recall  f1-score   support
+
+         ham       0.96      1.00      0.98       903
+        spam       0.98      0.69      0.81       131
+
+    accuracy                           0.96      1034
+   macro avg       0.97      0.85      0.89      1034
+weighted avg       0.96      0.96      0.96      1034
+
+
+==================================================
+Model 4 - Balanced Logistic Regression
+==================================================
+              precision    recall  f1-score   support
+
+         ham       0.98      0.98      0.98       903
+        spam       0.88      0.88      0.88       131
+
+    accuracy                           0.97      1034
+   macro avg       0.93      0.93      0.93      1034
+weighted avg       0.97      0.97      0.97      1034
+
+
+==================================================
+Model 5 - TF-IDF + Stop Words + Balanced LR
+==================================================
+              precision    recall  f1-score   support
+
+         ham       0.98      0.99      0.99       903
+        spam       0.93      0.88      0.91       131
+
+    accuracy                           0.98      1034
+   macro avg       0.96      0.93      0.95      1034
+weighted avg       0.98      0.98      0.98      1034
+
+
+=== MODEL 3 CONFUSION MATRIX ===
+[[901   2]
+ [ 40  91]]
+
+=== MODEL 4 CONFUSION MATRIX ===
+[[887  16]
+ [ 16 115]]
+
+=== MANUAL METRICS - MODEL 4 ===
+Precision: 0.8779
+Recall: 0.8779
+F1-score: 0.8779
+Accuracy: 0.9691
+
+=== TOP SPAM WORDS ===
+         word    weight
+1589     call  5.325885
+6975      txt  4.661876
+6678     text  3.965810
+2953     free  3.679559
+6394     stop  3.548066
+4483   mobile  3.447262
+7522      www  3.341368
+7003       uk  3.339090
+6825       to  3.021507
+299      150p  3.009951
+5629    reply  3.002535
+1802    claim  2.996502
+5934  service  2.891524
+7589     your  2.839570
+1722     chat  2.791604
+
+=== TOP HAM WORDS ===
+      word    weight
+4354    me -3.130418
+4606    my -2.734248
+3725    it -1.938747
+4852    ok -1.847713
+6702  that -1.801612
+4206    lt -1.798095
+3225    gt -1.780467
+1882  come -1.647409
+3491   how -1.626253
+930     am -1.568880
+3331    he -1.551709
+1614   can -1.511233
+2118    da -1.505804
+1557   but -1.464191
+4117    ll -1.451135
+
+=== 5 MISSED SPAM ===
+Not heard from U4 a while. Call me now am here ...
+Did you hear about the new \Divorce Barbie\"? I...
+Hi its LUCY Hubby at meetins all day Fri & I wi...
+Latest News! Police station toilet stolen, cops...
+Babe: U want me dont u baby! Im nasty and have ...
+
+=== 5 FALSE ALARMS ===
+Please protect yourself from e-threats. SIB nev...
+               You call him now ok i said call him
+Sorry i missed your call. Can you please call b...
+                          I'm at home. Please call
+                                Can... I'm free...
+
+=== NEW SMS PREDICTIONS ===
+
+Message: Congratulations! You won a free iPhone. Call now!
+Prediction: spam
+Spam Probability: 0.9139
+
+Message: Hey, are you coming to class today?
+Prediction: ham
+Spam Probability: 0.1122
+
+Message: URGENT! Claim your prize by clicking this link.
+Prediction: spam
+Spam Probability: 0.9564
+
+Message: Hi friend, I will meet you tomorrow.
+Prediction: ham
+Spam Probability: 0.0933
+
+Message: Free entry in our weekly competition. Reply now!
+Prediction: spam
+Spam Probability: 0.86
