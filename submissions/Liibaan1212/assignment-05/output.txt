@@ -1,0 +1,137 @@
+
+==============================================================================
+STEP 1 — EXPLORE THE CLEANED DATA
+==============================================================================
+Input file: dataset/clean_sms_spam_practice.csv
+Cleaned messages: 5140
+Label counts:
+label
+ham     4498
+spam     642
+Training size: 4112
+Training spam count: 514
+Training spam share: 12.5000%
+Test size: 1028
+Test spam count: 128
+Test spam share: 12.4514%
+Stratification keeps the ham/spam proportions approximately the same in both splits.
+
+==============================================================================
+STEP 2 — TOKENIZE THE SMS MESSAGES
+==============================================================================
+Before: K:)all the best:)congrats...
+After:  ['k', 'all', 'the', 'best', 'congrats']
+Rule: convert tokens to lowercase; word_tokenize separates punctuation; punctuation-only tokens are removed.
+Numbers and alphanumeric tokens are retained because they can be useful spam signals.
+
+==============================================================================
+STEP 3 — TRAIN CBOW AND SKIP-GRAM WORD2VEC
+==============================================================================
+CBOW vocabulary size: 3549
+Skip-gram vocabulary size: 3549
+Chosen word: 'free'
+CBOW first five coordinates: [-0.30755  0.72604 -0.36695 -1.32621  0.42016]
+Skip-gram first five coordinates: [ 0.00811  0.09383  0.38584 -0.33184 -0.24466]
+
+==============================================================================
+STEP 4 — INSPECT WORD EMBEDDINGS
+==============================================================================
+Five nearest CBOW neighbors for 'free':
+[('bluetooth', 0.9236845374107361), ('camcorder', 0.9199761152267456), ('tone', 0.9161635637283325), ('08000839402', 0.9085565805435181), ('reply', 0.9025043845176697)]
+Five nearest Skip-gram neighbors for 'free':
+[('camcorder', 0.7080518007278442), ('100', 0.7078966498374939), ('unlimited', 0.7030207514762878), ('bluetooth', 0.6905462145805359), ('1st', 0.6820210218429565)]
+'call' vs 'free' — CBOW cosine: 0.738506; Skip-gram cosine: 0.365337
+'win' vs 'prize' — CBOW cosine: 0.900341; Skip-gram cosine: 0.673639
+Manual cosine for 'call'/'free' using CBOW:
+dot product = 34.00595093
+length(A) = 6.76599503; length(B) = 6.80564308
+manual cosine = 0.73850608; model cosine = 0.73850602; match = True
+
+==============================================================================
+STEP 5 — BUILD MEAN CBOW MESSAGE VECTORS
+==============================================================================
+Training mean-vector matrix shape: (4112, 50)
+Test mean-vector matrix shape:     (1028, 50)
+Test messages represented by zero vectors: 5
+A zero vector is used when a message has no tokens in the fitted Word2Vec vocabulary.
+
+==============================================================================
+STEP 6 — TRAIN THE THREE CLASSIFIERS
+==============================================================================
+All three classifiers were trained on the same training split and evaluated on the same test split.
+TF-IDF vocabulary size: 30945
+
+==============================================================================
+STEP 7 — EVALUATE AND COMPARE
+==============================================================================
+                                                 Accuracy  Spam precision  Spam recall  Spam F1  False alarms
+Model                                                                                                        
+Model 1 — Mean CBOW + Random Forest (200 trees)    0.9689          0.9068       0.8359   0.8699            11
+Model 2 — Mean CBOW + Logistic Regression          0.9368          0.6842       0.9141   0.7826            54
+Model 3 — TF-IDF (1,2) + Logistic Regression       0.9786          0.9141       0.9141   0.9141            11
+
+Model 2 — Mean CBOW + Logistic Regression
+Rows = actual [ham, spam]; columns = predicted [ham, spam]
+             Predicted ham  Predicted spam
+Actual ham             846              54
+Actual spam             11             117
+TN=846, FP=54, FN=11, TP=117
+
+Model 3 — TF-IDF (1,2) + Logistic Regression
+Rows = actual [ham, spam]; columns = predicted [ham, spam]
+             Predicted ham  Predicted spam
+Actual ham             889              11
+Actual spam             11             117
+TN=889, FP=11, FN=11, TP=117
+
+==============================================================================
+STEP 8 — ANALYZE MODEL 1 MISTAKES
+==============================================================================
+Missed spam messages (up to five):
+1. cmon babe, make me horny, *turn* me on! Txt me your fantasy now babe -) Im hot, sticky and need you now. All replies cost å£1.50. 2 cancel send STOP
+2. Your free ringtone is waiting to be collected. Simply text the password \MIX\" to 85069 to verify. Get Usher and Britney. FML
+3. I don't know u and u don't know me. Send CHAT to 86688 now and let's find each other! Only 150p/Msg rcvd. HG/Suite342/2Lands/Row/W1J6HL LDN. 18 years or over.
+4. INTERFLORA - åÒIt's not too late to order Interflora flowers for christmas call 0800 505060 to place your order before Midnight tomorrow.
+5. You won't believe it but it's true. It's Incredible Txts! Reply G now to learn truly amazing things that will blow your mind. From O2FWD only 18p/txt
+False alarms (up to five):
+1. Pete,is this your phone still? Its Jenny from college and Leanne.what are you up to now?:)
+2. :)
+3. hanks lotsly!
+4. The new deus ex game comin early next yr
+5. \ER
+
+==============================================================================
+STEP 9 — INSPECT WHAT AVERAGING LOSES
+==============================================================================
+Message A: free prize call now
+Message B: now call prize free
+Mean vector A: [ 0.11362  0.59935 -0.55783 -0.89428 -0.1373   2.05226  0.99744  0.53694
+  0.11272 -0.69017 -0.04383 -1.12033 -0.80639  0.59268  0.46455 -1.01623
+ -0.54391  0.87838  0.41969  0.7922   0.63542 -0.24911 -0.28678 -0.26011
+  0.21911 -2.11221 -0.13558 -0.59341 -0.19136  0.11147  0.30089 -1.0005
+  0.59221  0.69741  1.05368  0.53861  0.79397  0.45106 -0.36328 -0.40362
+  0.85281 -0.74175 -1.62416 -0.37803 -0.01514  0.28233  0.1689   0.65126
+  0.63322  0.83836]
+Mean vector B: [ 0.11362  0.59935 -0.55783 -0.89428 -0.1373   2.05226  0.99744  0.53694
+  0.11272 -0.69017 -0.04383 -1.12033 -0.80639  0.59268  0.46455 -1.01623
+ -0.54391  0.87838  0.41969  0.7922   0.63542 -0.24911 -0.28678 -0.26011
+  0.21911 -2.11221 -0.13558 -0.59341 -0.19136  0.11147  0.30089 -1.0005
+  0.59221  0.69741  1.05368  0.53861  0.79397  0.45106 -0.36328 -0.40362
+  0.85281 -0.74175 -1.62416 -0.37803 -0.01514  0.28233  0.1689   0.65126
+  0.63322  0.83836]
+Vectors match with np.allclose: True
+The mean representation ignores word order when the same known words occur with the same multiplicity.
+
+==============================================================================
+STEP 10 — PREDICT FIVE NEW MESSAGES
+==============================================================================
+Prediction: SPAM | Message: Congratulations you have won a free cash prize call now
+Prediction: SPAM | Message: URGENT claim your reward by texting WIN to 80000
+Prediction: SPAM | Message: You have been selected for a free holiday offer reply YES
+Prediction: HAM  | Message: Hey are we still meeting for lunch today
+Prediction: HAM  | Message: Thanks for your help I will call you when I arrive
+
+==============================================================================
+END OF ASSIGNMENT 5 PRACTICAL RUN
+==============================================================================
+All results above were generated by this script from the selected cleaned dataset.
